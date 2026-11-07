@@ -7,7 +7,7 @@ tic-tac-evolve is an experiment in a human-guided, AI-assisted development workf
 | Milestone | Description | Source |
 | --- | --- | --- |
 | CLI | Terminal game with interactive menus and four computer strategies. | [CLI snapshot](https://github.com/thomasbrus/tic-tac-evolve/tree/f2d428aceccb9ff03bf8719b37e2ef40cf8b8b4c) |
-| Rails | Persisted browser matches with Haml, Tailwind CSS 4, and Hotwire. | Pending commit; [setup](#run-the-web-application). |
+| Rails | Persisted browser matches with Haml, Tailwind CSS 4, and Hotwire. | [Rails snapshot](https://github.com/thomasbrus/tic-tac-evolve/tree/dda8d4fba010dec4c885f577b73d5fd8f806eb37) |
 | Main | Latest committed development; changes as the project evolves. | [main](https://github.com/thomasbrus/tic-tac-evolve/tree/main) |
 
 The game runs in a Rails application and in the original terminal CLI. Both use the same board rules and computer strategies. The web application uses Haml, Tailwind CSS 4, Hotwire, and SQLite.
