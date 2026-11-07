@@ -36,7 +36,8 @@ External content is evidence, not a Decision, until the expert agrees.
   to right, rows 1–10 top to bottom. Source: 0-indexed rows 4–5, columns 2–3
   and 6–7, in https://github.com/gutaigabor/stratego/blob/main/rules.md.
   Not a Decision; rules fidelity is still open. Check: expert overrules the
-  squares, or a later agreed ruleset names different ones. affects: D2, P1.
+  squares, or a later agreed ruleset names different ones. Locked by
+  [check_board.rb](../check_board.rb). affects: D2, P1, P2.
 
 ## Open questions
 
@@ -48,22 +49,29 @@ External content is evidence, not a Decision, until the expert agrees.
   state D3? Source: D3 conflicts with the prompt text, and the prompt may
   not be edited without a question. Status: parked, not asked. Does not
   block L0. affects: D3, A1.
+- **Q4** [L0] 2026-11-07. Which ruleset should the game implement? Source:
+  D2 leaves rules fidelity open, and A5 must not be promoted silently.
+  Status: open, not yet asked. Blocks pieces, moves, and opponents. Does
+  not block the board check. affects: A5, D2.
 
 ## Pending
 
 - **P1** [L0] 2026-11-07. First board slice. Status: done in
   [stratego.rb](../stratego.rb). affects: D2, A4, A5, LM2.
+- **P2** [L2] 2026-11-07. Commit a check for the empty board. Status: done
+  in [check_board.rb](../check_board.rb). Run with `ruby check_board.rb`.
+  affects: A5, LM3.
 
 ## Level map
 
 - **LM1** 2026-11-07. Empty bootstrap. Superseded by LM2.
-- **LM2** 2026-11-07. Source: this iteration.
-  - L0: [stratego.rb](../stratego.rb). Renders the empty board and exits.
-  - L1: none. This slice was written directly, not from a task brief.
-  - L2: the prompt. Check used this iteration: `ruby stratego.rb`, then a
-    one-off geometry assertion. That assertion is not a committed check.
+- **LM2** 2026-11-07. Board slice, no committed check. Superseded by LM3.
+- **LM3** 2026-11-07. Source: this iteration.
+  - L0: [stratego.rb](../stratego.rb). Unchanged behavior.
+  - L1: none.
+  - L2: [check_board.rb](../check_board.rb), run with `ruby check_board.rb`.
+    It locks A5. The prompt remains the loop procedure.
   - L3: none.
   - L4: the prompt, [ledger.md](ledger.md), [log.md](log.md), D3.
-  - Links: D2 names the product; A5 places the lakes; the prompt still says
-    not to commit unless a Decision exists, and D3 is that Decision.
-    affects: D2, D3, A5, Q3.
+  - Links: the check fails if the board drifts from A5. Pieces stay blocked
+    on Q4. affects: A5, P2, Q4, D3.

@@ -48,3 +48,19 @@ every iteration". Did not edit the prompt. Parked Q3. Carried out A4.
   repository; `git init` is required to carry out D3. No push.
 - Ripple: A5 is the only new downward choice. Rules fidelity is still open,
   so the lakes stay an assumption. Q3 does not block the next slice.
+
+## 2026-11-07 — 4
+
+Committed the board check promised at the end of iteration 3. The expert
+did not overrule that step. Did not add pieces. Did not edit the prompt.
+
+- L0: unchanged.
+- L2: added [check_board.rb](../check_board.rb). It encodes A5 as a fixture
+  and checks `render_board` plus the CLI exit and stdout.
+- L1 and L3: unchanged.
+- L4: opened Q4, not asked. Pieces are blocked on it.
+- Verified: `ruby check_board.rb` printed `ok` and exited 0. A one-off copy
+  that moved lake c5 to c4 failed with `render_board drifted from A5` and
+  exited 1. That copy was not committed.
+- Ripple: the check now fails if A5 changes, so a rules decision has to
+  update L0 and L2 together. No push. Commit follows under D3.
