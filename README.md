@@ -1,6 +1,8 @@
-# Tic-tac-toe
+# tic-tac-evolve
 
-An interactive tic-tac-toe game for the terminal. The board is rendered with `terminal-table`, and menus use `tty-prompt`.
+tic-tac-evolve is an experiment in a human-guided, AI-assisted development workflow that improves through feedback. The tic-tac-toe game is its proof of concept: a small application for exercising the workflow as project instructions, reusable skills, and lessons evolve alongside the code.
+
+The game runs interactively in the terminal. The board is rendered with `terminal-table`, and menus use `tty-prompt`.
 
 ## Run
 

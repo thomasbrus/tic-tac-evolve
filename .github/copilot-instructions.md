@@ -1,4 +1,4 @@
-# Copilot Instructions for Genesis
+# Copilot Instructions for tic-tac-evolve
 
 ## Self-Correction & Learning Loop
 
