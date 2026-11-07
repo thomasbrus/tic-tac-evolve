@@ -53,3 +53,8 @@ Each entry uses this structure:
 - **Scenario:** The Rails migration used ERB views and handwritten match CSS before the user specified the preferred frontend stack.
 - **The Fix:** Use Haml and Tailwind CSS 4 when migration work resumes.
 - **General Principle:** Use Haml for this project's Rails application views and Tailwind CSS 4 for styling; preserve these choices in subsequent frontend work.
+
+### [2026-11-07] Proportionate workflow overhead
+- **Scenario:** A modest migration accumulated repeated context reads, oversized generated diffs, verification ceremony, and frontend rework; the user flagged excessive elapsed time.
+- **The Fix:** Keep investigation and bookkeeping proportional to the change, clarify consequential stack choices early, and reuse verified context.
+- **General Principle:** Run focused checks after meaningful edits and required final gates; avoid redundant checks without new risk. Review diffs in bounded sections, batch independent operations, and update plans at phase boundaries or material changes rather than every microstep.
