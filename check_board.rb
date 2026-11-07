@@ -120,4 +120,21 @@ fail!("direct exit #{direct_status.exitstatus}") unless direct_status.success?
 fail!("direct output drifted") unless direct == stdout
 fail!("direct views drifted") unless direct_views == views
 
+Dir.mktmpdir do |dir|
+  _setup, setup_status = Open3.capture2(script, chdir: dir)
+  fail!("setup before read") unless setup_status.success?
+  read_out, read_err, read_status = Open3.capture3(script, "read", chdir: dir)
+  fail!("read exit #{read_status.exitstatus}") unless read_status.success?
+  fail!("read output") unless read_out == "ok\n"
+  fail!("read stderr") unless read_err.empty?
+
+  path = File.join(dir, "player1.view")
+  File.write(path, File.read(path).sub(" .", " X"))
+  bad_out, bad_err, bad_status = Open3.capture3(script, "read", chdir: dir)
+  fail!("placed piece accepted") if bad_status.success?
+  leaked = "#{bad_out}#{bad_err}"
+  fail!("read leaked the token") if leaked.include?("X")
+  fail!("read did not name the file") unless leaked.include?("player1.view")
+end
+
 puts "ok"

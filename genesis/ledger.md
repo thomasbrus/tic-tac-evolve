@@ -51,6 +51,9 @@ External content is evidence, not a Decision, until the expert agrees.
 - **D10** [L2] 2026-11-07. Stratego is split into Board, Army, and View
   classes now. Source: expert answer to Q7, option C. `Games::Stratego`
   remains the CLI composition root. affects: Q7, A16, A13, P8.
+- **D11** [L0] 2026-11-07. A player places pieces by editing their private view
+  file. A command reads that file. The shared CLI does not accept placement.
+  Source: expert answer to Q8, option A. affects: Q8, A18, A19, Q9.
 
 ## Assumptions
 
@@ -122,7 +125,13 @@ External content is evidence, not a Decision, until the expert agrees.
   column header. Check: expert overrules the order or the header. Locked by
   [check_board.rb](../check_board.rb). affects: A13, A9.
 - **A18** [L0] 2026-11-07. If Q8 is skipped, do not start placement. Check:
-  expert answers Q8. affects: Q8, A13.
+  expert answered Q8 with A. Retired: does not apply. affects: D11.
+- **A19** [L0] 2026-11-07. `./stratego.rb read` reads both view files and
+  accepts only the A17 empty layout. It prints `ok`, or an error that does
+  not include the cell token. No piece letter is defined. Check: expert
+  overrules the command word. affects: D11, Q9.
+- **A20** [L0] 2026-11-07. If Q9 is skipped, the read command keeps rejecting
+  every non-dot cell. Check: expert answers Q9. affects: Q9, A19.
 
 ## Open questions
 
@@ -149,7 +158,10 @@ External content is evidence, not a Decision, until the expert agrees.
   no classes. Status: closed by D10. affects: D9, A16, A13.
 - **Q8** [L0] 2026-11-07. How does a player place pieces without showing the
   setup on the shared CLI? Source: A13 left the home rows empty, and D5
-  forbids an open board. Status: asked. affects: A18, D5, A13.
+  forbids an open board. Status: closed by D11. affects: A18, D5, A13.
+- **Q9** [L0] 2026-11-07. Which token should a placed piece use in the view
+  file? Source: A17 cells are one character, and D4 does not name letters.
+  Status: asked. affects: A19, A20, D11.
 
 ## Pending
 
@@ -280,3 +292,15 @@ External content is evidence, not a Decision, until the expert agrees.
   - L4: Q8 is asked. The prompt was not edited.
   - Links: A13 is carried out. Placement stays blocked on Q8.
     affects: A13, A17, A18, Q8.
+- **P10** [L0] 2026-11-07. Read the private files. Status: done.
+  `./stratego.rb read` accepts only empty home rows. affects: D11, A19, LM15.
+- **LM15** 2026-11-07. Source: this iteration.
+  - L0: [View#read_all](../lib/games/stratego/view.rb) and
+    [start](../lib/games/stratego/game.rb) accept `read`. No piece letters.
+  - L1: none.
+  - L2: `ruby check_board.rb` locks a successful read and a rejected token
+    that is not echoed.
+  - L3: none.
+  - L4: Q9 is asked. The prompt was not edited.
+  - Links: D11 is the placement mechanism. Real placement stays blocked on
+    Q9. affects: D11, A19, A20, Q9.

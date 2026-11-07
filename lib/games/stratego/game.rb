@@ -32,9 +32,23 @@ module Games
       View.write_all(directory)
     end
 
-    def start
-      write_private_views
-      puts render_cli
+    def start(argv = [])
+      case argv
+      when []
+        write_private_views
+        puts render_cli
+      when ["read"]
+        errors = View.read_all
+        if errors.empty?
+          puts "ok"
+        else
+          warn errors.join("\n")
+          exit 1
+        end
+      else
+        warn "usage: ./stratego.rb [read]"
+        exit 1
+      end
     end
   end
 end

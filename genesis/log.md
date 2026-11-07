@@ -247,3 +247,18 @@ rows. No pieces placed. Did not edit the prompt. Asked Q8.
 - Ripple: A17 is the file layout. A12 still has matching counts, but the
   files now differ. Placement is blocked on Q8. If skipped, A18 adds no
   placement. No push.
+
+## 2026-11-07 — 16
+
+The expert answered Q8 with A. Recorded D11. Added `./stratego.rb read`.
+It accepts only the empty A17 files and does not echo a cell token. Did
+not choose piece letters. Did not edit the prompt. Asked Q9.
+
+- L0: View validates the file. The no-argument CLI is unchanged.
+- L2: check_board locks a successful read and a rejected `X` that is not
+  printed.
+- L1, L3, L4: Q9 is the only new question.
+- Verified: `ruby check_board.rb` and `ruby check_army.rb` each printed
+  `ok`. Did not run `gem build`. No view file or gem is staged.
+- Ripple: A18 is retired. A19 is the command. If Q9 is skipped, A20 keeps
+  rejecting non-dot cells. No push.

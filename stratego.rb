@@ -3,5 +3,5 @@
 
 require_relative "lib/games"
 
-Games::Stratego.start
+Games::Stratego.start(ARGV)
 
