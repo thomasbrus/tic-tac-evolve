@@ -12,5 +12,9 @@ user-invocable: true
 3. Preserve existing staged and unstaged work outside the requested scope. If changes are already staged, inspect them and ask before altering their staging or including them in a different commit. Do not reset, stash, overwrite, or discard work to make splitting easier.
 4. Stage one group at a time. When a file contains changes for multiple commits, stage only the intended hunks using a safe selective staging method; if the changes cannot be separated safely, ask the user rather than including unrelated work. Review the complete staged diff before every commit.
 5. Run relevant checks against each commit's contents when feasible, using an isolated snapshot if the remaining working tree would affect the results. If a check cannot be run against that snapshot, state what was actually tested; do not imply that testing the full working tree verified intermediate commits. Stop and report failures or blockers rather than hiding them.
-6. Follow the project commit-message conventions and create each commit without amending or rewriting existing history. If a commit or check fails, stop and report the commits already created and the remaining work.
-7. Verify the resulting commit sequence and working-tree status. Report each commit's identifier and subject, the checks performed, and any remaining changes.
+6. **Validate commit messages against project conventions** before creating each commit:
+   - **Subject (first line):** Must start with a past-tense verb (e.g., "Fixed", "Refactored", "Updated", "Added", "Removed"). If the subject uses present tense or violates this, flag it and ask the user for confirmation before proceeding.
+   - **Trailers:** Must not include `Co-authored-by: Copilot` or any Copilot authorship line. If found, flag it, explain why, and ask for confirmation before proceeding.
+   - These rules come from `.github/copilot-instructions.md` and may have documented exceptions; if the user explicitly authorizes an exception, proceed.
+7. Create each commit without amending or rewriting existing history. If a commit or check fails, stop and report the commits already created and the remaining work.
+8. Verify the resulting commit sequence and working-tree status. Report each commit's identifier and subject, the checks performed, and any remaining changes.

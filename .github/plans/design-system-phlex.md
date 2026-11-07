@@ -42,35 +42,36 @@
   - Component API pattern established and documented
   - Test infrastructure in place
 
-### 2. Visual components: Build semantic UI building blocks
-- **Status:** complete
-- **Depends on:** Phase 1
+### 4. Migration: Refactor views to use visual components
+- **Status:** in_progress
+- **Depends on:** Phase 1 (visual components built in prior phase)
 - **Deliverables:**
-  - ✅ Created visual components: Button, TextInput, Select, Label, FormFieldset, Card, Badge
-  - ✅ Each component uses View base class for composition
-  - ✅ Added variant support (e.g., Button with primary/secondary/tertiary, Badge with success/error)
-  - ✅ Created comprehensive tests for all visual components (37 component tests)
-- **Acceptance criteria:** ✅ All met
-  - ✅ All visual components are renderable and accept literal props
-  - ✅ Component variants produce visually distinct Tailwind class combinations
-  - ✅ Visual components compose base View without duplicating logic
-  - ✅ Tests cover default states, all variants, and prop combinations
-  - ✅ No CSS class names are hardcoded in component definitions (all via Tailwind utilities)
+  - ✅ Created ErrorMessage visual component using DesignSystem::Base
+  - ✅ Added comprehensive tests for ErrorMessage component
+  - Evaluate best practices for Phlex integration with Rails helpers
+  - Plan approach for view refactoring (hybrid HAML + Phlex or full Phlex conversion)
+  - Refactor `app/views/matches/index.html.haml` to use visual components (if applicable)
+- **Acceptance criteria:**
+  - ErrorMessage component renders correctly with proper class merging
+  - Tests demonstrate component functionality
+  - All existing tests continue to pass
+  - Clear decision documented on how to integrate Phlex with Rails view helpers
 - **Verification commands:**
-  - ✅ `rails test test/components/design_system/` — 61 tests pass
-  - ✅ `rails test` — full suite, 93 tests pass (existing tests not broken)
-- **Results:**
-  - Button: primary/secondary/tertiary variants + sm/base/lg sizes
-  - TextInput: sm/base/lg sizes + disabled state styling
-  - Select: sm/base/lg sizes + disabled state styling
-  - Label: basic label with cursor-pointer
-  - FormFieldset: semantic form container
-  - Card: default/soft variants
-  - Badge: default/success/error variants + sm/base sizes
+  - `rails test` passes (89 tests)
+  - `rails test test/components/design_system/error_message_test.rb` passes (3 tests)
+  - Manual visual inspection of error messages in browser
+- **Results:** in progress
+
+**Key Learning - Phlex Integration:**
+- ✅ Phlex components work well as standalone HTML generators when used directly
+- ⚠️ Phlex components don't compose well with Rails helpers (button_to, link_to, etc) in view_template
+- ⚠️ Components returned from view_template blocks don't auto-render (need explicit .call)
+- ✅ Solution: Use HAML/ERB for complex views with Rails helpers, Phlex for pure HTML components
+- ✅ ErrorMessage works well as a pure Phlex component without Rails dependencies
 
 ### 3. Page structure components: Build layout and organization primitives
 - **Status:** pending
-- **Depends on:** Phase 2
+- **Depends on:** Phase 4 (after migration, evaluate if semantic layout components add value)
 - **Deliverables:**
   - Create layout components only if they add meaningful abstraction:
     - Section, Header, Main (semantic wrappers)
@@ -85,35 +86,12 @@
   - `rails test test/components/design_system/` passes
 - **Results:** not run
 
-### 4. Migration: Refactor views to use visual components
-- **Status:** pending
-- **Depends on:** Phase 3 (if layout components needed) or Phase 2 (direct migration)
-- **Deliverables:**
-  - Refactor `app/views/layouts/application.html.haml` to use Phlex, keeping layout as Tailwind utilities
-  - Create match-specific domain components: MatchHeading, MatchBoard, MatchMeta, GameCell using visual components
-  - Refactor `app/views/matches/show.html.haml` to use domain and visual components
-  - Refactor `app/views/matches/index.html.haml` to use visual components
-  - Remove HAML partial for errors, replace with Phlex ErrorMessage visual component
-  - Update controllers if needed to pass data in new formats
-- **Acceptance criteria:**
-  - All views render identically to their HAML counterparts (visual pixel parity)
-  - No `.html.haml` files remain in app/views (except for non-component partials if any)
-  - All tests pass without modification
-  - ARIA labels and accessibility features are preserved
-  - No CSS class selectors from old design in component code
-- **Verification commands:**
-  - `rails test` passes (full test suite)
-  - Visual regression: start server and manually verify pages render correctly
-  - Browser DevTools inspection: verify ARIA labels, semantic HTML, and Tailwind classes match old version
-  - `grep -r "match-heading\|match-meta\|match-setup" app/` returns no results (CSS class names removed)
-- **Results:** not run
-
 ### 5. Documentation and iteration
 - **Status:** pending
 - **Depends on:** Phase 4
 - **Deliverables:**
   - Create design system documentation at `.github/design-system/`
-  - Document literal prop mapping (e.g., `gap: 2` → `gap-2` Tailwind class)
+  - Document literal prop mapping and Literal::Properties pattern
   - Add usage examples for common patterns (forms, cards, buttons)
   - Document decision: when to use visual components vs. layout utilities
   - Update learnings if new patterns emerge
@@ -124,6 +102,35 @@
 - **Verification commands:**
   - Documentation examples are manually verified to render correctly
 - **Results:** not run
+
+### 2. Visual components: Build semantic UI building blocks
+- **Status:** complete
+- **Depends on:** Phase 1
+- **Deliverables:**
+  - ✅ Created visual components: Button, TextInput, Select, Label, FormFieldset, Card, Badge
+  - ✅ Each component uses Base class for composition
+  - ✅ Added variant support (e.g., Button with primary/secondary/tertiary, Badge with success/error)
+  - ✅ Created comprehensive tests for all visual components (37 component tests)
+  - ✅ All components use Literal::Properties with _Union types and frozen style maps
+- **Acceptance criteria:** ✅ All met
+  - ✅ All visual components are renderable and accept literal props
+  - ✅ Component variants produce visually distinct Tailwind class combinations
+  - ✅ Visual components compose base class without duplicating logic
+  - ✅ Tests cover default states, all variants, and prop combinations
+  - ✅ No CSS class names are hardcoded in component definitions (all via Tailwind utilities)
+  - ✅ Props have reader: :public for testability
+- **Verification commands:**
+  - ✅ `rails test test/components/design_system/` — 54 tests pass
+  - ✅ `rails test` — full suite, 86 tests pass (54 components + 32 existing)
+- **Results:**
+  - Button: primary/secondary/tertiary variants + sm/base/lg sizes, using Literal::Properties
+  - TextInput: sm/base/lg sizes + disabled state styling
+  - Select: sm/base/lg sizes + disabled state styling
+  - Label: basic label with cursor-pointer
+  - FormFieldset: semantic form container
+  - Card: default/soft variants
+  - Badge: default/success/error variants + sm/base sizes
+  - All components tested with html_attrs passed as **kwargs
 
 ## Migration and recovery
 
@@ -157,7 +164,9 @@
 
 ## Resume point
 
-- **Next action:** Evaluate Phase 3 decision: proceed directly to Phase 4 (migration) since layout utilities (flex, grid, gap) work well for page structure, or create semantic layout components if clear benefit emerges. Likely: skip Phase 3, proceed to Phase 4.
+- **Current phase:** Phase 4 (Migration) - in_progress
+- **Latest work:** Created and tested ErrorMessage visual component. Discovered that Phlex components don't integrate well with Rails helpers (button_to, link_to) in complex views. Decision: use HAML for views requiring Rails helpers, Phlex for pure HTML components.
+- **Next action:** Identify which views can be safely refactored to use Phlex (those with minimal Rails helper dependencies), or focus on creating reusable visual components for the index view. Continue with small, testable refactorings.
 
 ## Final verification
 
