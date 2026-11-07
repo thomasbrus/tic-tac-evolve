@@ -33,3 +33,8 @@ Each entry uses this structure:
 - **Scenario:** The board and game classes shared a file, and their tests were grouped together.
 - **The Fix:** Separate classes and their tests into predictably named files.
 - **General Principle:** Define each class in its own file and organize test classes to mirror the classes they exercise, making both easy to locate.
+
+### [2026-11-07] Terminal application testing
+- **Scenario:** CLI interaction was verified with complex, one-off Python pseudo-terminal commands.
+- **The Fix:** Create repeatable Ruby system tests for the terminal application instead.
+- **General Principle:** Prefer maintainable, reusable Ruby system tests for CLI interactions over ad hoc pseudo-terminal scripts.
