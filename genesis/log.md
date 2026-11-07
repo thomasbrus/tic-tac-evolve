@@ -262,3 +262,18 @@ not choose piece letters. Did not edit the prompt. Asked Q9.
   `ok`. Did not run `gem build`. No view file or gem is staged.
 - Ripple: A18 is retired. A19 is the command. If Q9 is skipped, A20 keeps
   rejecting non-dot cells. No push.
+
+## 2026-11-07 — 17
+
+The expert answered Q9 with A. Recorded D12. The read command now accepts
+those tokens when the unplaced counts still sum to the army. Unknown tokens
+are still not echoed. Did not edit the prompt. Did not start movement.
+
+- L0: token table on Army. View balances counts.
+- L2: both checks lock the letters and one placed scout.
+- L1, L3, L4: unchanged.
+- Verified: `ruby check_board.rb` and `ruby check_army.rb` each printed
+  `ok`. Did not run `gem build`. No view file or gem is staged.
+- Ripple: A20 is retired. A21 keeps a zero-count line. A22 is the next
+  slice: `read` fails until all 40 pieces are placed. Movement stays
+  unstarted. No push.

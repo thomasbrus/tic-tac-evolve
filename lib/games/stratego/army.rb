@@ -2,7 +2,7 @@
 
 module Games
   module Stratego
-    # One player's unplaced piece counts. No placement.
+    # Piece counts and the D12 setup tokens.
     class Army
       ARMY = [
         ["flag", 1],
@@ -18,6 +18,20 @@ module Games
         ["marshal", 1],
         ["bomb", 6]
       ].freeze
+      TOKENS = {
+        "flag" => "F",
+        "spy" => "S",
+        "scout" => "9",
+        "miner" => "8",
+        "sergeant" => "7",
+        "lieutenant" => "6",
+        "captain" => "5",
+        "major" => "4",
+        "colonel" => "3",
+        "general" => "2",
+        "marshal" => "1",
+        "bomb" => "B"
+      }.freeze
 
       def size
         ARMY.sum { |_name, count| count }

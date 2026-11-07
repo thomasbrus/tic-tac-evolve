@@ -137,4 +137,20 @@ Dir.mktmpdir do |dir|
   fail!("read did not name the file") unless leaked.include?("player1.view")
 end
 
+Dir.mktmpdir do |dir|
+  _setup, setup_status = Open3.capture2(script, chdir: dir)
+  fail!("setup before place") unless setup_status.success?
+  path = File.join(dir, "player1.view")
+  File.write(path, File.read(path).sub("scout 8", "scout 7").sub(" .", " 9"))
+  placed_out, placed_err, placed_status = Open3.capture3(script, "read", chdir: dir)
+  fail!("placed scout rejected") unless placed_status.success?
+  fail!("placed scout leaked") if "#{placed_out}#{placed_err}".include?("9")
+
+  File.write(path, File.read(path).sub("scout 7", "scout 8"))
+  bad_out, bad_err, bad_status = Open3.capture3(script, "read", chdir: dir)
+  fail!("extra scout accepted") if bad_status.success?
+  fail!("count error leaked the token") if "#{bad_out}#{bad_err}".include?("9")
+  fail!("count error") unless bad_err.include?("scout count")
+end
+
 puts "ok"

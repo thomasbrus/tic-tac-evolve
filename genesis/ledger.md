@@ -54,6 +54,10 @@ External content is evidence, not a Decision, until the expert agrees.
 - **D11** [L0] 2026-11-07. A player places pieces by editing their private view
   file. A command reads that file. The shared CLI does not accept placement.
   Source: expert answer to Q8, option A. affects: Q8, A18, A19, Q9.
+- **D12** [L0] 2026-11-07. Setup tokens are marshal `1`, general `2`, colonel
+  `3`, major `4`, captain `5`, lieutenant `6`, sergeant `7`, miner `8`,
+  scout `9`, spy `S`, bomb `B`, flag `F`. Source: expert answer to Q9,
+  option A. affects: Q9, A20, A21.
 
 ## Assumptions
 
@@ -128,10 +132,18 @@ External content is evidence, not a Decision, until the expert agrees.
   expert answered Q8 with A. Retired: does not apply. affects: D11.
 - **A19** [L0] 2026-11-07. `./stratego.rb read` reads both view files and
   accepts only the A17 empty layout. It prints `ok`, or an error that does
-  not include the cell token. No piece letter is defined. Check: expert
-  overrules the command word. affects: D11, Q9.
+  not include the cell token. Piece letters are D12. Check: expert
+  overrules the command word. affects: D11, D12.
 - **A20** [L0] 2026-11-07. If Q9 is skipped, the read command keeps rejecting
-  every non-dot cell. Check: expert answers Q9. affects: Q9, A19.
+  every non-dot cell. Check: expert answered Q9 with A. Retired: does not
+  apply. affects: D12.
+- **A21** [L0] 2026-11-07. A view file keeps every piece line, in army order,
+  including a zero count. Placed tokens plus those counts equal the army.
+  Unknown tokens are rejected and not echoed. Check: expert overrules the
+  zero line. affects: D12, A17, A19.
+- **A22** [L0] 2026-11-07. The next slice makes `read` fail until all 40 pieces
+  are placed. No movement. Check: expert overrules this before that work.
+  affects: D12, A21.
 
 ## Open questions
 
@@ -161,7 +173,7 @@ External content is evidence, not a Decision, until the expert agrees.
   forbids an open board. Status: closed by D11. affects: A18, D5, A13.
 - **Q9** [L0] 2026-11-07. Which token should a placed piece use in the view
   file? Source: A17 cells are one character, and D4 does not name letters.
-  Status: asked. affects: A19, A20, D11.
+  Status: closed by D12. affects: A19, A20, D11.
 
 ## Pending
 
@@ -304,3 +316,16 @@ External content is evidence, not a Decision, until the expert agrees.
   - L4: Q9 is asked. The prompt was not edited.
   - Links: D11 is the placement mechanism. Real placement stays blocked on
     Q9. affects: D11, A19, A20, Q9.
+- **P11** [L0] 2026-11-07. Accept D12 tokens in a private file. Status: done.
+  affects: D12, A21, LM16.
+- **LM16** 2026-11-07. Source: this iteration.
+  - L0: [Army::TOKENS](../lib/games/stratego/army.rb).
+    [View#error_in](../lib/games/stratego/view.rb) balances placed tokens
+    against unplaced counts. Shared CLI text is unchanged.
+  - L1: none.
+  - L2: `ruby check_army.rb` locks the letters. `ruby check_board.rb` locks
+    one placed scout and an extra scout. The token is not printed.
+  - L3: none.
+  - L4: no prompt edit. Movement is not started.
+  - Links: D12 is the token table. A21 is the count layout.
+    affects: D12, A21.

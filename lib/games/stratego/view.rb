@@ -35,7 +35,7 @@ module Games
         end
       end
 
-      # Returns error strings. A placed cell is rejected without echoing it.
+      # Returns error strings. Cell tokens are not echoed.
       def self.read_all(directory = Dir.pwd)
         FILENAMES.filter_map do |filename|
           player = File.basename(filename, ".view")
@@ -50,21 +50,56 @@ module Games
       def error_in(body)
         inventory, rows = body.sub(/\n\z/, "").split("\n\n", 2)
         return "is not inventory plus home rows" unless rows
-        return "inventory drifted" unless inventory == @army.render
 
+        unplaced = inventory_counts(inventory)
+        return unplaced if unplaced.is_a?(String)
+
+        placed = row_counts(rows)
+        return placed if placed.is_a?(String)
+
+        Army::ARMY.each do |name, count|
+          got = unplaced.fetch(name, 0) + placed.fetch(name, 0)
+          return "#{name} count" unless got == count
+        end
+        nil
+      end
+
+      def inventory_counts(inventory)
+        lines = inventory.lines(chomp: true)
+        names = Army::ARMY.map(&:first)
+        return "inventory lines" unless lines.size == names.size
+
+        lines.zip(names).to_h do |line, name|
+          piece, count = line.split(" ", 2)
+          return "inventory name" unless piece == name
+          return "inventory count" unless count&.match?(/\A\d+\z/)
+
+          [name, count.to_i]
+        end
+      end
+
+      def row_counts(rows)
         lines = rows.lines(chomp: true)
         expected_rows = HOME_ROWS.fetch(@player)
         return "home row count" unless lines.size == expected_rows.size
 
+        counts = Hash.new(0)
         expected_rows.zip(lines) do |row, line|
           label, rest = line.split(" ", 2)
           return "row label" unless label == row.to_s
 
           cells = rest.to_s.split
           return "row width" unless cells.size == Board::COLUMNS.size
-          return "has a placed piece" unless cells.all? { |cell| cell == "." }
+          cells.each do |cell|
+            next if cell == "."
+
+            name = Army::TOKENS.key(cell)
+            return "has an unknown piece" unless name
+
+            counts[name] += 1
+          end
         end
-        nil
+        counts
       end
     end
   end

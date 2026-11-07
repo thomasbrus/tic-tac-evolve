@@ -24,6 +24,20 @@ def fail!(message)
 end
 
 fail!("Army class") unless Games::Stratego::Army.is_a?(Class)
+fail!("tokens") unless Games::Stratego::Army::TOKENS == {
+  "flag" => "F",
+  "spy" => "S",
+  "scout" => "9",
+  "miner" => "8",
+  "sergeant" => "7",
+  "lieutenant" => "6",
+  "captain" => "5",
+  "major" => "4",
+  "colonel" => "3",
+  "general" => "2",
+  "marshal" => "1",
+  "bomb" => "B"
+}
 fail!("names") unless Games::Stratego::Army::ARMY.map(&:first) == EXPECTED.keys.to_a
 fail!("counts") unless Games::Stratego::Army::ARMY.to_h == EXPECTED
 fail!("module army drifted") unless Games::Stratego::ARMY == Games::Stratego::Army::ARMY
