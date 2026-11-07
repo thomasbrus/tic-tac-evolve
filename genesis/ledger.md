@@ -57,7 +57,10 @@ External content is evidence, not a Decision, until the expert agrees.
 - **A8** [L0] 2026-11-07. The next slice prints the D4 inventory from the CLI,
   under the board, and extends the board check to match. No placement,
   movement, combat, or hiding. Check: expert overrules this before that
-  work. affects: D4, A7, Q5.
+  work. Check: expert did not overrule it. Carried out. The inventory is
+  one `name count` line per piece, after a blank line. affects: D4, A7, Q5.
+- **A9** [L0] 2026-11-07. That `name count` layout is a display choice, not
+  part of D4. Check: expert overrules the layout. affects: A8.
 
 ## Open questions
 
@@ -87,6 +90,9 @@ External content is evidence, not a Decision, until the expert agrees.
 - **P3** [L0] 2026-11-07. Piece inventory. Status: done. `ARMY` and
   `army_size` in [stratego.rb](../stratego.rb). Check: `ruby check_army.rb`.
   affects: D4, A7, LM5.
+- **P4** [L0] 2026-11-07. Print the inventory under the board. Status: done.
+  `render_cli` in [stratego.rb](../stratego.rb). The board check covers it.
+  affects: A8, A9, LM6.
 
 ## Level map
 
@@ -102,12 +108,13 @@ External content is evidence, not a Decision, until the expert agrees.
   - Links: the check fails if the board drifts from A5. Pieces stay blocked
     on Q4. affects: A5, P2, Q4, D3.
 - **LM4** 2026-11-07. Rules recorded, no piece artifact. Superseded by LM5.
-- **LM5** 2026-11-07. Source: this iteration.
-  - L0: [stratego.rb](../stratego.rb). Board render unchanged. `ARMY` holds
-    the D4 counts. The CLI does not print them.
+- **LM5** 2026-11-07. Counts exist but are not printed. Superseded by LM6.
+- **LM6** 2026-11-07. Source: this iteration.
+  - L0: [stratego.rb](../stratego.rb). CLI prints the board, a blank line,
+    then the inventory.
   - L1: none.
-  - L2: `ruby check_board.rb` and `ruby check_army.rb`.
+  - L2: `ruby check_board.rb` now locks that CLI text. `ruby check_army.rb`
+    still locks the counts.
   - L3: none.
-  - L4: ledger D4. Q5 still blocks hidden play.
-  - Links: the army check fails if the counts drift from D4. affects: D4,
-    A7, Q5.
+  - L4: Q5 still blocks hidden play. Next iteration asks it.
+  - Links: A9 is only the printed layout. affects: A8, A9, Q5.

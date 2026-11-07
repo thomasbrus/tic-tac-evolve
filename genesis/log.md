@@ -97,3 +97,21 @@ Did not ask Q5. Did not edit the prompt.
   and exited 1. That copy was not committed.
 - Ripple: the counts are now locked the same way the lakes are. Q5 still
   blocks play. A8 is the next slice unless overruled. No push.
+
+## 2026-11-07 — 7
+
+Carried out A8. The expert did not overrule it. The CLI now prints the
+inventory under the board. No placement, movement, combat, or hiding.
+Did not ask Q5. Did not edit the prompt.
+
+- L0: `render_inventory` and `render_cli` in [stratego.rb](../stratego.rb).
+  Layout is A9: one `name count` line per piece, after a blank line.
+- L2: [check_board.rb](../check_board.rb) locks that CLI text and still
+  checks the lakes. [check_army.rb](../check_army.rb) unchanged.
+- L1 and L3: unchanged.
+- Verified: `ruby stratego.rb` printed the board and the 12 inventory
+  lines. `ruby check_board.rb` and `ruby check_army.rb` each printed `ok`
+  and exited 0. A one-off copy that changed the inventory separator failed
+  with `render_inventory drifted` and exited 1. That copy was not committed.
+- Ripple: A9 is the only new choice, and it is display, not rules. Q5 still
+  blocks play. The next iteration asks Q5. No push.

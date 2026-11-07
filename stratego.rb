@@ -40,4 +40,12 @@ def render_board
   [header, *rows].join("\n")
 end
 
-puts render_board if $PROGRAM_NAME == __FILE__
+def render_inventory
+  ARMY.map { |name, count| "#{name} #{count}" }.join("\n")
+end
+
+def render_cli
+  "#{render_board}\n\n#{render_inventory}"
+end
+
+puts render_cli if $PROGRAM_NAME == __FILE__
