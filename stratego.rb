@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 # frozen_string_literal: true
 
 # Empty board and one army's piece counts (ledger D4). No placement or combat.

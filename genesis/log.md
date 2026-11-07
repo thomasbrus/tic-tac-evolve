@@ -130,3 +130,19 @@ Did not change [stratego.rb](../stratego.rb). Did not edit the prompt.
 - Before handback, the expert answered Q5 with C. Recorded D5. Retired A10.
   A11 assumes a file per player for the next slice, not a second terminal.
   Did not write files or setup code.
+
+## 2026-11-07 — 9
+
+The expert ran `./stratego.rb`. It was not executable, and after `chmod +x`
+zsh treated the Ruby as a shell script. Recorded D6. Deferred A11.
+
+- L0: added `#!/usr/bin/env ruby` and kept the executable bit.
+- L2: [check_board.rb](../check_board.rb) now runs the file directly and
+  compares that output with `ruby stratego.rb`.
+- L3: the pasted zsh error is the evidence. No separate evaluation file.
+- L1 and L4: no prompt edit. A11 remains the next product slice.
+- Verified: `./stratego.rb` exited 0. `ruby check_board.rb` and
+  `ruby check_army.rb` each printed `ok`. A one-off executable copy with
+  the shebang removed failed with `direct exit 2` and the same zsh syntax
+  error. That copy was not
+  committed. No push.

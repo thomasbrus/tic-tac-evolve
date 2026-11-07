@@ -67,8 +67,15 @@ fail!("render_board drifted from A5") unless render_board == EXPECTED
 fail!("render_inventory drifted") unless render_inventory == INVENTORY
 fail!("render_cli drifted") unless render_cli == "#{EXPECTED}\n\n#{INVENTORY}"
 
-stdout, status = Open3.capture2(RbConfig.ruby, File.expand_path("stratego.rb", __dir__))
-fail!("exit #{status.exitstatus}") unless status.success?
-fail!("cli output drifted") unless stdout == "#{EXPECTED}\n\n#{INVENTORY}\n"
+script = File.expand_path("stratego.rb", __dir__)
+fail!("not executable") unless File.executable?(script)
+
+stdout, status = Open3.capture2(RbConfig.ruby, script)
+fail!("ruby exit #{status.exitstatus}") unless status.success?
+fail!("ruby output drifted") unless stdout == "#{EXPECTED}\n\n#{INVENTORY}\n"
+
+direct, direct_status = Open3.capture2(script)
+fail!("direct exit #{direct_status.exitstatus}") unless direct_status.success?
+fail!("direct output drifted") unless direct == stdout
 
 puts "ok"

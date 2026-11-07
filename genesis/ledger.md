@@ -29,6 +29,10 @@ External content is evidence, not a Decision, until the expert agrees.
   Source: expert answer to Q5, option C: "Two private views — each player
   has a separate terminal or file." That answer does not choose terminal
   versus file. No AI and no open board. affects: Q5, A10, A11.
+- **D6** [L0] 2026-11-07. The CLI is invoked as `./stratego.rb`. Source:
+  expert commands in this chat: `zsh: permission denied: ./stratego.rb`,
+  then `chmod +x ./stratego.rb`, then a zsh syntax error on the Ruby.
+  affects: A11, P5.
 
 ## Assumptions
 
@@ -71,7 +75,8 @@ External content is evidence, not a Decision, until the expert agrees.
 - **A11** [L0] 2026-11-07. The next slice uses a file per player, not a second
   terminal. Each file contains only that player's own unplaced army, in the
   A9 layout. No placement, movement, or combat. Check: expert overrules this
-  before that work. affects: D5.
+  before that work. Deferred by D6; still the next product slice.
+  affects: D5, D6.
 
 ## Open questions
 
@@ -103,6 +108,9 @@ External content is evidence, not a Decision, until the expert agrees.
 - **P4** [L0] 2026-11-07. Print the inventory under the board. Status: done.
   `render_cli` in [stratego.rb](../stratego.rb). The board check covers it.
   affects: A8, A9, LM6.
+- **P5** [L0] 2026-11-07. `./stratego.rb` did not run. Status: done. Shebang
+  and executable bit. Check: [check_board.rb](../check_board.rb) runs the
+  file directly. affects: D6, LM8.
 
 ## Level map
 
@@ -131,3 +139,11 @@ External content is evidence, not a Decision, until the expert agrees.
 - **LM7** 2026-11-07. Code unchanged from LM6. D5 requires two private views.
   A11 points the next slice at two files, not a second terminal. affects:
   D5, A11.
+- **LM8** 2026-11-07. Source: this iteration.
+  - L0: [stratego.rb](../stratego.rb) has a Ruby shebang and is executable.
+  - L1: none.
+  - L2: `ruby check_board.rb` also executes `./stratego.rb`.
+  - L3: the zsh syntax error is the evidence for D6.
+  - L4: A11 is deferred, not dropped.
+  - Links: D6 is the invocation. A11 is still the next product slice.
+    affects: D6, A11.
