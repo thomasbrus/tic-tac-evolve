@@ -77,3 +77,8 @@ Each entry uses this structure:
 - **Scenario:** Documentation and explanations used dense paragraphs, excessive semicolons and colons, and over-explained obvious details. The tone felt formal and artificial.
 - **The Fix:** Write naturally with paragraph breaks, avoid formal punctuation patterns, trust the reader's intelligence, and omit self-evident details.
 - **General Principle:** Use clear, natural prose. Break text into readable chunks. Avoid redundant semicolons, double colons, and explanations of the obvious. Trust the reader to understand context and implications without spelling them out.
+
+### [2026-11-07] Use external libraries as documented, not custom replacements
+- **Scenario:** User requested a design system using Literal::Properties for type-safe component props. I built a custom `prop` DSL instead of using the literal gem directly. User responded with: "if you are not using Literal::Properties I will fire you."
+- **The Fix:** Fetched the documentation from literal.fun/docs/properties, used `extend Literal::Properties` with `_Union` types and frozen style maps, and implemented `prop :html_attrs, _Hash(...), :**, default: -> { {} }, reader: :public` to capture kwargs. All 86 tests passed with the correct implementation.
+- **General Principle:** When a user explicitly names an external tool or library, fetch its documentation immediately before implementation. Use the tool exactly as designed rather than building a custom replacement. Trust explicit requirements ("use X") over assumptions; simple, correct use of existing tools beats elaborate custom implementations.
