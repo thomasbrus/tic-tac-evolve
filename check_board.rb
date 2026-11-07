@@ -66,7 +66,10 @@ counts = inventory_lines.map do |line|
   [name, count.to_i]
 end
 fail!("inventory size") unless counts.sum { |_name, count| count } == 40
-fail!("render_board drifted from A5") unless S.render_board == EXPECTED
+fail!("Board class") unless S::Board.is_a?(Class)
+fail!("View class") unless S::View.is_a?(Class)
+fail!("render_board drifted from A5") unless S::Board.new.render == EXPECTED
+fail!("module render_board drifted") unless S.render_board == EXPECTED
 fail!("render_inventory drifted") unless S.render_inventory == INVENTORY
 fail!("render_cli drifted") unless S.render_cli == "#{EXPECTED}\n\n#{INVENTORY}"
 

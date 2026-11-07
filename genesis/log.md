@@ -219,3 +219,17 @@ edit the prompt. Did not extract classes. Asked Q7.
 - Ripple: class rules stay open until Q7. If skipped, A16 keeps module
   functions until state needs an object. A13 remains the next product
   slice unless that answer changes it. No push.
+
+## 2026-11-07 — 14
+
+The expert answered Q7 with C. Recorded D10. Split Stratego into Board,
+Army, and View. Did not edit the prompt. Did not start A13.
+
+- L0: three classes. `Games::Stratego` delegates. CLI text unchanged.
+- L2: guidelines now state the split. Checks lock the classes.
+- L1, L3, L4: unchanged.
+- Verified: `ruby check_board.rb` and `ruby check_army.rb` each printed
+  `ok`. Did not run `gem build`; the gemspec already includes `lib/**/*.rb`.
+  No view file or gem is staged. The prompt was not edited.
+- Ripple: A16 is retired. A13 remains the next product slice unless
+  overruled. No push.

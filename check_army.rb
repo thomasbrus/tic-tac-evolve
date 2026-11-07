@@ -23,9 +23,12 @@ def fail!(message)
   exit 1
 end
 
-fail!("names") unless Games::Stratego::ARMY.map(&:first) == EXPECTED.keys.to_a
-fail!("counts") unless Games::Stratego::ARMY.to_h == EXPECTED
-fail!("army_size") unless Games::Stratego.army_size == 40
+fail!("Army class") unless Games::Stratego::Army.is_a?(Class)
+fail!("names") unless Games::Stratego::Army::ARMY.map(&:first) == EXPECTED.keys.to_a
+fail!("counts") unless Games::Stratego::Army::ARMY.to_h == EXPECTED
+fail!("module army drifted") unless Games::Stratego::ARMY == Games::Stratego::Army::ARMY
+fail!("army_size") unless Games::Stratego::Army.new.size == 40
+fail!("module army_size drifted") unless Games::Stratego.army_size == 40
 fail!("fixture") unless EXPECTED.values.sum == 40
 
 puts "ok"

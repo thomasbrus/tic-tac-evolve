@@ -46,7 +46,11 @@ External content is evidence, not a Decision, until the expert agrees.
   correction in this chat: "not what i meant with code quality, i want to
   set up guidelines for good quality ruby code that i can evolve over time,
   also about the structure of the project and classes, not just line by line
-  code quality". No class rule was chosen. affects: D8, A15, Q6, Q7, P7.
+  code quality". No class rule was chosen here. D10 chooses it. affects:
+  D8, A15, Q6, Q7, P7.
+- **D10** [L2] 2026-11-07. Stratego is split into Board, Army, and View
+  classes now. Source: expert answer to Q7, option C. `Games::Stratego`
+  remains the CLI composition root. affects: Q7, A16, A13, P8.
 
 ## Assumptions
 
@@ -112,9 +116,8 @@ External content is evidence, not a Decision, until the expert agrees.
   [guidelines.md](../.github/skills/code-quality/references/guidelines.md).
   Check: expert wants it only on their user profile. affects: D8, D9.
 - **A16** [L2] 2026-11-07. If Q7 is skipped, keep `module Games::Stratego`
-  and module functions until a piece of state needs an object. Do not
-  extract classes only to have classes. Check: expert answers Q7.
-  affects: Q7, D9, A13.
+  and module functions until a piece of state needs an object. Check:
+  expert answered Q7 with C. Retired: does not apply. affects: D10.
 
 ## Open questions
 
@@ -138,7 +141,7 @@ External content is evidence, not a Decision, until the expert agrees.
   D8, D9, A1.
 - **Q7** [L2] 2026-11-07. When should Stratego use a class instead of module
   functions? Source: D9 asks for class guidelines, and the current code has
-  no classes. Status: asked. affects: D9, A16, A13.
+  no classes. Status: closed by D10. affects: D9, A16, A13.
 
 ## Pending
 
@@ -241,3 +244,19 @@ External content is evidence, not a Decision, until the expert agrees.
   - Links: D9 defines the skill. Q7 blocks a class guideline. A13 is still
     the next product slice unless Q7's answer changes that work.
     affects: D8, D9, Q6, Q7, A13, A16.
+- **P8** [L0] 2026-11-07. Split Stratego into Board, Army, and View.
+  Status: done. Checks lock the classes and the previous CLI text.
+  affects: D10, A13.
+- **LM13** 2026-11-07. Source: this iteration.
+  - L0: [Board](../lib/games/stratego/board.rb),
+    [Army](../lib/games/stratego/army.rb), and
+    [View](../lib/games/stratego/view.rb). CLI text and view files are
+    unchanged. [game.rb](../lib/games/stratego/game.rb) only composes them.
+  - L1: none.
+  - L2: the class rule is in
+    [guidelines.md](../.github/skills/code-quality/references/guidelines.md).
+    `ruby check_board.rb` and `ruby check_army.rb` lock the classes.
+  - L3: none.
+  - L4: no prompt edit.
+  - Links: D10 is the split. A13 is still the next product slice.
+    affects: D10, A13, P8.

@@ -27,9 +27,16 @@ Agreed:
 
 ## Classes
 
-Not agreed. The current code is `module Games::Stratego` with module
-functions and no classes. Do not invent a class rule, and do not
-rewrite that module, until the expert answers Q7.
+Agreed:
+
+- Stratego is split into `Games::Stratego::Board`, `Games::Stratego::Army`,
+  and `Games::Stratego::View`.
+- `Games::Stratego` stays the namespace and the CLI composition root. It
+  does not own the board, army, or view rules.
+- A new game gets its own folder and its own classes. Do not put another
+  game's rules in Stratego's classes.
+- Do not add a class with no named responsibility. These three are the
+  current split.
 
 ## Not this
 
