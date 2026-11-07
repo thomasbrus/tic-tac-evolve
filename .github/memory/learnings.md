@@ -70,3 +70,8 @@ Each entry uses this structure:
 - **Scenario:** Match views used absolute translation keys for page-specific labels and left some accessible text hardcoded.
 - **The Fix:** Use relative view lookups and scope locale entries to their template; retain absolute keys for shared and model translations.
 - **General Principle:** Prefer `t(".key")` for view- and partial-specific text, with locale keys matching the template path. Use absolute keys for genuinely shared translations, and translate complete accessible labels with interpolation rather than concatenating localized fragments.
+
+### [2026-11-07] Natural writing over AI mannerisms
+- **Scenario:** Documentation and explanations used dense paragraphs, excessive semicolons and colons, and over-explained obvious details. The tone felt formal and artificial.
+- **The Fix:** Write naturally with paragraph breaks, avoid formal punctuation patterns, trust the reader's intelligence, and omit self-evident details.
+- **General Principle:** Use clear, natural prose. Break text into readable chunks. Avoid redundant semicolons, double colons, and explanations of the obvious. Trust the reader to understand context and implications without spelling them out.

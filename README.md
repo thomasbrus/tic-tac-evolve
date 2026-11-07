@@ -10,19 +10,19 @@ tic-tac-evolve is an experiment in a human-guided, AI-assisted development workf
 | Rails | Persisted browser matches with Haml, Tailwind CSS 4, and Hotwire. | [Rails snapshot](https://github.com/thomasbrus/tic-tac-evolve/tree/dda8d4fba010dec4c885f577b73d5fd8f806eb37) |
 | Main | Latest committed development; changes as the project evolves. | [main](https://github.com/thomasbrus/tic-tac-evolve/tree/main) |
 
-The game runs as a Rails web application with persisted matches. It uses shared board rules and computer strategies implemented in [lib/tic_tac_toe/](lib/tic_tac_toe/). The web application uses Haml, Tailwind CSS 4, Hotwire, and SQLite.
+The Rails app persists matches to SQLite and uses Haml, Tailwind CSS 4, and Hotwire for the frontend. Shared board rules and computer strategies live in [lib/tic_tac_toe/](lib/tic_tac_toe/).
 
 ## How the workflow works
 
-The human sets the direction and remains responsible for accepting the result. The AI assists with implementation, tests, investigation, and review. The game provides a concrete way to test that collaboration as requirements and technology change.
+The human sets direction and is responsible for accepting results. The AI assists with implementation, tests, investigation, and review.
 
-1. **Define the change.** Describe the desired behavior, constraints, and existing behavior that must remain intact. Clarify consequential choices, such as the frontend stack, before implementation.
-2. **Implement and verify.** The assistant inspects the relevant code, makes a small change, and runs focused checks. Larger changes use an approved sequence of milestones; ordinary edits do not need a formal plan.
-3. **Review and correct.** The human reviews the diff, behavior, and verification results. Feedback should identify the mismatch and intended outcome, not just ask the assistant to try again.
-4. **Capture reusable lessons.** The assistant considers whether a correction reveals a durable rule. Current conventions belong in the relevant instructions or skill; the learning history records the scenario, correction, and rationale. Routine fixes and duplicate lessons do not need new entries.
-5. **Carry the improvement forward.** Commit useful guidance alongside the project. Future assistance can load the relevant rules instead of rediscovering the same preferences. Tests and CI provide executable checks where prose alone is insufficient.
+1. **Define the change.** Describe desired behavior, constraints, and what must remain intact. Clarify important choices like the frontend stack before implementation starts.
+2. **Implement and verify.** The assistant reads relevant code, makes focused changes, and runs appropriate checks. Larger work uses an approved milestone sequence; routine edits don't need formal plans.
+3. **Review and correct.** You review the diff, behavior, and results. Feedback should describe the mismatch and what you want instead, not ask the assistant to try again.
+4. **Capture lessons.** The assistant considers whether a correction reveals a reusable rule. Conventions go into relevant instruction files; the learning history records the scenario, correction, and rationale. One-off fixes don't need entries.
+5. **Carry it forward.** Useful guidance becomes part of the project. Future work loads the same rules instead of rediscovering them. Tests and CI provide executable checks.
 
-For example, "Use relative Rails translations for template-specific labels" becomes a view convention, a recorded learning, and rendering tests. The correction improves both the current code and the instructions used for subsequent work.
+For example: "Use relative Rails translations for template-specific labels" becomes a view convention, a recorded learning, and rendering tests.
 
 | Resource | Purpose |
 | --- | --- |
@@ -33,7 +33,7 @@ For example, "Use relative Rails translations for template-specific labels" beco
 | [.github/memory/learnings.md](.github/memory/learnings.md) | Historical lessons and why conventions were adopted. |
 | [.github/plans/](.github/plans/) | Approved milestones, decisions, verification results, and resume points for substantial work. |
 
-This is not automatic model training, and instructions do not guarantee compliance. Improvement comes from versioned guidance, human review, and repeatable checks. The same development practices apply when working without an AI assistant.
+This is not automatic model training, and instructions don't guarantee compliance. Improvement comes from versioned guidance, human review, and repeatable checks.
 
 ## Run the web application
 
@@ -46,9 +46,9 @@ bin/rails tailwindcss:build
 bin/dev
 ```
 
-Open `http://localhost:3000`. `bin/dev` runs Rails and the Tailwind watcher together. To use another port, run `PORT=3001 bin/dev`.
+Open `http://localhost:3000` and start a local two-player match or play X against the computer as O. Match history links let you resume games in progress and view completed ones.
 
-Start a local two-player match or play X against the computer as O. Match history links let you resume active games and view completed ones. Matches are stored in `storage/development.sqlite3`; refreshing the page or stopping the server does not intentionally discard them. There are no accounts: this is a shared local application, not a private or remotely hosted multiplayer service.
+Matches are stored in `storage/development.sqlite3`. There are no accounts—this is a shared local application.
 
 ## Develop on the project
 
@@ -63,7 +63,7 @@ Start with the web setup above. Keep `bin/dev` running while editing; it runs th
 | Translations and schema changes | [config/locales/](config/locales/) and [db/migrate/](db/migrate/) |
 | Domain and request tests | [test/](test/) |
 
-Keep changes focused and preserve intentional defaults. Reuse shared rules rather than implementing a second version in controllers or views. Use Haml and Tailwind CSS 4 for the frontend; use `t(".key")` for template-specific text and absolute keys for genuinely shared translations. Add database migrations rather than editing the generated schema or resetting databases to resolve failures.
+Keep changes focused and preserve intentional defaults. Reuse shared rules instead of implementing duplicates in controllers or views. Use Haml and Tailwind CSS 4 for the frontend; use `t(".key")` for template-specific text and absolute keys for shared translations.
 
 Add or update a test for the changed behavior, then run the smallest relevant slice. For example:
 
@@ -81,7 +81,7 @@ In VS Code Copilot Chat, the project skills can be invoked explicitly:
 - `/self-reflection` evaluates a correction for a reusable lesson, updating an existing entry instead of duplicating it.
 - `/commit` reviews scope and staging, checks the intended contents, and creates coherent commits. It does not push changes.
 
-State acceptance criteria and constraints in a feature request, and give specific corrections during review. Ask for a commit only when the change is ready; failed checks must be reported rather than hidden. GitHub Actions runs the non-browser test suite, Tailwind build, and Rails loading checks on pushes and pull requests using [.github/workflows/ci.yml](.github/workflows/ci.yml).
+State acceptance criteria and constraints in feature requests. Give specific corrections during review, not vague feedback. Ask for a commit when the change is ready; flag failed checks instead of hiding them.
 
 ## Test
 
@@ -93,6 +93,4 @@ bin/rails tailwindcss:build
 bin/rails zeitwerk:check
 ```
 
-The suite checks persisted state, rendered forms and history, illegal moves, computer responses, and stale submissions.
-
-Browser testing, visual checks, and browser-based server-restart/resume verification are deferred.
+The suite checks persisted state, rendered forms and history, illegal moves, computer responses, and stale submissions. Browser testing and visual checks are deferred.
