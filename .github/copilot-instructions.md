@@ -22,6 +22,12 @@ Your corrections teach the agent team what works and what doesn't in *this* code
 - **Test before closing:** Verify changes work before marking a task complete.
 - **Preserve context:** Remember learnings from this session across agent interactions.
 
+## Code Quality
+
+Define each class in its own predictably named file, including test classes; organize tests to mirror the classes they exercise.
+
+After making code changes and before completing the task, invoke the `code-quality` skill to review the changed code and its relevant context. If the skill is not yet available to invoke, read and follow `.github/skills/code-quality/SKILL.md` instead. Address issues within the task's scope and run the relevant checks after any fixes.
+
 ## Commit Messages
 
 - Write commit subjects in past tense (for example, `Added` rather than `Add`).
