@@ -4,6 +4,8 @@
 
 These entries preserve historical rationale. Current standards live in the [main instructions](../copilot-instructions.md), [Rails conventions](../instructions/rails.instructions.md), [frontend conventions](../instructions/views.instructions.md), and owning skills; maintain those authorities rather than copying rules into additional workflows.
 
+**Every learning recorded here has a corresponding artifact** (skill, instruction file, or instruction section). This ensures that durable lessons are actionable and discoverable by agents and future sessions. See the [self-reflection skill](../skills/self-reflection/SKILL.md) for the workflow.
+
 ---
 
 ## Format

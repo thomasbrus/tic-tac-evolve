@@ -140,6 +140,8 @@ GEM
       racc (~> 1.4)
     nokogiri (1.19.7-x86_64-linux-gnu)
       racc (~> 1.4)
+    phlex (1.11.1)
+    phlex-rails (0.1.0)
     pp (0.6.4)
       prettyprint
     prettyprint (0.2.1)
@@ -239,6 +241,8 @@ DEPENDENCIES
   haml-rails (~> 3.0)
   importmap-rails
   minitest (~> 5.0)
+  phlex (~> 1.10)
+  phlex-rails (~> 0.0)
   propshaft
   puma (>= 5.0)
   rails (~> 8.1.4, >= 8.1.4.1)
@@ -294,6 +298,8 @@ CHECKSUMS
   nio4r (2.7.5) sha256=6c90168e48fb5f8e768419c93abb94ba2b892a1d0602cb06eef16d8b7df1dca1
   nokogiri (1.19.7-arm64-darwin) sha256=f27d7f25f4873fbc3aa35a2cc2fb680c98555fec1925348da439d0869d541142
   nokogiri (1.19.7-x86_64-linux-gnu) sha256=25865ccb462f714e712fdf8906fde07849cb6704a808e3d629d75baa5af5dd3b
+  phlex (1.11.1) sha256=bf21f88672c8497d6370636bcefc0373d59d58488cea0c849822b3e188ec59a1
+  phlex-rails (0.1.0) sha256=d4c2464b2b156eb5ff532cee85aef2f8fba7c5a77defb09bf1b27b4bac13e6e2
   pp (0.6.4) sha256=dfcb0fce700c41456265922884f9fe195d7fbb0674a3578e6c0f69588e82b570
   prettyprint (0.2.1) sha256=d555d57ea6d7cf001d4774b693546a6bd88bec1e778ddffb5c60b68ceec4b7d4
   prism (2.1.0-arm64-darwin) sha256=2d0c2e3e011cfd89c041940907d3ff3def379d7b0f2ba158d1d42238e8ad8afc

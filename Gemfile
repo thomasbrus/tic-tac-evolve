@@ -11,6 +11,8 @@ gem "bootsnap", require: false
 gem "haml-rails", "~> 3.0"
 gem "tailwindcss-rails", "~> 4.0"
 gem "tailwindcss-ruby", "~> 4.0"
+gem "phlex", "~> 1.10"
+gem "phlex-rails", "~> 0.0"
 
 group :development, :test do
   gem "minitest", "~> 5.0"

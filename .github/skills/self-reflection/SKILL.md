@@ -8,8 +8,13 @@ user-invocable: true
 
 1. Acknowledge the correction or preference concisely. Decide whether it yields a durable, actionable lesson; ordinary scope changes, design iteration, and one-off fixes do not automatically qualify.
 2. Check [project learnings](../../memory/learnings.md) for a matching entry. Update it rather than adding a duplicate; no edit is needed when it already captures the lesson.
-3. Record qualifying lessons using the format below. Keep scenario and fix to one or two lines, and phrase the principle as an actionable instruction.
-4. Current conventions belong in the relevant instruction file or owning skill. When explicitly asked to adopt a convention, update that authority as appropriate and keep rationale in memory; do not proliferate copies across skills. Reflection alone does not authorize unrelated code changes.
+3. **Create or update the corresponding artifact first:**
+   - If the lesson describes a reviewable process or decision-making procedure, create a skill (e.g., `writing`, `code-quality`, `self-reflection`).
+   - If it describes how code should be structured or written, update the relevant instruction file (e.g., `rails.instructions.md`, `views.instructions.md`).
+   - If it's a tool-specific preference or workflow, update `copilot-instructions.md` or add a custom instruction section.
+   - Only after the artifact exists, record the learning in `learnings.md`.
+4. Record qualifying lessons using the format below. Keep scenario and fix to one or two lines, and phrase the principle as an actionable instruction.
+5. Current conventions belong in the relevant instruction file or owning skill. When explicitly asked to adopt a convention, update that authority as appropriate and keep rationale in memory; do not proliferate copies across skills. Reflection alone does not authorize unrelated code changes.
 
 ## Entry Format
 

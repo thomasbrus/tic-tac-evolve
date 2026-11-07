@@ -26,7 +26,13 @@ Before browser-based checks, ask which scenarios the user wants tested; respect 
 
 ## Learning
 
-When corrected or given a durable preference, acknowledge it and follow the [self-reflection skill](skills/self-reflection/SKILL.md). For complex tasks, consult relevant [learnings](memory/learnings.md); do not repeatedly reread unchanged history. Keep current standards in instructions or the owning skill, and historical rationale in memory.
+When corrected or given a durable preference, acknowledge it and follow the [self-reflection skill](skills/self-reflection/SKILL.md). The workflow is:
+
+1. Evaluate whether the correction yields a durable, generalizable lesson.
+2. If yes, create the corresponding artifact first (a skill, instruction file, or instruction section).
+3. Only after the artifact exists, record the lesson in [learnings](memory/learnings.md) with its rationale.
+
+This ensures every learning has a working counterpart that agents and future sessions can actually use. For complex tasks, consult relevant [learnings](memory/learnings.md); do not repeatedly reread unchanged history. Keep current standards in instructions or the owning skill, and historical rationale in memory.
 
 ## Commit Messages
 
