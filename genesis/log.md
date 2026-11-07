@@ -115,3 +115,18 @@ Did not ask Q5. Did not edit the prompt.
   with `render_inventory drifted` and exited 1. That copy was not committed.
 - Ripple: A9 is the only new choice, and it is display, not rules. Q5 still
   blocks play. The next iteration asks Q5. No push.
+
+## 2026-11-07 — 8
+
+Asked Q5. Setup and play stay blocked until a hiding mechanism is chosen.
+Did not change [stratego.rb](../stratego.rb). Did not edit the prompt.
+
+- L0–L3: unchanged.
+- L4: marked Q5 asked. Recorded skip path A10. Q3 stays parked.
+- Verified: re-read the Q5 entry. Did not run the checks because no game
+  code changed. No push.
+- Ripple: the answer chooses the first setup slice. A screen-clear handoff,
+  an open board, and a second private view are different L0 and L2 work.
+- Before handback, the expert answered Q5 with C. Recorded D5. Retired A10.
+  A11 assumes a file per player for the next slice, not a second terminal.
+  Did not write files or setup code.

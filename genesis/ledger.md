@@ -25,6 +25,10 @@ External content is evidence, not a Decision, until the expert agrees.
   wins combat; equal ranks both die. A miner defuses a bomb by attacking it.
   A spy beats the marshal only when the spy attacks. Capturing the flag wins.
   The A5 lakes are part of this board. affects: Q4, A5, A6, Q5, P3.
+- **D5** [L0] 2026-11-07. Hidden pieces use two private views, one per player.
+  Source: expert answer to Q5, option C: "Two private views — each player
+  has a separate terminal or file." That answer does not choose terminal
+  versus file. No AI and no open board. affects: Q5, A10, A11.
 
 ## Assumptions
 
@@ -61,6 +65,13 @@ External content is evidence, not a Decision, until the expert agrees.
   one `name count` line per piece, after a blank line. affects: D4, A7, Q5.
 - **A9** [L0] 2026-11-07. That `name count` layout is a display choice, not
   part of D4. Check: expert overrules the layout. affects: A8.
+- **A10** [L0] 2026-11-07. If Q5 is skipped, no hiding mechanism is assumed
+  and no setup or play code is added. Check: expert answered Q5 with C.
+  Retired: does not apply. affects: D5.
+- **A11** [L0] 2026-11-07. The next slice uses a file per player, not a second
+  terminal. Each file contains only that player's own unplaced army, in the
+  A9 layout. No placement, movement, or combat. Check: expert overrules this
+  before that work. affects: D5.
 
 ## Open questions
 
@@ -77,8 +88,7 @@ External content is evidence, not a Decision, until the expert agrees.
   Status: closed by D4.
 - **Q5** [L0] 2026-11-07. How should hidden pieces work on one shared CLI?
   Source: D4 requires hidden setup, but both players use the same screen.
-  Status: open, not asked. Blocks play, not the inventory slice. affects:
-  D4, A7.
+  Status: closed by D5.
 
 ## Pending
 
@@ -118,3 +128,6 @@ External content is evidence, not a Decision, until the expert agrees.
   - L3: none.
   - L4: Q5 still blocks hidden play. Next iteration asks it.
   - Links: A9 is only the printed layout. affects: A8, A9, Q5.
+- **LM7** 2026-11-07. Code unchanged from LM6. D5 requires two private views.
+  A11 points the next slice at two files, not a second terminal. affects:
+  D5, A11.
