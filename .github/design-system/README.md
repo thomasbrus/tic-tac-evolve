@@ -23,14 +23,91 @@ Literal props reduce boilerplate and make styling intent clear without CSS class
 View (base)
 ├── Container
 ├── Typography
-├── Button
-├── TextInput
-├── Select
+├── Button (variants: primary, secondary, tertiary; sizes: sm, base, lg)
+├── TextInput (sizes: sm, base, lg)
+├── Select (sizes: sm, base, lg)
 ├── Label
 ├── FormFieldset
-├── Card
-├── Badge
-└── (semantic components)
+├── Card (variants: default, soft)
+└── Badge (variants: default, success, error; sizes: sm, base)
+```
+
+## Visual Components
+
+### Button
+
+Button with variant and size support.
+
+**Variants:** `:primary` (default), `:secondary`, `:tertiary`
+**Sizes:** `:sm`, `:base` (default), `:lg`
+
+```ruby
+DesignSystem::Button.new(variant: :primary, size: :base) { "Click me" }
+DesignSystem::Button.new(variant: :secondary) { "Secondary" }
+```
+
+### TextInput
+
+Text input field with size variants and disabled state styling.
+
+**Sizes:** `:sm`, `:base` (default), `:lg`
+
+```ruby
+DesignSystem::TextInput.new(type: "email", placeholder: "Enter email")
+DesignSystem::TextInput.new(size: :lg, disabled: true)
+```
+
+### Select
+
+Select dropdown with size variants.
+
+**Sizes:** `:sm`, `:base` (default), `:lg`
+
+```ruby
+DesignSystem::Select.new(size: :sm) do
+  # option elements
+end
+```
+
+### Label
+
+Basic label element with cursor-pointer styling.
+
+```ruby
+DesignSystem::Label.new(for: "input-id") { "Label text" }
+```
+
+### FormFieldset
+
+Semantic fieldset wrapper for form groups (removes border and padding).
+
+```ruby
+DesignSystem::FormFieldset.new(flex: true, flex_col: true, gap: 4) do
+  # form inputs and labels
+end
+```
+
+### Card
+
+Card container with variant support.
+
+**Variants:** `:default` (white with border), `:soft` (soft green background)
+
+```ruby
+DesignSystem::Card.new(variant: :default) { "Card content" }
+DesignSystem::Card.new(variant: :soft, p: 6) { "Soft card" }
+```
+
+### Badge
+
+Badge component with variant and size support.
+
+**Variants:** `:default`, `:success`, `:error`
+**Sizes:** `:sm`, `:base` (default)
+
+```ruby
+DesignSystem::Badge.new(variant: :success) { "Active" }
+DesignSystem::Badge.new(variant: :error, size: :sm) { "Error" }
 ```
 
 ## Base Components
@@ -98,7 +175,7 @@ DesignSystem::Typography.new(
 DesignSystem::Typography.new(size: :sm, color: :subtle) { "Meta text" }
 ```
 
-## Using Literal Props vs. Utility Classes
+
 
 **Prefer literal props when:**
 - Composing components for semantic meaning
@@ -120,22 +197,28 @@ Once the visual component library stabilizes, we can introduce semantic layout c
 
 ```
 app/components/design_system/
-├── view.rb              # Base class
+├── view.rb              # Base class with literal prop conversion
 ├── container.rb         # Centered max-width wrapper
 ├── typography.rb        # Text & heading styles
-├── button.rb            # (Phase 2)
-├── text_input.rb        # (Phase 2)
-├── select.rb            # (Phase 2)
-├── label.rb             # (Phase 2)
-├── form_fieldset.rb     # (Phase 2)
-├── card.rb              # (Phase 2)
-└── badge.rb             # (Phase 2)
+├── button.rb            # Primary, secondary, tertiary variants
+├── text_input.rb        # Text input field
+├── select.rb            # Select dropdown
+├── label.rb             # Label element
+├── form_fieldset.rb     # Fieldset container
+├── card.rb              # Card variants
+└── badge.rb             # Badge with status variants
 
 test/components/design_system/
 ├── view_test.rb
 ├── container_test.rb
 ├── typography_test.rb
-└── [component]_test.rb  # (Phase 2)
+├── button_test.rb
+├── text_input_test.rb
+├── select_test.rb
+├── label_test.rb
+├── form_fieldset_test.rb
+├── card_test.rb
+└── badge_test.rb
 ```
 
 ## Testing
