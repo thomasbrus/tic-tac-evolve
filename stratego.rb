@@ -4,4 +4,3 @@
 require_relative "lib/stratego"
 
 Stratego.start(ARGV)
-
