@@ -165,3 +165,21 @@ terminal, placement, movement, or combat. Did not edit the prompt.
   the army` and exited 1. That copy was not committed.
 - Ripple: the two files are still identical, so privacy is not demonstrated
   yet. A13 is the next slice unless overruled. No push.
+
+## 2026-11-07 — 11
+
+The expert asked to set the project up as a lib/gem named games, with
+Stratego as a folder. Recorded D7. Deferred A13. Did not edit the prompt.
+
+- L0: behavior unchanged. Implementation moved to
+  [lib/games/stratego/game.rb](../lib/games/stratego/game.rb) as
+  `Games::Stratego`. [stratego.rb](../stratego.rb) is now the D6 launcher.
+- L2: added [games.gemspec](../games.gemspec). No license, homepage, or
+  email. A14 records those choices.
+- L1, L3, L4: no prompt edit.
+- Verified: `./stratego.rb` exited 0 and the generated views were removed.
+  `ruby check_board.rb` and `ruby check_army.rb` each printed `ok`.
+  `gem build games.gemspec` built `games-0.1.0.gem`. RubyGems warned that
+  no homepage is specified. The built gem was not committed.
+- Ripple: checks now load `lib/games` instead of the launcher. A13 is still
+  the next product slice unless overruled. No push.

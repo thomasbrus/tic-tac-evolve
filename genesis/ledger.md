@@ -33,6 +33,9 @@ External content is evidence, not a Decision, until the expert agrees.
   expert commands in this chat: `zsh: permission denied: ./stratego.rb`,
   then `chmod +x ./stratego.rb`, then a zsh syntax error on the Ruby.
   affects: A11, P5.
+- **D7** [L2] 2026-11-07. The product is a gem named `games`, and Stratego is
+  a folder inside it. Source: expert in this chat: "setup this project up as
+  a lib/gem called games and add stratego as a folder". affects: A13, A14.
 
 ## Assumptions
 
@@ -84,7 +87,14 @@ External content is evidence, not a Decision, until the expert agrees.
 - **A13** [L0] 2026-11-07. The next slice adds that player's four empty home
   rows to their file only: player1 rows 1–4, player2 rows 7–10. No pieces
   placed. The other player's rows are absent. Check: expert overrules this
-  before that work. affects: D4, A11, A12.
+  before that work. Deferred by D7. Still the next product slice.
+  affects: D4, A11, A12, D7.
+- **A14** [L2] 2026-11-07. The gem is version 0.1.0, author "Thomas Brus",
+  no license, no homepage, and no email. Stratego code is
+  [lib/games/stratego/](../lib/games/stratego/), loaded by
+  [lib/games.rb](../lib/games.rb). [stratego.rb](../stratego.rb) remains the
+  D6 launcher. Check: expert overrules the path, version, or author.
+  affects: D7, D6.
 
 ## Open questions
 
@@ -168,3 +178,14 @@ External content is evidence, not a Decision, until the expert agrees.
   - L4: A13 is the next slice. The files do not yet differ.
   - Links: D5 is satisfied only as two files of the same unplaced army.
     affects: D5, A11, A12, A13.
+- **LM10** 2026-11-07. Source: this iteration.
+  - L0: behavior unchanged. Code moved to
+    [lib/games/stratego/game.rb](../lib/games/stratego/game.rb).
+  - L1: none.
+  - L2: [games.gemspec](../games.gemspec). Checks still run as
+    `ruby check_board.rb` and `ruby check_army.rb`. `gem build games.gemspec`
+    succeeds. No license was invented.
+  - L3: none.
+  - L4: A13 remains deferred.
+  - Links: D7 names the gem. D6 still invokes `./stratego.rb`.
+    affects: D6, D7, A14.

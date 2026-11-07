@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Locks the D4 piece counts. Placement and combat are out of scope.
-require_relative "stratego"
+require_relative "lib/games"
 
 EXPECTED = {
   "flag" => 1,
@@ -23,9 +23,9 @@ def fail!(message)
   exit 1
 end
 
-fail!("names") unless ARMY.map(&:first) == EXPECTED.keys.to_a
-fail!("counts") unless ARMY.to_h == EXPECTED
-fail!("army_size") unless army_size == 40
+fail!("names") unless Games::Stratego::ARMY.map(&:first) == EXPECTED.keys.to_a
+fail!("counts") unless Games::Stratego::ARMY.to_h == EXPECTED
+fail!("army_size") unless Games::Stratego.army_size == 40
 fail!("fixture") unless EXPECTED.values.sum == 40
 
 puts "ok"

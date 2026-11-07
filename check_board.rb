@@ -4,7 +4,9 @@
 require "open3"
 require "rbconfig"
 require "tmpdir"
-require_relative "stratego"
+require_relative "lib/games"
+
+S = Games::Stratego
 
 EXPECTED = [
   "   a b c d e f g h i j",
@@ -64,9 +66,9 @@ counts = inventory_lines.map do |line|
   [name, count.to_i]
 end
 fail!("inventory size") unless counts.sum { |_name, count| count } == 40
-fail!("render_board drifted from A5") unless render_board == EXPECTED
-fail!("render_inventory drifted") unless render_inventory == INVENTORY
-fail!("render_cli drifted") unless render_cli == "#{EXPECTED}\n\n#{INVENTORY}"
+fail!("render_board drifted from A5") unless S.render_board == EXPECTED
+fail!("render_inventory drifted") unless S.render_inventory == INVENTORY
+fail!("render_cli drifted") unless S.render_cli == "#{EXPECTED}\n\n#{INVENTORY}"
 
 script = File.expand_path("stratego.rb", __dir__)
 fail!("not executable") unless File.executable?(script)
@@ -74,7 +76,7 @@ fail!("not executable") unless File.executable?(script)
 def run_in_clean_dir(*command)
   Dir.mktmpdir do |dir|
     stdout, status = Open3.capture2(*command, chdir: dir)
-    views = VIEW_FILENAMES.to_h do |filename|
+    views = S::VIEW_FILENAMES.to_h do |filename|
       path = File.join(dir, filename)
       [filename, File.file?(path) ? File.read(path) : nil]
     end
@@ -86,7 +88,7 @@ expected_view = "#{INVENTORY}\n"
 stdout, status, views, written = run_in_clean_dir(RbConfig.ruby, script)
 fail!("ruby exit #{status.exitstatus}") unless status.success?
 fail!("ruby output drifted") unless stdout == "#{EXPECTED}\n\n#{INVENTORY}\n"
-fail!("ruby view files #{written.inspect}") unless written.sort == VIEW_FILENAMES.sort
+fail!("ruby view files #{written.inspect}") unless written.sort == S::VIEW_FILENAMES.sort
 views.each do |filename, body|
   fail!("#{filename} missing") if body.nil?
   fail!("#{filename} is not only the army") unless body == expected_view
