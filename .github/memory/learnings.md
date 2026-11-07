@@ -20,9 +20,9 @@ Each entry uses this structure:
 ## Entries
 
 ### [2026-11-07] Commit message preferences
-- **Scenario:** The user specified commit message preferences for this repository.
-- **The Fix:** Use past-tense subjects and omit Copilot authorship or co-authorship trailers.
-- **General Principle:** Write commit subjects in past tense and do not add a Copilot authorship or co-authorship trailer.
+- **Scenario:** Commit subjects repeatedly used `Added`, though the user gave it only as a past-tense example.
+- **The Fix:** Choose a past-tense verb appropriate to each change and omit Copilot authorship or co-authorship trailers.
+- **General Principle:** Write commit subjects with accurate past-tense verbs rather than defaulting to `Added`; do not add a Copilot authorship or co-authorship trailer.
 
 ### [2026-11-07] Code quality and method responsibilities
 - **Scenario:** The game loop mixed interaction, move validation, and outcome handling, obscuring its intent.

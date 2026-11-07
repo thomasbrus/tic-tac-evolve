@@ -30,5 +30,5 @@ After making code changes and before completing the task, invoke the `code-quali
 
 ## Commit Messages
 
-- Write commit subjects in past tense (for example, `Added` rather than `Add`).
+- Write commit subjects in past tense, choosing a verb that accurately describes the change, such as `Fixed`, `Refactored`, `Updated`, or `Added` as appropriate. Do not default to `Added`.
 - Do not add a Copilot authorship or co-authorship trailer.
