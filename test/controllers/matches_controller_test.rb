@@ -1,6 +1,24 @@
 require "test_helper"
 
 class MatchesControllerTest < ActionDispatch::IntegrationTest
+  test "view scoped translations render page text and accessible labels" do
+    match = Match.create!(mode: "local")
+    get root_path
+    assert_select "title", text: "Play | tic-tac-evolve"
+    assert_select "meta[name='application-name'][content='Tic-tac-evolve']"
+    assert_select "legend", text: "Opponent"
+    assert_select "input[type=submit][value='Start match']"
+    assert_select "a[aria-label='Resume match #{match.id}']", text: "Resume"
+    assert_no_match(/translation missing/i, response.body)
+
+    get match_path(match)
+    assert_select "title", text: "Match ##{match.id} | tic-tac-evolve"
+    assert_select ".board[aria-label='Tic-tac-toe board']"
+    assert_select "button[aria-label='Square 1, empty']"
+    assert_select "a", text: "New match"
+    assert_no_match(/translation missing/i, response.body)
+  end
+
   test "starts a local match and restores it on refresh" do
     get root_path
     assert_response :success

@@ -29,53 +29,65 @@
 
 en:
   hello: "Hello world"
-  
+
+  layouts:
+    application:
+      name: "Tic-tac-evolve"
+
   matches:
-    title: "Play | tic-tac-evolve"
-    heading: "Tic-tac-evolve"
-    
-    modes:
-      local: "Two players"
-      computer: "Computer"
-    
-    opponent: "Opponent"
-    difficulty: "Difficulty"
-    start_button: "Start match"
-    new_match: "New match"
-    
-    history:
-      heading: "Match history"
-      empty: "No matches yet."
-      page: "PAGE %{number}"
-      complete: "Complete"
-      active: "Active"
-      view: "View match"
-      resume: "Resume"
-      pagination:
-        previous: "Previous"
-        next: "Next"
-        label: "Match history pages"
-    
+    index:
+      title: "Play | tic-tac-evolve"
+      heading: "Tic-tac-evolve"
+      eyebrow: "THREE IN A ROW"
+      modes:
+        local: "Two players"
+        computer: "Computer"
+      opponent: "Opponent"
+      difficulty: "Difficulty"
+      start_button: "Start match"
+      starts: "%{mark} starts"
+      history:
+        heading: "Match history"
+        empty: "No matches yet."
+        page: "PAGE %{number}"
+        complete: "Complete"
+        active: "Active"
+        view: "View match"
+        resume: "Resume"
+        view_label: "View match %{number}"
+        resume_label: "Resume match %{number}"
+        pagination:
+          previous: "Previous"
+          next: "Next"
+          label: "Match history pages"
+    show:
+      title: "Match #%{number} | tic-tac-evolve"
+      eyebrow: "MATCH %{number}"
+      board_label: "Tic-tac-toe board"
+      square_label: "Square %{number}, %{mark}"
+      empty: "empty"
+      new_match: "New match"
+
     status:
       draw: "Draw"
       wins: "%{winner} wins"
       to_move: "%{mark} to move"
-    
+
     mode_label:
       computer: "Computer / %{strategy}"
       local: "Two players"
-    
+
     strategies:
       random: "Random"
       easy: "Easy"
       medium: "Medium"
       hard: "Hard"
-    
+
     errors:
       board_changed: "The board changed. Choose a move on the current board."
       match_complete: "This match is already complete."
       invalid_move: "Choose an empty square from 1 to 9."
-  
+
   activerecord:
     models:
       match: "Match"

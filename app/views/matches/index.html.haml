@@ -1,28 +1,28 @@
-- content_for :title, t("matches.title")
+- content_for :title, t(".title")
 %section.match-setup{class: "border-b border-line pt-6 pb-12"}
-  %p.eyebrow{class: "text-xs"} THREE IN A ROW
-  %h1{class: "mt-3 mb-4 font-display text-[34px] font-normal sm:text-[42px]"}= t("matches.heading")
+  %p.eyebrow{class: "text-xs"}= t(".eyebrow")
+  %h1{class: "mt-3 mb-4 font-display text-[34px] font-normal sm:text-[42px]"}= t(".heading")
   = render "errors", match: @match
   = form_with model: @match, data: { controller: "match-setup" } do |form|
     %fieldset.mode-options{class: "my-6 flex flex-wrap gap-3 border-0 p-0"}
-      %legend{class: "mb-3 text-sm"}= t("matches.opponent")
+      %legend{class: "mb-3 text-sm"}= t(".opponent")
       %label{class: "cursor-pointer rounded border border-line px-4 py-3 has-checked:border-green has-checked:bg-soft-green"}
         = form.radio_button :mode, "computer", class: "accent-green", data: { action: "match-setup#update", match_setup_target: "mode" }
-        = t("matches.modes.computer")
+        = t(".modes.computer")
       %label{class: "cursor-pointer rounded border border-line px-4 py-3 has-checked:border-green has-checked:bg-soft-green"}
         = form.radio_button :mode, "local", class: "accent-green", data: { action: "match-setup#update", match_setup_target: "mode" }
-        = t("matches.modes.local")
+        = t(".modes.local")
     .strategy-field{class: "my-5 flex flex-wrap items-center gap-4 text-sm"}
-      = form.label :strategy, t("matches.difficulty")
+      = form.label :strategy, t(".difficulty")
       = form.select :strategy, Match::STRATEGIES.map { |value, label| [t("matches.strategies.#{value}"), value] }, { selected: @match.strategy || "hard" }, class: "min-w-40 rounded border border-line bg-white p-2.5 disabled:bg-muted disabled:text-subtle", data: { match_setup_target: "strategy" }
-    %p.match-meta{class: "my-4 text-sm text-secondary"} X starts
-    = form.submit t("matches.start_button"), class: "primary-button cursor-pointer rounded border-0 bg-ink px-6 py-3.5 text-white hover:bg-green"
+    %p.match-meta{class: "my-4 text-sm text-secondary"}= t(".starts", mark: "X")
+    = form.submit t(".start_button"), class: "primary-button cursor-pointer rounded border-0 bg-ink px-6 py-3.5 text-white hover:bg-green"
 %section.match-history{class: "pt-7", aria: { labelledby: "history-heading" }}
   .section-heading{class: "flex items-center justify-between gap-3"}
-    %h2#history-heading{class: "my-5 font-display text-2xl font-normal"}= t("matches.history.heading")
-    %span.eyebrow{class: "text-xs"}= t("matches.history.page", number: @page)
+    %h2#history-heading{class: "my-5 font-display text-2xl font-normal"}= t(".history.heading")
+    %span.eyebrow{class: "text-xs"}= t(".history.page", number: @page)
   - if @matches.empty?
-    %p.match-meta{class: "text-sm text-secondary"}= t("matches.history.empty")
+    %p.match-meta{class: "text-sm text-secondary"}= t(".history.empty")
   - else
     %ul.history-list{class: "my-3 list-none p-0"}
       - @matches.each do |match|
@@ -30,13 +30,12 @@
         %li{class: "flex items-center justify-between gap-3 border-t border-line py-5 sm:gap-5"}
           %div{class: "min-w-0"}
             %span.history-id{class: "text-sm font-bold"}= "##{match.id.to_s.rjust(3, '0')}"
-            %span.state-label{class: [complete ? "finished text-subtle" : "active text-green", "ml-3 text-[11px] uppercase"]}= complete ? t("matches.history.complete") : t("matches.history.active")
+            %span.state-label{class: [complete ? "finished text-subtle" : "active text-green", "ml-3 text-[11px] uppercase"]}= complete ? t(".history.complete") : t(".history.active")
             %p.history-mode{class: "my-2 text-sm"}= match.mode_label
             %time{class: "text-xs text-subtle", datetime: match.updated_at.iso8601}= match.updated_at.strftime("%d %b %Y, %H:%M")
           .history-result{class: "flex shrink-0 flex-col items-end gap-3 text-xs sm:text-sm"}
             %span= match.status_label
-            = link_to complete ? t("matches.history.view") : t("matches.history.resume"), match_path(match), class: "py-1.5 text-green", aria: { label: "#{complete ? t('matches.history.view') : t('matches.history.resume')} match #{match.id}" }
-  %nav.pagination{class: "mt-5 flex justify-between gap-5", aria: { label: t("matches.history.pagination.label") }}
-    = link_to t("matches.history.pagination.previous"), root_path(page: @page - 1) if @page > 1
-    = link_to t("matches.history.pagination.next"), root_path(page: @page + 1) if @more_matches
-
+            = link_to complete ? t(".history.view") : t(".history.resume"), match_path(match), class: "py-1.5 text-green", aria: { label: t(complete ? ".history.view_label" : ".history.resume_label", number: match.id) }
+  %nav.pagination{class: "mt-5 flex justify-between gap-5", aria: { label: t(".history.pagination.label") }}
+    = link_to t(".history.pagination.previous"), root_path(page: @page - 1) if @page > 1
+    = link_to t(".history.pagination.next"), root_path(page: @page + 1) if @more_matches
