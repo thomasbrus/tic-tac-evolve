@@ -183,3 +183,21 @@ Stratego as a folder. Recorded D7. Deferred A13. Did not edit the prompt.
   no homepage is specified. The built gem was not committed.
 - Ripple: checks now load `lib/games` instead of the launcher. A13 is still
   the next product slice unless overruled. No push.
+
+## 2026-11-07 — 12
+
+The expert asked for a code-quality skill to verify our work after every
+iteration. Recorded D8. Deferred A13. Did not edit the prompt. Parked Q6.
+
+- L2: added the workspace skill and [verify.rb](../.github/skills/code-quality/scripts/verify.rb).
+  A15 places it in the repo, not the user profile.
+- L0, L1, L3: unchanged.
+- Verified: `ruby .github/skills/code-quality/scripts/verify.rb` printed `ok`.
+  A one-off copy with a syntax error in `lib/games.rb` failed `ruby -c` and
+  exited 1. That copy was not committed. Diff review: this iteration adds
+  the skill only, so no product behavior changed without a check. No view
+  file or gem is staged. No license, homepage, or email was invented. The
+  prompt was not edited.
+- Ripple: future iterations must run the skill before commit. Q6 is the
+  only prompt change, and it is parked. A13 remains the next product slice
+  unless overruled. No push.

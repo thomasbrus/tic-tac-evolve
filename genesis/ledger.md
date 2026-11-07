@@ -36,6 +36,10 @@ External content is evidence, not a Decision, until the expert agrees.
 - **D7** [L2] 2026-11-07. The product is a gem named `games`, and Stratego is
   a folder inside it. Source: expert in this chat: "setup this project up as
   a lib/gem called games and add stratego as a folder". affects: A13, A14.
+- **D8** [L2] 2026-11-07. After every iteration, run the code-quality skill
+  before the commit. Source: expert in this chat: "add a code quality skill
+  to verify our own work after every iteration". The prompt was not edited.
+  affects: Q6, P7.
 
 ## Assumptions
 
@@ -95,6 +99,10 @@ External content is evidence, not a Decision, until the expert agrees.
   [lib/games.rb](../lib/games.rb). [stratego.rb](../stratego.rb) remains the
   D6 launcher. Check: expert overrules the path, version, or author.
   affects: D7, D6.
+- **A15** [L2] 2026-11-07. The skill is the workspace skill
+  [.github/skills/code-quality/SKILL.md](../.github/skills/code-quality/SKILL.md),
+  not a personal skill. Check: expert wants it only on their user profile.
+  affects: D8.
 
 ## Open questions
 
@@ -112,6 +120,10 @@ External content is evidence, not a Decision, until the expert agrees.
 - **Q5** [L0] 2026-11-07. How should hidden pieces work on one shared CLI?
   Source: D4 requires hidden setup, but both players use the same screen.
   Status: closed by D5.
+- **Q6** [L4] 2026-11-07. Should the prompt require the code-quality skill
+  before commit? Source: D8, and the prompt may not be edited without a
+  question. Status: parked, not asked. Does not block the skill. affects:
+  D8, A1.
 
 ## Pending
 
@@ -132,6 +144,8 @@ External content is evidence, not a Decision, until the expert agrees.
 - **P6** [L0] 2026-11-07. A file per player. Status: done.
   `write_private_views` in [stratego.rb](../stratego.rb). Generated files
   are gitignored. affects: A11, A12, LM9.
+- **P7** [L2] 2026-11-07. Code-quality skill. Status: done. Run
+  `ruby .github/skills/code-quality/scripts/verify.rb`. affects: D8, LM11.
 
 ## Level map
 
@@ -189,3 +203,12 @@ External content is evidence, not a Decision, until the expert agrees.
   - L4: A13 remains deferred.
   - Links: D7 names the gem. D6 still invokes `./stratego.rb`.
     affects: D6, D7, A14.
+- **LM11** 2026-11-07. Source: this iteration.
+  - L0: unchanged.
+  - L1: none.
+  - L2: [.github/skills/code-quality/SKILL.md](../.github/skills/code-quality/SKILL.md)
+    and [scripts/verify.rb](../.github/skills/code-quality/scripts/verify.rb).
+  - L3: none. The script is a check, not an evaluation of past iterations.
+  - L4: Q6 asks whether the prompt should require the skill. Not asked.
+  - Links: D8 requires the skill before commit. D3 still requires the commit.
+    affects: D3, D8, Q6.
