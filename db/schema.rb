@@ -13,8 +13,8 @@
 ActiveRecord::Schema[8.1].define(version: 2026_11_07_000000) do
   create_table "matches", force: :cascade do |t|
     t.json "cells", default: [nil, nil, nil, nil, nil, nil, nil, nil, nil], null: false
-    t.string "mode", default: "local", null: false
-    t.string "strategy"
+    t.string "mode", default: "computer", null: false
+    t.string "strategy", default: nil
     t.integer "lock_version", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

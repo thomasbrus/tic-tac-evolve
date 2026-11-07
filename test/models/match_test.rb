@@ -2,8 +2,14 @@ require "test_helper"
 require "minitest/mock"
 
 class MatchTest < ActiveSupport::TestCase
+  test "defaults to computer mode on creation" do
+    match = Match.create!(strategy: "hard")
+    assert_equal "computer", match.mode
+    assert_equal "hard", match.strategy
+  end
+
   test "persists alternating local turns" do
-    match = Match.create!
+    match = Match.create!(mode: "local")
     assert_equal "X", match.current_mark
     assert match.play(position: 1)
     assert_equal "O", match.reload.current_mark
@@ -12,7 +18,7 @@ class MatchTest < ActiveSupport::TestCase
   end
 
   test "rejects invalid and occupied moves without changing storage" do
-    match = Match.create!
+    match = Match.create!(mode: "local")
     match.play(position: 1)
     [nil, 0, 10, "2", 1].each do |position|
       previous = match.reload.cells
@@ -22,12 +28,12 @@ class MatchTest < ActiveSupport::TestCase
   end
 
   test "wins and draws stop further play" do
-    match = Match.create!
+    match = Match.create!(mode: "local")
     [1, 4, 2, 5, 3].each { |position| assert match.play(position: position) }
     assert_equal "X wins", match.status_label
     refute match.play(position: 6)
 
-    draw = Match.create!
+    draw = Match.create!(mode: "local")
     [1, 2, 3, 5, 4, 6, 8, 7, 9].each { |position| assert draw.play(position: position) }
     assert_equal "Draw", draw.reload.status_label
     assert draw.complete?
@@ -78,7 +84,7 @@ class MatchTest < ActiveSupport::TestCase
   end
 
   test "stale and missing revisions do not add a turn" do
-    match = Match.create!
+    match = Match.create!(mode: "local")
     stale = Match.find(match.id)
     assert match.play(position: 1, expected_version: 0)
     refute stale.play(position: 2)
@@ -87,7 +93,7 @@ class MatchTest < ActiveSupport::TestCase
   end
 
   test "rejects invalid computer configuration and unfinished human-only computer turns" do
-    refute Match.new(mode: "computer").valid?
+    refute Match.new(mode: "computer", strategy: nil).valid?
     refute Match.new(mode: "computer", strategy: "unknown").valid?
     refute Match.new(mode: "local", strategy: "hard").valid?
     refute Match.new(mode: "computer", strategy: "hard", cells: ["X"] + Array.new(8)).valid?

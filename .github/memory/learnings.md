@@ -58,3 +58,8 @@ Each entry uses this structure:
 - **Scenario:** A modest migration accumulated repeated context reads, oversized generated diffs, verification ceremony, and frontend rework; the user flagged excessive elapsed time.
 - **The Fix:** Keep investigation and bookkeeping proportional to the change, clarify consequential stack choices early, and reuse verified context.
 - **General Principle:** Run focused checks after meaningful edits and required final gates; avoid redundant checks without new risk. Review diffs in bounded sections, batch independent operations, and update plans at phase boundaries or material changes rather than every microstep.
+
+### [2026-11-07] Preserve intentional design decisions during migrations
+- **Scenario:** During CLI-to-Rails migration, the default game mode changed from "Play against the computer" (user's first choice) to "Two players" (database default). The user's earlier deliberate design decision was not carried forward into the new technology stack.
+- **The Fix:** Explicitly verify design decisions and defaults from the source system before implementing them in the target system; document which decisions are deliberate vs. accidental.
+- **General Principle:** When migrating between technologies or architectures, treat intentional design decisions as a checklist item. Cross-reference the original system's documented choices (or meeting notes) against the new implementation, and confirm that no deliberate behavior is being lost to framework defaults or shortcuts.

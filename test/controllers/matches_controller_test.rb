@@ -17,7 +17,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "rejects malformed positions and completed game moves" do
-    match = Match.create!
+    match = Match.create!(mode: "local")
     ["0", "10", "1junk", nil, { bad: "1" }].each do |position|
       post move_match_path(match), params: { position: position, revision: "0" }
       assert_response :unprocessable_content
@@ -49,7 +49,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "rejects duplicate and missing revisions without extra turns" do
-    match = Match.create!
+    match = Match.create!(mode: "local")
     post move_match_path(match), params: { position: "1", revision: "0" }
     assert_response :see_other
     post move_match_path(match), params: { position: "2", revision: "0" }
@@ -72,8 +72,8 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "history shows active and completed matches with working resume links" do
-    active = Match.create!
-    complete = Match.create!(cells: ["X", "X", "X", "O", "O", nil, nil, nil, nil])
+    active = Match.create!(mode: "local")
+    complete = Match.create!(mode: "local", cells: ["X", "X", "X", "O", "O", nil, nil, nil, nil])
     get root_path
     assert_select ".state-label.active", text: "Active"
     assert_select ".state-label.finished", text: "Complete"
@@ -82,7 +82,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "history paginates without losing older matches" do
-    21.times { Match.create! }
+    21.times { Match.create!(mode: "local") }
     get root_path
     assert_select ".history-list li", count: 20
     assert_select "a[href='#{root_path(page: 2)}']", text: "Next"
