@@ -1,0 +1,26 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    minitest (5.27.0)
+    terminal-table (4.0.0)
+      unicode-display_width (>= 1.1.1, < 4)
+    unicode-display_width (3.3.0)
+      unicode-emoji (~> 4.3)
+    unicode-emoji (4.3.0)
+
+PLATFORMS
+  arm64-darwin-25
+  ruby
+
+DEPENDENCIES
+  minitest (~> 5.0)
+  terminal-table (~> 4.0)
+
+CHECKSUMS
+  minitest (5.27.0)
+  terminal-table (4.0.0)
+  unicode-display_width (3.3.0)
+  unicode-emoji (4.3.0)
+
+BUNDLED WITH
+  4.0.3

@@ -21,3 +21,8 @@ Your corrections teach the agent team what works and what doesn't in *this* code
 - **Completeness over partial fixes:** Deliver fully working solutions or iterate until they are.
 - **Test before closing:** Verify changes work before marking a task complete.
 - **Preserve context:** Remember learnings from this session across agent interactions.
+
+## Commit Messages
+
+- Write commit subjects in past tense (for example, `Added` rather than `Add`).
+- Do not add a Copilot authorship or co-authorship trailer.

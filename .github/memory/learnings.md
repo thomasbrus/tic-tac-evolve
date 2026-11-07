@@ -19,4 +19,7 @@ Each entry uses this structure:
 
 ## Entries
 
-*(Entries will be added here as corrections are made)*
+### [2026-11-07] Commit message preferences
+- **Scenario:** The user specified commit message preferences for this repository.
+- **The Fix:** Use past-tense subjects and omit Copilot authorship or co-authorship trailers.
+- **General Principle:** Write commit subjects in past tense and do not add a Copilot authorship or co-authorship trailer.
