@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-require_relative "stratego/game"
+require_relative 'stratego/game'

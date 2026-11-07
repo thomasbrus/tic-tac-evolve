@@ -8,9 +8,10 @@ Requires Ruby 3.2 or newer.
 
 ```sh
 ruby stratego.rb
+bundle exec rubocop
 ```
 
-With no arguments, the CLI runs interactive setup on one open board. Each player places an army on that player's home rows. Pieces stay visible: player2's letter tokens are lowercase. Enter a square and a setup token. When both armies are placed, it prints the board and `setup complete`. Extra arguments are an error.
+Install development tools with `bundle install` before RuboCop. With no arguments, the CLI runs interactive setup on one open board. Each player places an army on that player's home rows. Pieces stay visible: player2's letter tokens are lowercase. Enter a square and a setup token. When both armies are placed, it prints the board and `setup complete`. Extra arguments are an error.
 
 ## Layout
 

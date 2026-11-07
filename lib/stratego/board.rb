@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
-require_relative "army"
+require_relative 'army'
 
 module Stratego
   # The shared open board: lakes and placed pieces.
   class Board
-    COLUMNS = ("a".."j").to_a.freeze
+    COLUMNS = ('a'..'j').to_a.freeze
     ROWS = (1..10).to_a.freeze
     LAKES = [
-      ["c", 5], ["d", 5], ["c", 6], ["d", 6],
-      ["g", 5], ["h", 5], ["g", 6], ["h", 6]
+      ['c', 5], ['d', 5], ['c', 6], ['d', 6],
+      ['g', 5], ['h', 5], ['g', 6], ['h', 6]
     ].freeze
     HOME_ROWS = {
-      "player1" => (1..4).to_a,
-      "player2" => (7..10).to_a
+      'player1' => (1..4).to_a,
+      'player2' => (7..10).to_a
     }.freeze
 
     def initialize
@@ -21,18 +21,18 @@ module Stratego
     end
 
     def square(column, row)
-      return "#" if LAKES.include?([column, row])
+      return '#' if LAKES.include?([column, row])
 
       piece = @pieces[[column, row]]
-      return "." unless piece
+      return '.' unless piece
 
       player, token = piece
-      player == "player2" ? token.downcase : token
+      player == 'player2' ? token.downcase : token
     end
 
     def render_row(row)
       cells = COLUMNS.map { |column| square(column, row) }
-      format("%2d %s", row, cells.join(" "))
+      format('%<row>2d %<cells>s', row: row, cells: cells.join(' '))
     end
 
     def render_rows(rows)
@@ -40,7 +40,7 @@ module Stratego
     end
 
     def render
-      header = "   #{COLUMNS.join(" ")}"
+      header = "   #{COLUMNS.join(' ')}"
       [header, render_rows(ROWS)].join("\n")
     end
 
@@ -64,25 +64,39 @@ module Stratego
 
     # Returns an error string, or nil when the piece is on the board.
     def place(player, column, row, token)
-      return "not your turn" unless player == setup_player
-
       column = column.to_s.downcase
-      return "off the board" unless COLUMNS.include?(column)
-      return "not your row" unless HOME_ROWS.fetch(player).include?(row)
-      return "occupied" if @pieces.key?([column, row])
+      error = square_error(player, column, row)
+      return error if error
 
-      known = Army::TOKENS.each_value.find { |value| value.casecmp?(token.to_s) }
-      return "unknown piece" unless known
-
-      name = Army::TOKENS.key(known)
-      limit = Army::ARMY.to_h.fetch(name)
-      return "none left" if placed_counts(player).fetch(name, 0) >= limit
+      known = canonical_token(token)
+      error = piece_error(player, known)
+      return error if error
 
       @pieces[[column, row]] = [player, known]
       nil
     end
 
     private
+
+    def square_error(player, column, row)
+      return 'not your turn' unless player == setup_player
+      return 'off the board' unless COLUMNS.include?(column)
+      return 'not your row' unless HOME_ROWS.fetch(player).include?(row)
+
+      'occupied' if @pieces.key?([column, row])
+    end
+
+    def piece_error(player, known)
+      return 'unknown piece' unless known
+
+      name = Army::TOKENS.key(known)
+      limit = Army::ARMY.to_h.fetch(name)
+      'none left' if placed_counts(player).fetch(name, 0) >= limit
+    end
+
+    def canonical_token(token)
+      Army::TOKENS.each_value.find { |value| value.casecmp?(token.to_s) }
+    end
 
     def army_placed?(player)
       counts = placed_counts(player)

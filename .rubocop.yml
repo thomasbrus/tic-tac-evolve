@@ -1,0 +1,3 @@
+# Stock RuboCop. The gemspec owns the required Ruby version.
+AllCops:
+  NewCops: enable
