@@ -19,30 +19,35 @@ class Match < ApplicationRecord
   end
 
   def status_label
-    return "#{board.winner} wins" if board.winner
-    return "Draw" if board.full?
+    return I18n.t("matches.status.wins", winner: board.winner) if board.winner
+    return I18n.t("matches.status.draw") if board.full?
 
-    "#{current_mark} to move"
+    I18n.t("matches.status.to_move", mark: current_mark)
   end
 
   def mode_label
-    mode == "computer" ? "Computer / #{STRATEGIES.fetch(strategy)}" : "Two players"
+    if mode == "computer"
+      strategy_label = I18n.t("matches.strategies.#{strategy}")
+      I18n.t("matches.mode_label.computer", strategy: strategy_label)
+    else
+      I18n.t("matches.mode_label.local")
+    end
   end
 
   def play(position:, expected_version: lock_version)
     with_lock do
-      next reject_move("The board changed. Choose a move on the current board.") unless expected_version == lock_version
-      next reject_move("This match is already complete.") if complete?
+      next reject_move(I18n.t("matches.errors.board_changed")) unless expected_version == lock_version
+      next reject_move(I18n.t("matches.errors.match_complete")) if complete?
 
       next_board = board
-      next reject_move("Choose an empty square from 1 to 9.") unless next_board.place(position, current_mark)
+      next reject_move(I18n.t("matches.errors.invalid_move")) unless next_board.place(position, current_mark)
 
       play_computer_turn(next_board) if mode == "computer" && !next_board.winner && !next_board.full?
       update!(cells: next_board.to_a)
     end
   rescue ActiveRecord::StaleObjectError
     reload
-    reject_move("The board changed. Choose a move on the current board.")
+    reject_move(I18n.t("matches.errors.board_changed"))
   end
 
   private

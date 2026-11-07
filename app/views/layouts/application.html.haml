@@ -1,9 +1,9 @@
 !!! 5
 %html{lang: "en"}
   %head
-    %title= content_for(:title) || "Tic Tac Evolve"
+    %title= content_for(:title) || t("matches.heading")
     %meta{name: "viewport", content: "width=device-width,initial-scale=1"}
-    %meta{name: "application-name", content: "Tic Tac Evolve"}
+    %meta{name: "application-name", content: t("matches.heading")}
     = csrf_meta_tags
     = csp_meta_tag
     = yield :head

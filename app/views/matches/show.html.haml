@@ -1,4 +1,4 @@
-- content_for :title, "Match ##{@match.id} | tic-tac-evolve"
+- content_for :title, t("activerecord.models.match") + " ##{@match.id} | tic-tac-evolve"
 - complete = @match.complete?
 %section.play-area{class: "mx-auto max-w-[460px]"}
   .match-heading
@@ -13,4 +13,5 @@
           %span.square-number{class: "text-sm font-normal text-subtle", aria: { hidden: true }}= index + 1
       - else
         .square{class: ["mark-#{mark&.downcase}", "flex h-full w-full items-center justify-center bg-white text-[52px] font-bold sm:text-[64px]", mark == "X" ? "text-red" : "text-green"], aria: { label: "Square #{index + 1}, #{mark || 'empty'}" }}= mark
-  = link_to "New match", root_path, class: "text-link inline-block py-2.5 underline"
+  = link_to t("matches.new_match"), root_path, class: "text-link inline-block py-2.5 underline"
+
