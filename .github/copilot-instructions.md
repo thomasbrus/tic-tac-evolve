@@ -22,6 +22,10 @@ Your corrections teach the agent team what works and what doesn't in *this* code
 - **Test before closing:** Verify changes work before marking a task complete.
 - **Preserve context:** Remember learnings from this session across agent interactions.
 
+## Verification Scripts
+
+Prefer existing tests, tools, or simple commands for verification. Avoid complex inline scripts and dense command chains. When a one-off script is needed, write it as a clearly formatted temporary file in the session workspace, show the user its path and purpose, and ask for approval before running it. Remove the specific temporary file after execution, including on failure; do not make it self-delete. If the check is useful repeatedly, prefer a maintained project test or script instead.
+
 ## Code Quality
 
 Define each class in its own predictably named file, including test classes; organize tests to mirror the classes they exercise.

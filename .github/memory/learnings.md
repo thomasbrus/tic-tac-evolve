@@ -38,3 +38,8 @@ Each entry uses this structure:
 - **Scenario:** CLI interaction was verified with complex, one-off Python pseudo-terminal commands.
 - **The Fix:** Create repeatable Ruby system tests for the terminal application instead.
 - **General Principle:** Prefer maintainable, reusable Ruby system tests for CLI interactions over ad hoc pseudo-terminal scripts.
+
+### [2026-11-07] Reviewable verification scripts
+- **Scenario:** A complex inline Ruby validation command was difficult for the user to review.
+- **The Fix:** Use a formatted temporary script, allow review and request approval before running it, then explicitly remove it.
+- **General Principle:** Prefer existing tests or simple commands; make necessary one-off scripts readable and user-approved before execution, and clean them up afterward.
