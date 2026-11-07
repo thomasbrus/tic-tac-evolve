@@ -42,22 +42,16 @@ module TicTacToe
       refute_includes output, "Invalid move."
     end
 
-    def test_mode_selection_retries_invalid_input
-      output = play_game("no\n1\nq\n", select_mode: false)
-      assert_includes output, "Invalid mode. Enter 1 or 2."
-      assert_includes output, "Player X, choose a square:"
-    end
-
-    def test_can_quit_or_end_input_at_mode_selection
-      ["q\n", "", "  Q  \n"].each do |input|
-        output = play_game(input, select_mode: false)
+    def test_can_quit_at_either_menu
+      [[:quit], [:computer, :quit]].each do |selections|
+        output = play_game("", selections: selections)
         assert_includes output, "Game ended."
         refute_includes output, "choose a square"
       end
     end
 
     def test_computer_plays_o_and_reports_its_move
-      output = play_game("2\n1\nq\n", select_mode: false, computer: ComputerPlayer.new(random: Random.new(1)))
+      output = play_game("1\nq\n", selections: [:computer, :random], computer: ComputerPlayer.new(random: Random.new(1)))
       assert_includes output, "Computer (O) chose square"
       refute_includes output, "Player O, choose a square:"
       assert_equal 2, output.scan("Player X, choose a square:").length
@@ -67,7 +61,7 @@ module TicTacToe
     def test_invalid_move_does_not_trigger_computer_turn
       computer = Minitest::Mock.new
       computer.expect(:choose_move, 2, [Board])
-      output = play_game("2\nno\n1\n2\nq\n", select_mode: false, computer: computer)
+      output = play_game("no\n1\n2\nq\n", selections: [:computer, :easy], computer: computer)
       assert_equal 2, output.scan("Invalid move.").length
       assert_equal 1, output.scan("Computer (O) chose square").length
       computer.verify
@@ -76,7 +70,7 @@ module TicTacToe
     def test_invalid_computer_move_raises_an_error
       computer = Minitest::Mock.new
       computer.expect(:choose_move, 1, [Board])
-      error = assert_raises(RuntimeError) { play_game("2\n1\n", select_mode: false, computer: computer) }
+      error = assert_raises(RuntimeError) { play_game("1\n", selections: [:computer, :medium], computer: computer) }
       assert_includes error.message, "Computer chose an invalid move"
       computer.verify
     end
@@ -84,7 +78,7 @@ module TicTacToe
     def test_computer_can_win
       computer = Minitest::Mock.new
       [4, 5, 6].each { |position| computer.expect(:choose_move, position, [Board]) }
-      output = play_game("2\n1\n2\n7\n", select_mode: false, computer: computer)
+      output = play_game("1\n2\n7\n", selections: [:computer, :hard], computer: computer)
       assert_includes output, "Computer (O) wins!"
       assert_match(/\| O \| O \| O \|.*Computer \(O\) wins!/m, output)
       computer.verify
@@ -93,7 +87,7 @@ module TicTacToe
     def test_player_can_win_against_computer
       computer = Minitest::Mock.new
       [4, 5].each { |position| computer.expect(:choose_move, position, [Board]) }
-      output = play_game("2\n1\n2\n3\n", select_mode: false, computer: computer)
+      output = play_game("1\n2\n3\n", selections: [:computer, :random], computer: computer)
       assert_includes output, "Player X wins!"
       computer.verify
     end
@@ -101,17 +95,24 @@ module TicTacToe
     def test_computer_game_can_end_in_a_draw
       computer = Minitest::Mock.new
       [2, 5, 6, 7].each { |position| computer.expect(:choose_move, position, [Board]) }
-      output = play_game("2\n1\n3\n4\n8\n9\n", select_mode: false, computer: computer)
+      output = play_game("1\n3\n4\n8\n9\n", selections: [:computer, :medium], computer: computer)
       assert_includes output, "It's a draw!"
       computer.verify
     end
 
     private
 
-    def play_game(moves, select_mode: true, computer: ComputerPlayer.new)
+    def play_game(moves, selections: [:both], computer: ComputerPlayer.new)
       output = StringIO.new
-      input = select_mode ? "1\n#{moves}" : moves
-      Game.new(input: StringIO.new(input), output: output, computer: computer).play
+      menu = Minitest::Mock.new
+      selections.each do |selection|
+        question = [:both, :computer].include?(selection) || (selection == :quit && selections.first == :quit) ?
+          "Choose a mode:" : "Choose a computer strategy:"
+        menu.expect(:select, selection) { |actual_question, choices| actual_question == question && choices.value?(selection) }
+      end
+      factory = ->(strategy) { assert_equal selections.last, strategy; computer }
+      Game.new(input: StringIO.new(moves), output: output, menu: menu, computer_factory: factory).play
+      menu.verify
       output.string
     end
   end

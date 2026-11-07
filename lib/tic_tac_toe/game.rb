@@ -1,19 +1,28 @@
 require_relative "board"
 require_relative "computer_player"
+require_relative "menu"
 
 module TicTacToe
   class Game
-    def initialize(input: $stdin, output: $stdout, computer: ComputerPlayer.new)
+    def initialize(input: $stdin, output: $stdout, menu: nil, computer_factory: nil)
       @input = input
       @output = output
       @board = Board.new
-      @computer = computer
+      @menu = menu || Menu.new(input: input, output: output)
+      @computer_factory = computer_factory || ->(strategy) { ComputerPlayer.new(strategy: strategy) }
     end
 
     def play
       @output.puts "Tic-tac-toe: enter a square number from 1 to 9, or q to quit."
       mode = choose_mode
-      return end_game unless mode
+      return end_game if mode == :quit
+
+      if mode == :computer
+        strategy = choose_strategy
+        return end_game if strategy == :quit
+
+        @computer = @computer_factory.call(strategy)
+      end
 
       play_round(mode)
     end
@@ -21,19 +30,21 @@ module TicTacToe
     private
 
     def choose_mode
-      @output.puts "Choose a mode: 1) Control both X and O  2) Play against the computer"
-      loop do
-        @output.print "Mode (1 or 2): "
-        @output.flush
-        choice = @input.gets
-        return nil if quit?(choice)
+      @menu.select("Choose a mode:", {
+        "Control both X and O" => :both,
+        "Play against the computer" => :computer,
+        "Quit" => :quit
+      })
+    end
 
-        case choice.strip
-        when "1" then return :both
-        when "2" then return :computer
-        else @output.puts "Invalid mode. Enter 1 or 2."
-        end
-      end
+    def choose_strategy
+      @menu.select("Choose a computer strategy:", {
+        "Random" => :random,
+        "Easy" => :easy,
+        "Medium" => :medium,
+        "Hard" => :hard,
+        "Quit" => :quit
+      })
     end
 
     def play_round(mode)
