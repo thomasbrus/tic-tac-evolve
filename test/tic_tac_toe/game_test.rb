@@ -92,6 +92,15 @@ module TicTacToe
       computer.verify
     end
 
+    def test_player_can_win_against_real_medium_strategy
+      computer = ComputerPlayer.new(strategy: :medium, random: Random.new(1))
+      output = play_game("1\n2\n5\n9\n", selections: [:computer, :medium], computer: computer)
+
+      assert_equal ["7", "3", "8"], output.scan(/Computer \(O\) chose square (\d+)\./).flatten
+      assert_includes output, "Player X wins!"
+      refute_includes output, "Invalid move."
+    end
+
     def test_computer_game_can_end_in_a_draw
       computer = Minitest::Mock.new
       [2, 5, 6, 7].each { |position| computer.expect(:choose_move, position, [Board]) }
