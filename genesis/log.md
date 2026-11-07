@@ -233,3 +233,17 @@ Army, and View. Did not edit the prompt. Did not start A13.
   No view file or gem is staged. The prompt was not edited.
 - Ripple: A16 is retired. A13 remains the next product slice unless
   overruled. No push.
+
+## 2026-11-07 — 15
+
+Carried out A13. Each private file now has that player's four empty home
+rows. No pieces placed. Did not edit the prompt. Asked Q8.
+
+- L0: View asks Board for rows 1–4 or 7–10. Shared CLI text unchanged.
+- L2: check_board locks the two files and rejects the other player's rows.
+- L1, L3, L4: Q8 is the only new question. Prompt not edited.
+- Verified: `ruby check_board.rb` and `ruby check_army.rb` each printed
+  `ok`. Did not run `gem build`. No view file or gem is staged.
+- Ripple: A17 is the file layout. A12 still has matching counts, but the
+  files now differ. Placement is blocked on Q8. If skipped, A18 adds no
+  placement. No push.

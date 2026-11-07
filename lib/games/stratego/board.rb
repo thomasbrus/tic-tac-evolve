@@ -15,13 +15,18 @@ module Games
         LAKES.include?([column, row]) ? "#" : "."
       end
 
+      def render_row(row)
+        cells = COLUMNS.map { |column| square(column, row) }
+        format("%2d %s", row, cells.join(" "))
+      end
+
+      def render_rows(rows)
+        rows.map { |row| render_row(row) }.join("\n")
+      end
+
       def render
         header = "   #{COLUMNS.join(" ")}"
-        rows = ROWS.map do |row|
-          cells = COLUMNS.map { |column| square(column, row) }
-          format("%2d %s", row, cells.join(" "))
-        end
-        [header, *rows].join("\n")
+        [header, render_rows(ROWS)].join("\n")
       end
     end
   end

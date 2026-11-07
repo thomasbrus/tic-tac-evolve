@@ -87,15 +87,32 @@ def run_in_clean_dir(*command)
   end
 end
 
-expected_view = "#{INVENTORY}\n"
+def home_rows(range)
+  range.map { |row| format("%2d %s", row, Array.new(10, ".").join(" ")) }.join("\n")
+end
+
+expected_views = {
+  "player1.view" => "#{INVENTORY}\n\n#{home_rows(1..4)}\n",
+  "player2.view" => "#{INVENTORY}\n\n#{home_rows(7..10)}\n"
+}.freeze
+fail!("player1 home rows") unless S::View.new("player1").render == expected_views["player1.view"].chomp
+fail!("player2 home rows") unless S::View.new("player2").render == expected_views["player2.view"].chomp
+
 stdout, status, views, written = run_in_clean_dir(RbConfig.ruby, script)
 fail!("ruby exit #{status.exitstatus}") unless status.success?
 fail!("ruby output drifted") unless stdout == "#{EXPECTED}\n\n#{INVENTORY}\n"
 fail!("ruby view files #{written.inspect}") unless written.sort == S::VIEW_FILENAMES.sort
 views.each do |filename, body|
   fail!("#{filename} missing") if body.nil?
-  fail!("#{filename} is not only the army") unless body == expected_view
-  fail!("#{filename} leaks the board") if body.include?("#") || body.include?("a b c")
+  fail!("#{filename} drifted") unless body == expected_views.fetch(filename)
+  fail!("#{filename} leaks the shared board") if body.include?("#") || body.include?("a b c")
+  home = body.lines(chomp: true).grep(/\A\s*\d+ /)
+  fail!("#{filename} home row count") unless home.size == 4
+  fail!("#{filename} has a placed piece") unless home.all? { |line| line.split[1..].all? { |cell| cell == "." } }
+  other = filename == "player1.view" ? (7..10) : (1..4)
+  other.each do |row|
+    fail!("#{filename} has the other player's row #{row}") if body.include?(format("%2d ", row))
+  end
 end
 
 direct, direct_status, direct_views, = run_in_clean_dir(script)

@@ -98,12 +98,11 @@ External content is evidence, not a Decision, until the expert agrees.
 - **A12** [L0] 2026-11-07. The files are `player1.view` and `player2.view` in
   the current directory, and are not committed. Both hold the same unplaced
   counts until placement exists. Check: expert overrules the names or the
-  directory. affects: A11.
+  directory. Counts still match. Home rows differ after A13. affects: A11, A13.
 - **A13** [L0] 2026-11-07. The next slice adds that player's four empty home
   rows to their file only: player1 rows 1–4, player2 rows 7–10. No pieces
-  placed. The other player's rows are absent. Check: expert overrules this
-  before that work. Deferred by D7. Still the next product slice.
-  affects: D4, A11, A12, D7.
+  placed. The other player's rows are absent. Check: expert did not overrule
+  it. Carried out. affects: D4, A11, A12, D7, A17.
 - **A14** [L2] 2026-11-07. The gem is version 0.1.0, author "Thomas Brus",
   no license, no homepage, and no email. Stratego code is
   [lib/games/stratego/](../lib/games/stratego/), loaded by
@@ -118,6 +117,12 @@ External content is evidence, not a Decision, until the expert agrees.
 - **A16** [L2] 2026-11-07. If Q7 is skipped, keep `module Games::Stratego`
   and module functions until a piece of state needs an object. Check:
   expert answered Q7 with C. Retired: does not apply. affects: D10.
+- **A17** [L0] 2026-11-07. A private file is the A9 inventory, a blank line,
+  then only that player's four empty home rows in the board row format. No
+  column header. Check: expert overrules the order or the header. Locked by
+  [check_board.rb](../check_board.rb). affects: A13, A9.
+- **A18** [L0] 2026-11-07. If Q8 is skipped, do not start placement. Check:
+  expert answers Q8. affects: Q8, A13.
 
 ## Open questions
 
@@ -142,6 +147,9 @@ External content is evidence, not a Decision, until the expert agrees.
 - **Q7** [L2] 2026-11-07. When should Stratego use a class instead of module
   functions? Source: D9 asks for class guidelines, and the current code has
   no classes. Status: closed by D10. affects: D9, A16, A13.
+- **Q8** [L0] 2026-11-07. How does a player place pieces without showing the
+  setup on the shared CLI? Source: A13 left the home rows empty, and D5
+  forbids an open board. Status: asked. affects: A18, D5, A13.
 
 ## Pending
 
@@ -260,3 +268,15 @@ External content is evidence, not a Decision, until the expert agrees.
   - L4: no prompt edit.
   - Links: D10 is the split. A13 is still the next product slice.
     affects: D10, A13, P8.
+- **P9** [L0] 2026-11-07. Empty home rows in the private files. Status: done.
+  affects: A13, A17, LM14.
+- **LM14** 2026-11-07. Source: this iteration.
+  - L0: [View](../lib/games/stratego/view.rb) writes inventory plus that
+    player's empty home rows. Shared CLI text is unchanged.
+  - L1: none.
+  - L2: `ruby check_board.rb` locks the two different files. The shared
+    board must not appear in either file.
+  - L3: none.
+  - L4: Q8 is asked. The prompt was not edited.
+  - Links: A13 is carried out. Placement stays blocked on Q8.
+    affects: A13, A17, A18, Q8.
