@@ -39,7 +39,14 @@ External content is evidence, not a Decision, until the expert agrees.
 - **D8** [L2] 2026-11-07. After every iteration, run the code-quality skill
   before the commit. Source: expert in this chat: "add a code quality skill
   to verify our own work after every iteration". The prompt was not edited.
-  affects: Q6, P7.
+  The verifier reading of this Decision is retired by D9. The timing stands.
+  affects: Q6, P7, D9.
+- **D9** [L2] 2026-11-07. Code quality is an evolvable set of guidelines for
+  Ruby structure and classes, not a line-by-line verifier. Source: expert
+  correction in this chat: "not what i meant with code quality, i want to
+  set up guidelines for good quality ruby code that i can evolve over time,
+  also about the structure of the project and classes, not just line by line
+  code quality". No class rule was chosen. affects: D8, A15, Q6, Q7, P7.
 
 ## Assumptions
 
@@ -101,8 +108,13 @@ External content is evidence, not a Decision, until the expert agrees.
   affects: D7, D6.
 - **A15** [L2] 2026-11-07. The skill is the workspace skill
   [.github/skills/code-quality/SKILL.md](../.github/skills/code-quality/SKILL.md),
-  not a personal skill. Check: expert wants it only on their user profile.
-  affects: D8.
+  not a personal skill. Its rules live in
+  [guidelines.md](../.github/skills/code-quality/references/guidelines.md).
+  Check: expert wants it only on their user profile. affects: D8, D9.
+- **A16** [L2] 2026-11-07. If Q7 is skipped, keep `module Games::Stratego`
+  and module functions until a piece of state needs an object. Do not
+  extract classes only to have classes. Check: expert answers Q7.
+  affects: Q7, D9, A13.
 
 ## Open questions
 
@@ -123,7 +135,10 @@ External content is evidence, not a Decision, until the expert agrees.
 - **Q6** [L4] 2026-11-07. Should the prompt require the code-quality skill
   before commit? Source: D8, and the prompt may not be edited without a
   question. Status: parked, not asked. Does not block the skill. affects:
-  D8, A1.
+  D8, D9, A1.
+- **Q7** [L2] 2026-11-07. When should Stratego use a class instead of module
+  functions? Source: D9 asks for class guidelines, and the current code has
+  no classes. Status: asked. affects: D9, A16, A13.
 
 ## Pending
 
@@ -144,8 +159,8 @@ External content is evidence, not a Decision, until the expert agrees.
 - **P6** [L0] 2026-11-07. A file per player. Status: done.
   `write_private_views` in [stratego.rb](../stratego.rb). Generated files
   are gitignored. affects: A11, A12, LM9.
-- **P7** [L2] 2026-11-07. Code-quality skill. Status: done. Run
-  `ruby .github/skills/code-quality/scripts/verify.rb`. affects: D8, LM11.
+- **P7** [L2] 2026-11-07. Code-quality skill. Status: corrected by D9.
+  Guidelines, not `scripts/verify.rb`. affects: D8, D9, LM12.
 
 ## Level map
 
@@ -212,3 +227,17 @@ External content is evidence, not a Decision, until the expert agrees.
   - L4: Q6 asks whether the prompt should require the skill. Not asked.
   - Links: D8 requires the skill before commit. D3 still requires the commit.
     affects: D3, D8, Q6.
+- **LM12** 2026-11-07. Source: this iteration. Supersedes the verifier half
+  of LM11.
+  - L0: unchanged. Still `module Games::Stratego`, no classes.
+  - L1: none.
+  - L2: the skill now points at
+    [guidelines.md](../.github/skills/code-quality/references/guidelines.md).
+    `scripts/verify.rb` is removed. Behavior checks are unchanged.
+  - L3: the expert correction is the evidence that the verifier was the
+    wrong L2 artifact. No separate evaluation harness.
+  - L4: Q6 remains parked. It now refers to the guidelines, not the script.
+    The prompt was not edited.
+  - Links: D9 defines the skill. Q7 blocks a class guideline. A13 is still
+    the next product slice unless Q7's answer changes that work.
+    affects: D8, D9, Q6, Q7, A13, A16.

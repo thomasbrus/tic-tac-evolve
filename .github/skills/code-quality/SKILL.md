@@ -1,30 +1,30 @@
 ---
 name: code-quality
-description: "Verify Genesis iteration work before commit. Use after every /next iteration, when checking code quality, or before committing the games gem. Runs the project checks and reviews the diff."
-argument-hint: "Optional path to review"
+description: "Evolving guidelines for Ruby project structure and classes in the games gem. Use when writing or reviewing Ruby here, when changing lib/ layout, or when the expert asks about code quality, classes, or structure. Not a line-by-line linter."
+argument-hint: "Optional file or rule to evolve"
 ---
 
 # Code quality
 
-Verify the work of the current Genesis iteration before committing it.
-Do not edit `.github/prompts/next.prompt.md`. Do not push.
+Apply and evolve the Ruby guidelines. Do not edit
+`.github/prompts/next.prompt.md`. Do not push.
 
 ## When to use
 
-- The expert runs `/next` and the iteration changed code, checks, or this skill.
-- The expert asks to verify, review, or check code quality.
-- Immediately before the iteration commit required by ledger D3.
+- Writing or moving Ruby in this repository.
+- The expert asks about code quality, project structure, or classes.
+- Before the iteration commit, if that iteration touched Ruby or these
+  guidelines.
 
 ## Procedure
 
-1. From the repository root, run [verify.rb](./scripts/verify.rb).
-   If it exits non-zero, fix the failure in this iteration and run it again.
-   Do not commit a failing run.
-2. Read the diff for this iteration. Fail the review if any of these are true:
-   - A behavior change has no matching check change.
-   - The log claims a command that was not run.
-   - A generated `player1.view`, `player2.view`, or `*.gem` is staged.
-   - A secret, license, homepage, or email was invented.
-   - The prompt file was edited.
-3. Style nits are not failures. Record real failures in `genesis/log.md`
-   before the commit. A clean script run is not a review of product rules.
+1. Read [guidelines.md](./references/guidelines.md).
+2. If the iteration conflicts with an agreed rule, fix that conflict or
+   record why it remains.
+3. If it conflicts with an open section, do not refactor the game to
+   invent the missing rule.
+4. When the expert corrects a guideline, update `guidelines.md` in this
+   iteration and record the Decision in the ledger. Do not add a rule
+   they did not ask for.
+5. If Ruby behavior changed, run `ruby check_board.rb` and
+   `ruby check_army.rb`. This skill does not replace those checks.

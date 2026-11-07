@@ -201,3 +201,21 @@ iteration. Recorded D8. Deferred A13. Did not edit the prompt. Parked Q6.
 - Ripple: future iterations must run the skill before commit. Q6 is the
   only prompt change, and it is parked. A13 remains the next product slice
   unless overruled. No push.
+
+## 2026-11-07 — 13
+
+The expert corrected D8. Code quality means evolvable guidelines for Ruby
+structure and classes, not a line-by-line verifier. Recorded D9. Did not
+edit the prompt. Did not extract classes. Asked Q7.
+
+- L2: rewrote the skill. Added guidelines.md. Removed scripts/verify.rb.
+- L3: the correction is the evidence. No evaluation harness.
+- L0, L1, L4: unchanged. Q6 stays parked and now means the guidelines.
+- Verified: `ruby check_board.rb` and `ruby check_army.rb` each printed
+  `ok`. Did not run the removed verifier. Did not run `gem build`; the
+  gemspec was not changed. Diff review: no product behavior changed, no
+  view file or gem is staged, no license, homepage, or email was invented,
+  and the prompt was not edited.
+- Ripple: class rules stay open until Q7. If skipped, A16 keeps module
+  functions until state needs an object. A13 remains the next product
+  slice unless that answer changes it. No push.
