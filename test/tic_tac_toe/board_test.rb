@@ -30,5 +30,13 @@ module TicTacToe
       board.place(9, "O")
       assert_equal [1, 3, 4, 5, 6, 7, 8], board.available_positions
     end
+
+    def test_after_move_does_not_change_original_board
+      board = Board.new
+      copy = board.after_move(1, "X")
+      assert_equal (1..9).to_a, board.available_positions
+      refute_includes copy.available_positions, 1
+      assert_raises(ArgumentError) { copy.after_move(1, "O") }
+    end
   end
 end

@@ -12,6 +12,18 @@ module TicTacToe
       @cells = Array.new(9)
     end
 
+    def initialize_copy(original)
+      super
+      @cells = @cells.dup
+    end
+
+    def after_move(position, mark)
+      copy = dup
+      raise ArgumentError, "Invalid move: #{position.inspect}" unless copy.place(position, mark)
+
+      copy
+    end
+
     def place(position, mark)
       return false unless position.is_a?(Integer) && (1..9).cover?(position)
       return false unless %w[X O].include?(mark) && @cells[position - 1].nil?
