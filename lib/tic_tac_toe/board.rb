@@ -53,12 +53,5 @@ module TicTacToe
     def available_positions
       @cells.each_index.filter_map { |index| index + 1 if @cells[index].nil? }
     end
-
-    def render
-      require "terminal-table"
-
-      cells = @cells.each_with_index.map { |mark, index| mark || (index + 1).to_s }
-      Terminal::Table.new(rows: cells.each_slice(3).to_a, style: { all_separators: true }).to_s
-    end
   end
 end

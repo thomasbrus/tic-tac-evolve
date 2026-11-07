@@ -10,7 +10,7 @@ tic-tac-evolve is an experiment in a human-guided, AI-assisted development workf
 | Rails | Persisted browser matches with Haml, Tailwind CSS 4, and Hotwire. | [Rails snapshot](https://github.com/thomasbrus/tic-tac-evolve/tree/dda8d4fba010dec4c885f577b73d5fd8f806eb37) |
 | Main | Latest committed development; changes as the project evolves. | [main](https://github.com/thomasbrus/tic-tac-evolve/tree/main) |
 
-The game runs in a Rails application and in the original terminal CLI. Both use the same board rules and computer strategies. The web application uses Haml, Tailwind CSS 4, Hotwire, and SQLite.
+The game runs as a Rails web application with persisted matches. It uses shared board rules and computer strategies implemented in [lib/tic_tac_toe/](lib/tic_tac_toe/). The web application uses Haml, Tailwind CSS 4, Hotwire, and SQLite.
 
 ## How the workflow works
 
@@ -50,28 +50,9 @@ Open `http://localhost:3000`. `bin/dev` runs Rails and the Tailwind watcher toge
 
 Start a local two-player match or play X against the computer as O. Match history links let you resume active games and view completed ones. Matches are stored in `storage/development.sqlite3`; refreshing the page or stopping the server does not intentionally discard them. There are no accounts: this is a shared local application, not a private or remotely hosted multiplayer service.
 
-## Run the CLI
-
-The CLI still renders its board with `terminal-table` and uses `tty-prompt` menus:
-
-```sh
-bundle exec ruby bin/tic-tac-toe
-```
-
-Use the up and down arrow keys and Enter to choose whether to control both X and O yourself, or play X against the computer as O. In the first mode, you can pass the terminal to another person between turns. X always starts.
-
-Both interfaces offer the same computer strategies:
-
-- **Random:** chooses any empty square at random.
-- **Easy:** takes an immediate win if available; otherwise plays randomly.
-- **Medium:** takes an immediate win or blocks an immediate loss; otherwise plays randomly.
-- **Hard:** plays optimally using minimax.
-
-Enter the number displayed in an empty square to place your mark. Enter `q`, or press Ctrl-D or Ctrl-C at a move prompt to end the game early. At a menu, choose Quit or press Ctrl-D or Ctrl-C. Menus require an interactive terminal.
-
 ## Develop on the project
 
-Start with the web setup above. Keep `bin/dev` running while editing; it runs the Rails server and rebuilds Tailwind when relevant files change. The CLI can also be exercised independently with its existing command.
+Start with the web setup above. Keep `bin/dev` running while editing; it runs the Rails server and rebuilds Tailwind when relevant files change.
 
 | Area | Location |
 | --- | --- |
@@ -80,9 +61,9 @@ Start with the web setup above. Keep `bin/dev` running while editing; it runs th
 | Requests and Haml views | [app/controllers/](app/controllers/) and [app/views/](app/views/) |
 | Tailwind theme and browser interactions | [app/assets/tailwind/](app/assets/tailwind/) and [app/javascript/](app/javascript/) |
 | Translations and schema changes | [config/locales/](config/locales/) and [db/migrate/](db/migrate/) |
-| Domain, request, and CLI system tests | [test/](test/) |
+| Domain and request tests | [test/](test/) |
 
-Keep changes focused and preserve the existing CLI and intentional defaults. Reuse shared rules rather than implementing a second version in controllers or views. Use Haml and Tailwind CSS 4 for the frontend; use `t(".key")` for template-specific text and absolute keys for genuinely shared translations. Add database migrations rather than editing the generated schema or resetting databases to resolve failures.
+Keep changes focused and preserve intentional defaults. Reuse shared rules rather than implementing a second version in controllers or views. Use Haml and Tailwind CSS 4 for the frontend; use `t(".key")` for template-specific text and absolute keys for genuinely shared translations. Add database migrations rather than editing the generated schema or resetting databases to resolve failures.
 
 Add or update a test for the changed behavior, then run the smallest relevant slice. For example:
 
@@ -104,7 +85,7 @@ State acceptance criteria and constraints in a feature request, and give specifi
 
 ## Test
 
-Run all maintained model, request, domain, and CLI system tests:
+Run all maintained model, request, and domain tests:
 
 ```sh
 bin/rails test test
@@ -112,10 +93,6 @@ bin/rails tailwindcss:build
 bin/rails zeitwerk:check
 ```
 
-The suite includes system tests that launch the CLI in a pseudo-terminal and exercise the arrow-key menus and game input. Run them separately with:
+The suite checks persisted state, rendered forms and history, illegal moves, computer responses, and stale submissions.
 
-```sh
-bundle exec ruby test/system/cli_test.rb
-```
-
-Browser testing, visual checks, and browser-based server-restart/resume verification are deferred. The current suite checks persisted state, rendered forms and history, illegal moves, computer responses, and stale submissions without launching a browser.
+Browser testing, visual checks, and browser-based server-restart/resume verification are deferred.

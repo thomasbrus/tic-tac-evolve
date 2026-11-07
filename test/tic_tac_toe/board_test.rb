@@ -37,8 +37,8 @@ module TicTacToe
       refute board.place(1, "invalid")
       assert board.place(1, "X")
       refute board.place(1, "O")
-      assert_includes board.render, "X"
-      assert_includes board.render, "2"
+      assert_includes board.to_a, "X"
+      assert_includes board.available_positions, 2
     end
 
     def test_available_positions_excludes_occupied_squares
