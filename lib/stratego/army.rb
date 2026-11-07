@@ -39,5 +39,12 @@ module Stratego
     def render
       ARMY.map { |name, count| "#{name} #{count}" }.join("\n")
     end
+
+    def render_unplaced(placed_counts)
+      ARMY.filter_map do |name, count|
+        left = count - placed_counts.fetch(name, 0)
+        "#{name} #{left}" if left.positive?
+      end.join("\n")
+    end
   end
 end

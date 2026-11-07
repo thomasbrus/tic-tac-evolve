@@ -8,12 +8,9 @@ Requires Ruby 3.2 or newer.
 
 ```sh
 ruby stratego.rb
-ruby stratego.rb read
 ```
 
-With no arguments, the CLI writes `player1.view` and `player2.view` in the current directory and prints the board plus the unplaced army. `read` checks those files and prints `ok`, or one error line per file. It does not print piece tokens.
-
-The view files are generated. They are gitignored. Do not commit them.
+With no arguments, the CLI runs interactive setup on one open board. Each player places an army on that player's home rows. Pieces stay visible: player2's letter tokens are lowercase. Enter a square and a setup token. When both armies are placed, it prints the board and `setup complete`. Extra arguments are an error.
 
 ## Layout
 
@@ -21,10 +18,9 @@ The view files are generated. They are gitignored. Do not commit them.
 | --- | --- |
 | [stratego.rb](stratego.rb) | Process entry. Calls `Stratego.start`. |
 | [lib/stratego.rb](lib/stratego.rb) | Loads the composition root. |
-| [lib/stratego/game.rb](lib/stratego/game.rb) | CLI composition. Delegates. Does not own board, army, or view rules. |
-| [lib/stratego/board.rb](lib/stratego/board.rb) | The shared board, including lakes. No pieces. |
+| [lib/stratego/game.rb](lib/stratego/game.rb) | CLI composition. Delegates. Does not own board or army rules. |
+| [lib/stratego/board.rb](lib/stratego/board.rb) | The shared open board: lakes and placed pieces. |
 | [lib/stratego/army.rb](lib/stratego/army.rb) | Piece counts and setup tokens. |
-| [lib/stratego/view.rb](lib/stratego/view.rb) | One player's private file. |
 
 The code is the source of truth for counts, tokens, lakes, and home rows. Do not keep a second copy in a skill or in this file.
 

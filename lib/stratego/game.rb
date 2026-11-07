@@ -2,51 +2,53 @@
 
 require_relative "board"
 require_relative "army"
-require_relative "view"
 
-# CLI composition root. Board, army, and view rules live in those classes.
+# CLI composition root. Board and army rules live in those classes.
 module Stratego
-  ARMY = Army::ARMY
-  VIEW_FILENAMES = View::FILENAMES
-
   module_function
 
-  def army_size
-    Army.new.size
-  end
-
-  def render_board
-    Board.new.render
-  end
-
-  def render_inventory
-    Army.new.render
-  end
-
-  def render_cli
-    "#{render_board}\n\n#{render_inventory}"
-  end
-
-  def write_private_views(directory = Dir.pwd)
-    View.write_all(directory)
-  end
-
-  def start(argv = [])
-    case argv
-    when []
-      write_private_views
-      puts render_cli
-    when ["read"]
-      errors = View.read_all
-      if errors.empty?
-        puts "ok"
-      else
-        warn errors.join("\n")
-        exit 1
-      end
-    else
-      warn "usage: ./stratego.rb [read]"
+  def start(argv = [], input: $stdin, output: $stdout)
+    unless argv.empty?
+      warn "usage: ./stratego.rb"
       exit 1
     end
+
+    setup(Board.new, input:, output:)
+  end
+
+  def setup(board, input: $stdin, output: $stdout)
+    output.puts "The board stays open. player2 pieces are shown in lowercase."
+    until board.setup_complete?
+      player = board.setup_player
+      output.puts board.render
+      output.puts
+      output.puts "#{player} places"
+      output.puts Army.new.render_unplaced(board.placed_counts(player))
+      output.print "> "
+      output.flush
+      line = input.gets
+      if line.nil?
+        output.puts
+        warn "setup incomplete"
+        exit 1
+      end
+
+      error = place_line(board, player, line)
+      warn error if error
+    end
+
+    output.puts board.render
+    output.puts "setup complete"
+  end
+
+  def place_line(board, player, line)
+    square, token, extra = line.strip.split
+    return "usage: a1 #{Army::TOKENS.fetch("flag")}" if square.nil? || token.nil? || extra
+
+    column = square[0]
+    row_text = square[1..]
+    return "usage: a1 #{Army::TOKENS.fetch("flag")}" unless column && row_text&.match?(/\A(?:10|[1-9])\z/)
+
+    board.place(player, column, row_text.to_i, token)
   end
 end
