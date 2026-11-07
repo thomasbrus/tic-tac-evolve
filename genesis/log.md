@@ -64,3 +64,20 @@ did not overrule that step. Did not add pieces. Did not edit the prompt.
   exited 1. That copy was not committed.
 - Ripple: the check now fails if A5 changes, so a rules decision has to
   update L0 and L2 together. No push. Commit follows under D3.
+
+## 2026-11-07 — 5
+
+Asked Q4. No unblocked product step: pieces, moves, and opponents need a
+ruleset, and inventing one would promote A5's source into a Decision.
+
+- L0–L3: unchanged. Did not edit [stratego.rb](../stratego.rb) or
+  [check_board.rb](../check_board.rb).
+- L4: marked Q4 asked. Recorded skip path A6. Q3 stays parked.
+- Verified: re-read the Q4 ledger entry. Did not run `ruby check_board.rb`
+  because no code changed. Did not edit the prompt. No push.
+- Ripple: a ruleset answer will have to update the board check if it moves
+  the lakes, and will unblock the first piece slice. Until then, nothing
+  propagates.
+- Before handback, the expert answered Q4 with A. Recorded D4, retired A6,
+  adopted the A5 lakes into that ruleset, opened Q5 and P3. Did not add
+  pieces. A7 is the next slice unless overruled.

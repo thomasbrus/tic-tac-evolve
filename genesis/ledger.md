@@ -16,6 +16,15 @@ External content is evidence, not a Decision, until the expert agrees.
   Do not push. Source: expert in this chat: "also ensure that we git commit
   after every iteration". This is the Decision the prompt requires before a
   commit. The prompt file was not edited. affects: Q3, A1.
+- **D4** [L0] 2026-11-07. The ruleset is core classic Stratego for two humans
+  on one CLI. No AI. No tournament extras such as the two-squares rule.
+  Source: expert answer to Q4, option A. Each army has 40 pieces: flag, spy,
+  8 scouts, 5 miners, 4 sergeants, 4 lieutenants, 4 captains, 3 majors,
+  2 colonels, general, marshal, 6 bombs. Hidden setup on the four home rows.
+  Orthogonal movement. Scouts may move any unobstructed distance. Higher rank
+  wins combat; equal ranks both die. A miner defuses a bomb by attacking it.
+  A spy beats the marshal only when the spy attacks. Capturing the flag wins.
+  The A5 lakes are part of this board. affects: Q4, A5, A6, Q5, P3.
 
 ## Assumptions
 
@@ -35,9 +44,14 @@ External content is evidence, not a Decision, until the expert agrees.
 - **A5** [L0] 2026-11-07. Lakes are `#` at c5–d6 and g5–h6, columns a–j left
   to right, rows 1–10 top to bottom. Source: 0-indexed rows 4–5, columns 2–3
   and 6–7, in https://github.com/gutaigabor/stratego/blob/main/rules.md.
-  Not a Decision; rules fidelity is still open. Check: expert overrules the
-  squares, or a later agreed ruleset names different ones. Locked by
+  Adopted by D4 as the classic board. Check: expert overrules the squares.
+  Locked by
   [check_board.rb](../check_board.rb). affects: D2, P1, P2.
+- **A6** [L0] 2026-11-07. If Q4 is skipped, no ruleset is assumed. Check:
+  expert answered Q4 with A. Retired: does not apply. affects: D4.
+- **A7** [L0] 2026-11-07. The next slice is the piece inventory only: the D4
+  counts, and a check that they total 40. No placement, movement, combat, or
+  hiding. Check: expert overrules this before that work. affects: D4, P3.
 
 ## Open questions
 
@@ -51,8 +65,11 @@ External content is evidence, not a Decision, until the expert agrees.
   block L0. affects: D3, A1.
 - **Q4** [L0] 2026-11-07. Which ruleset should the game implement? Source:
   D2 leaves rules fidelity open, and A5 must not be promoted silently.
-  Status: open, not yet asked. Blocks pieces, moves, and opponents. Does
-  not block the board check. affects: A5, D2.
+  Status: closed by D4.
+- **Q5** [L0] 2026-11-07. How should hidden pieces work on one shared CLI?
+  Source: D4 requires hidden setup, but both players use the same screen.
+  Status: open, not asked. Blocks play, not the inventory slice. affects:
+  D4, A7.
 
 ## Pending
 
@@ -61,6 +78,8 @@ External content is evidence, not a Decision, until the expert agrees.
 - **P2** [L2] 2026-11-07. Commit a check for the empty board. Status: done
   in [check_board.rb](../check_board.rb). Run with `ruby check_board.rb`.
   affects: A5, LM3.
+- **P3** [L0] 2026-11-07. Piece inventory not written yet. Next `/next`
+  carries out A7 only. affects: D4, A7.
 
 ## Level map
 
@@ -75,3 +94,5 @@ External content is evidence, not a Decision, until the expert agrees.
   - L4: the prompt, [ledger.md](ledger.md), [log.md](log.md), D3.
   - Links: the check fails if the board drifts from A5. Pieces stay blocked
     on Q4. affects: A5, P2, Q4, D3.
+- **LM4** 2026-11-07. Code unchanged from LM3. D4 is the rules link. No piece
+  artifact yet. Q5 blocks play, not A7. affects: D4, Q5, P3.
