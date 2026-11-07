@@ -1,9 +1,15 @@
 # frozen_string_literal: true
 
 module DesignSystem
-  class FormFieldset < View
-    def initialize(**props)
-      super(tag: :fieldset, classes: "border-0 p-0", **props)
+  class FormFieldset < Base
+    def view_template(&block)
+      fieldset(**attrs, &block)
+    end
+
+    private
+
+    def default_attrs
+      { class: "border-0 p-0" }
     end
   end
 end

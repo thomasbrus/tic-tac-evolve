@@ -1,25 +1,36 @@
 # frozen_string_literal: true
 
 module DesignSystem
-  class Button < View
-    VARIANTS = {
-      primary: "bg-ink text-white hover:bg-green",
-      secondary: "border border-line text-ink hover:bg-soft-green",
-      tertiary: "text-link underline"
+  class Button < Base
+    VARIANT_STYLE_CLASSES = {
+      %i[primary] => "bg-ink text-white hover:bg-green",
+      %i[secondary] => "border border-line text-ink hover:bg-soft-green",
+      %i[tertiary] => "text-link underline"
     }.freeze
 
-    SIZES = {
-      sm: "px-3 py-2 text-sm",
-      base: "px-6 py-3.5",
-      lg: "px-8 py-4 text-lg"
+    SIZE_STYLE_CLASSES = {
+      %i[sm] => "px-3 py-2 text-sm",
+      %i[base] => "px-6 py-3.5",
+      %i[lg] => "px-8 py-4 text-lg"
     }.freeze
 
-    def initialize(variant: :primary, size: :base, **props)
-      variant_class = VARIANTS[variant] || VARIANTS[:primary]
-      size_class = SIZES[size] || SIZES[:base]
-      
-      base_classes = "#{variant_class} #{size_class} cursor-pointer rounded border-0 font-normal"
-      super(tag: :button, classes: base_classes, **props)
+    prop :variant, default: :primary
+    prop :size, default: :base
+
+    def view_template(&block)
+      button(**attrs, &block)
+    end
+
+    private
+
+    def default_attrs
+      {
+        class: [
+          "cursor-pointer rounded border-0 font-normal",
+          VARIANT_STYLE_CLASSES[[@variant]],
+          SIZE_STYLE_CLASSES[[@size]]
+        ]
+      }
     end
   end
 end

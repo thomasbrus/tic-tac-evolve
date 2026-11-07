@@ -17,11 +17,13 @@ class DesignSystem::FormFieldsetTest < DesignSystemTest
     assert_includes(html, "p-0")
   end
 
-  test "merges additional props" do
-    component = DesignSystem::FormFieldset.new(gap: 4, flex: true)
+  test "merges additional HTML attributes" do
+    component = DesignSystem::FormFieldset.new(class: "custom", aria: { label: "Form" })
     html = render_component(component)
-    assert_includes(html, "gap-4")
-    assert_includes(html, "flex")
+    assert_includes(html, "border-0")
+    assert_includes(html, "p-0")
+    assert_includes(html, "custom")
+    assert_includes(html, "aria-label=\"Form\"")
   end
 
   test "yields content" do

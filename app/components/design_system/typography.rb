@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module DesignSystem
-  class Typography < View
+  class Typography < Base
     SIZES = {
       xs: "text-xs",
       sm: "text-sm",
@@ -27,13 +27,25 @@ module DesignSystem
       error: "text-error"
     }.freeze
 
-    def initialize(tag: :p, size: :base, weight: :normal, color: :default, **props)
-      size_class = SIZES[size] || SIZES[:base]
-      weight_class = WEIGHTS[weight] || WEIGHTS[:normal]
-      color_class = COLORS[color] || COLORS[:default]
+    prop :tag, default: :p
+    prop :size, default: :base
+    prop :weight, default: :normal
+    prop :color, default: :default
 
-      classes = "#{size_class} #{weight_class} #{color_class}"
-      super(tag:, classes:, **props)
+    def view_template(&block)
+      send(@tag, **attrs, &block)
+    end
+
+    private
+
+    def default_attrs
+      {
+        class: [
+          SIZES[@size] || SIZES[:base],
+          WEIGHTS[@weight] || WEIGHTS[:normal],
+          COLORS[@color] || COLORS[:default]
+        ]
+      }
     end
   end
 end

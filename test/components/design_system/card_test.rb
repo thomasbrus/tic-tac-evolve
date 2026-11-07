@@ -32,11 +32,11 @@ class DesignSystem::CardTest < DesignSystemTest
     assert_includes(html, "rounded")
   end
 
-  test "merges additional props" do
-    component = DesignSystem::Card.new(class: "custom", gap: 2)
+  test "merges additional HTML attributes" do
+    component = DesignSystem::Card.new(class: "custom", data: { id: "card-1" })
     html = render_component(component)
     assert_includes(html, "custom")
-    assert_includes(html, "gap-2")
+    assert_includes(html, "data-id=\"card-1\"")
   end
 
   test "yields content" do

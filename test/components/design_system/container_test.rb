@@ -18,13 +18,13 @@ class DesignSystem::ContainerTest < DesignSystemTest
     assert_includes(html, "mx-auto")
   end
 
-  test "merges additional props" do
-    component = DesignSystem::Container.new(p: 4, gap: 2)
+  test "merges additional HTML attributes" do
+    component = DesignSystem::Container.new(class: "custom-class", data: { test: "value" })
     html = render_component(component)
     assert_includes(html, "max-w-[1040px]")
     assert_includes(html, "mx-auto")
-    assert_includes(html, "p-4")
-    assert_includes(html, "gap-2")
+    assert_includes(html, "custom-class")
+    assert_includes(html, "data-test=\"value\"")
   end
 
   test "yields content" do
