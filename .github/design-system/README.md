@@ -1,13 +1,16 @@
-# Design System with Phlex & Props
+# Design System with Phlex & Literal::Properties
 
-This directory contains documentation for the tic-tac-evolve design system. The system is built using [Phlex](https://www.phlex.fun/) components with explicit props and predefined style maps.
+This directory contains documentation for the tic-tac-evolve design system. The system is built using [Phlex](https://www.phlex.fun/) components with [Literal::Properties](https://literal.fun/docs/properties) for type-safe props and predefined style maps.
 
 ## Core Concept
 
-Components declare explicit props using the `prop` DSL. Style classes are organized in keyed maps that combine prop values:
+Components use `Literal::Properties` to declare explicit, type-safe props. Style classes are organized in frozen maps keyed by prop combinations:
 
 ```ruby
 class Badge < Base
+  Variant = _Union(:default, :success, :error)
+  Size = _Union(:sm, :base)
+
   VARIANT_STYLE_CLASSES = {
     %i[default] => "bg-white border border-line",
     %i[success] => "bg-soft-green border border-green",
@@ -19,16 +22,17 @@ class Badge < Base
     %i[base] => "px-3 py-1.5 text-sm"
   }.freeze
 
-  prop :variant, default: :default
-  prop :size, default: :base
+  prop :variant, Variant, default: :default, reader: :public
+  prop :size, Size, default: :base, reader: :public
 end
 ```
 
 This approach provides:
-- **Explicit props** — component behavior is clear and type-safe
-- **Predefined styles** — no runtime magic, all styles are in maps
+- **Explicit, type-safe props** — using `_Union` types for variants and sizes
+- **Predefined styles** — all styling is in frozen maps, no runtime magic
 - **Maintainability** — changes to variants/sizes are in one place
-- **Clarity** — props define *what*, styles define *how*
+- **Clarity** — props define *what*, style maps define *how*
+- **Props as readers** — `reader: :public` allows accessing props as instance methods when needed for testing or logic
 
 ## Component Hierarchy
 
@@ -125,20 +129,30 @@ DesignSystem::Badge.new(variant: :error, size: :sm) { "Error" }
 
 ## Base Component
 
-The foundation for all components. Provides the `prop` DSL and standard `attrs` method.
+The foundation for all components. Uses `Literal::Properties` for explicit prop handling and provides the standard `attrs` method for merging default and custom styles.
 
 ```ruby
 class Base < Phlex::HTML
-  def self.prop(name, type = nil, default: nil, required: false)
-    # Declares a component prop with optional default
-  end
+  extend Literal::Properties
+
+  # Captures all HTML attributes passed as keyword arguments (**kwargs)
+  prop :html_attrs, _Hash(Symbol, _Any), :**, default: -> { {} }, reader: :public
+
+  protected
 
   def default_attrs
-    # Subclasses override this to provide default Tailwind classes
+    # Subclasses override to provide default Tailwind classes
+    { class: [] }
   end
 
   def attrs
-    # Merges default_attrs with custom HTML attributes
+    # Merges default_attrs with html_attrs, handling class merging
+    defaults = default_attrs
+    class_list = Array(defaults[:class]) + Array(html_attrs[:class])
+    attrs_hash = defaults.dup
+    attrs_hash[:class] = class_list.compact
+    attrs_hash.merge!(html_attrs.except(:class))
+    attrs_hash
   end
 end
 ```
@@ -147,13 +161,24 @@ When you create a component:
 
 ```ruby
 class MyComponent < Base
-  prop :variant, default: :default
-  prop :size, default: :base
+  Variant = _Union(:primary, :secondary)
+  Size = _Union(:sm, :lg)
 
-  STYLE_MAP = { ... }.freeze
+  VARIANT_STYLE_CLASSES = {
+    %i[primary] => "bg-ink text-white",
+    %i[secondary] => "border border-line"
+  }.freeze
+
+  SIZE_STYLE_CLASSES = {
+    %i[sm] => "px-3 py-2 text-sm",
+    %i[lg] => "px-6 py-4 text-lg"
+  }.freeze
+
+  prop :variant, Variant, default: :primary, reader: :public
+  prop :size, Size, default: :lg, reader: :public
 
   def view_template(&block)
-    div(**attrs, &block)
+    button(**attrs, &block)
   end
 
   private
@@ -161,8 +186,9 @@ class MyComponent < Base
   def default_attrs
     {
       class: [
-        "base-classes",
-        STYLE_MAP[[@variant, @size]]
+        "cursor-pointer rounded font-semibold",
+        VARIANT_STYLE_CLASSES[[@variant]],
+        SIZE_STYLE_CLASSES[[@size]]
       ]
     }
   end
@@ -172,9 +198,15 @@ end
 Usage:
 
 ```ruby
-MyComponent.new(variant: :primary, class: "custom") { "Content" }
-# Renders: <div class="base-classes primary-5-base custom">Content</div>
+MyComponent.new(variant: :primary, size: :sm, class: "mt-4") { "Click me" }
+# Renders: <button class="cursor-pointer rounded font-semibold bg-ink text-white px-3 py-2 text-sm mt-4">Click me</button>
 ```
+
+### How Props & Attributes Work Together
+
+- **Props**: Component behavior declarators (`:variant`, `:size`). Accessed via `Literal::Properties` instance variables.
+- **HTML Attributes**: Rendering context (`class`, `data`, `aria`, etc.). Passed via `**kwargs` and captured in `html_attrs`.
+- **The `attrs` method**: Merges default Tailwind classes (from props) with custom attributes (from `html_attrs`).
 
 **Prefer props when:**
 - Composing components for semantic meaning
@@ -182,7 +214,7 @@ MyComponent.new(variant: :primary, class: "custom") { "Content" }
 - Props are reused across multiple instances
 - You need explicit, type-safe component options
 
-**Use HTML attributes when:**
+**Use HTML attributes (passed as kwargs) when:**
 - Adding one-off classes or data attributes for a specific use
 - Integrating with other tools (e.g., Stimulus with `data-controller`)
 - Adding accessibility attributes (ARIA, role) for specific context
@@ -238,5 +270,5 @@ rails test test/components/design_system/
 ## References
 
 - [Phlex Docs](https://www.phlex.fun/)
-- [Literal Props](https://literal.fun/docs/properties)
+- [Literal::Properties Documentation](https://literal.fun/docs/properties)
 - [Tailwind CSS](https://tailwindcss.com/)

@@ -2,6 +2,9 @@
 
 module DesignSystem
   class Button < Base
+    Variant = _Union(:primary, :secondary, :tertiary)
+    Size = _Union(:sm, :base, :lg)
+
     VARIANT_STYLE_CLASSES = {
       %i[primary] => "bg-ink text-white hover:bg-green",
       %i[secondary] => "border border-line text-ink hover:bg-soft-green",
@@ -14,8 +17,8 @@ module DesignSystem
       %i[lg] => "px-8 py-4 text-lg"
     }.freeze
 
-    prop :variant, default: :primary
-    prop :size, default: :base
+    prop :variant, Variant, default: :primary, reader: :public
+    prop :size, Size, default: :base, reader: :public
 
     def view_template(&block)
       button(**attrs, &block)

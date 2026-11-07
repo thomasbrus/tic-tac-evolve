@@ -2,33 +2,9 @@
 
 module DesignSystem
   class Base < Phlex::HTML
-    # DSL for declaring component props with defaults and types
-    def self.prop(name, type = nil, default: nil, required: false)
-      # Store prop metadata
-      @prop_defaults ||= {}
-      @prop_defaults[name] = default
+    extend Literal::Properties
 
-      # Create a reader for the prop
-      attr_reader name
-
-      # Define a custom initialize that handles props
-      define_method(:initialize) do |**kwargs|
-        # Extract all props defined on the class
-        prop_defaults = self.class.instance_variable_get(:@prop_defaults) || {}
-        prop_defaults.each do |prop_name, default_value|
-          value = kwargs.delete(prop_name)
-          value = default_value if value.nil?
-          instance_variable_set("@#{prop_name}", value)
-        end
-
-        # Store remaining kwargs as HTML attributes
-        @html_attrs = kwargs
-      end unless instance_methods(false).include?(:initialize)
-    end
-
-    def initialize(**html_attrs)
-      @html_attrs = html_attrs
-    end
+    prop :html_attrs, _Hash(Symbol, _Any), :**, default: -> { {} }, reader: :public
 
     protected
 
@@ -38,8 +14,17 @@ module DesignSystem
 
     def attrs
       defaults = default_attrs
-      defaults[:class] = Array(defaults[:class]) + Array(@html_attrs[:class])
-      defaults.deep_merge(@html_attrs.except(:class))
+      
+      # Merge classes - keep as array for Phlex
+      class_list = Array(defaults[:class]) + Array(html_attrs[:class])
+      
+      attrs_hash = defaults.dup
+      attrs_hash[:class] = class_list.compact
+      
+      # Merge other HTML attributes
+      attrs_hash.merge!(html_attrs.except(:class))
+      
+      attrs_hash
     end
   end
 end

@@ -112,6 +112,7 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     json (3.1.0)
+    literal (0.2.1)
     logger (1.7.0)
     loofah (2.25.3)
       crass (~> 1.0.2)
@@ -240,6 +241,7 @@ DEPENDENCIES
   bootsnap
   haml-rails (~> 3.0)
   importmap-rails
+  literal (~> 0.1)
   minitest (~> 5.0)
   phlex (~> 1.10)
   phlex-rails (~> 0.0)
@@ -284,6 +286,7 @@ CHECKSUMS
   io-console (0.9.5) sha256=83dd9bbf4c4680416629245b39cd4212eb5f4d9a4ea91804870c1f6b846414d5
   irb (1.19.0) sha256=55ee56acbdd6c9fe06a2e6909f46a24e5c41f45f16906bab04e8049cf46f1d27
   json (3.1.0) sha256=3ce7ccf8fde58960177a3a756c31f292a4c1e1dedee884547096a5b0604e3bd8
+  literal (0.2.1) sha256=7544725886486ce6ae701fea1ea23bb7955ef218ef109f91ad4414f3b7921261
   logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
   loofah (2.25.3) sha256=545f14eef0cc2a7de80df560530d593232b7c07e515c5c4e37532d9cb5b0185c
   mail (2.9.1) sha256=06574eca475253d6c18145dd70af80d0eb970182d55053497c5f4d797ea160e8

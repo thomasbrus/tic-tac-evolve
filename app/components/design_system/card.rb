@@ -2,12 +2,14 @@
 
 module DesignSystem
   class Card < Base
+    Variant = _Union(:default, :soft)
+
     VARIANT_STYLE_CLASSES = {
       %i[default] => "bg-white border border-line",
       %i[soft] => "bg-soft-green border-0"
     }.freeze
 
-    prop :variant, default: :default
+    prop :variant, Variant, default: :default, reader: :public
 
     def view_template(&block)
       div(**attrs, &block)

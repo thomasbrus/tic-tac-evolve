@@ -2,7 +2,7 @@
 
 module DesignSystem
   class Container < Base
-    prop :max_width, default: "max-w-[1040px]"
+    prop :max_width, String, default: "max-w-[1040px]", reader: :public
 
     def view_template(&block)
       div(**attrs, &block)

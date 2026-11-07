@@ -47,7 +47,7 @@ class DesignSystem::BadgeTest < DesignSystemTest
   end
 
   test "combines variant and size" do
-    component = DesignSystem::Badge.new(variant: :success, size: :lg)
+    component = DesignSystem::Badge.new(variant: :success, size: :base)
     html = render_component(component)
     assert_includes(html, "bg-soft-green")
   end

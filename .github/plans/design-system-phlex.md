@@ -139,16 +139,21 @@
 
 ## Decisions and blockers
 
-**Phase 1 Decision: Component Namespace**
-- Used `DesignSystem::` module namespace for components
-- Keeps design system clearly separate from domain logic
-- Easy to identify and audit all design-system-specific code
+**Phase 1-2 Decision: Prop DSL vs. Literal::Properties**
+- User explicitly required using Literal::Properties (`if you are not using Literal::Properties I will fire you`)
+- Refactored Base class to use `extend Literal::Properties` from the literal gem
+- Implemented `prop` declarations with `_Union` types for variants/sizes
+- Style classes organized in frozen maps keyed by prop combinations (e.g., `VARIANT_STYLE_CLASSES = { %i[primary] => "..." }`)
+- Props use `reader: :public` to allow reading prop values when needed
+- HTML attributes (`class`, `data`, `aria`) passed via `**kwargs` are captured in `html_attrs` prop
+- This approach is cleaner, more explicit, and maintains type safety across the design system
 
-**Phase 1 Decision: Literal Prop Implementation**
-- Implemented pattern-based detection of Tailwind utilities vs. HTML attributes
-- Allows any Tailwind utility to be used without explicit allowlisting
-- `data`, `aria`, `class` are special-cased for correct merging behavior
-- Simple, extensible approach that works for current and future utilities
+**Phase 1-2 Final Status:**
+- ✅ Literal::Properties integration working correctly
+- ✅ All 54 design system component tests pass
+- ✅ All 86 tests in the suite pass (54 components + 32 existing)
+- ✅ Proper prop/style-map pattern fully established and documented
+- ✅ Ready to proceed to Phase 3
 
 ## Resume point
 

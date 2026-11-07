@@ -2,13 +2,15 @@
 
 module DesignSystem
   class Select < Base
+    Size = _Union(:sm, :base, :lg)
+
     SIZE_STYLE_CLASSES = {
       %i[sm] => "px-2 py-1.5 text-sm",
       %i[base] => "px-2 py-2.5",
       %i[lg] => "px-3 py-3 text-lg"
     }.freeze
 
-    prop :size, default: :base
+    prop :size, Size, default: :base, reader: :public
 
     def view_template(&block)
       select(**attrs, &block)

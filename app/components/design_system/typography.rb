@@ -2,6 +2,10 @@
 
 module DesignSystem
   class Typography < Base
+    Size = _Union(:xs, :sm, :base, :lg, :xl, :"2xl", :"3xl", :display)
+    Weight = _Union(:normal, :medium, :semibold, :bold)
+    Color = _Union(:default, :secondary, :subtle, :error)
+
     SIZES = {
       xs: "text-xs",
       sm: "text-sm",
@@ -27,10 +31,10 @@ module DesignSystem
       error: "text-error"
     }.freeze
 
-    prop :tag, default: :p
-    prop :size, default: :base
-    prop :weight, default: :normal
-    prop :color, default: :default
+    prop :tag, Symbol, default: :p, reader: :public
+    prop :size, Size, default: :base, reader: :public
+    prop :weight, Weight, default: :normal, reader: :public
+    prop :color, Color, default: :default, reader: :public
 
     def view_template(&block)
       send(@tag, **attrs, &block)

@@ -2,6 +2,9 @@
 
 module DesignSystem
   class Badge < Base
+    Variant = _Union(:default, :success, :error)
+    Size = _Union(:sm, :base)
+
     VARIANT_STYLE_CLASSES = {
       %i[default] => "bg-white border border-line text-ink",
       %i[success] => "bg-soft-green border border-green text-green",
@@ -13,8 +16,8 @@ module DesignSystem
       %i[base] => "px-3 py-1.5 text-sm"
     }.freeze
 
-    prop :variant, default: :default
-    prop :size, default: :base
+    prop :variant, Variant, default: :default, reader: :public
+    prop :size, Size, default: :base, reader: :public
 
     def view_template(&block)
       span(**attrs, &block)

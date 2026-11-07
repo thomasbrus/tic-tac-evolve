@@ -13,6 +13,7 @@ gem "tailwindcss-rails", "~> 4.0"
 gem "tailwindcss-ruby", "~> 4.0"
 gem "phlex", "~> 1.10"
 gem "phlex-rails", "~> 0.0"
+gem "literal", "~> 0.1"
 
 group :development, :test do
   gem "minitest", "~> 5.0"
