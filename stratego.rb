@@ -49,4 +49,22 @@ def render_cli
   "#{render_board}\n\n#{render_inventory}"
 end
 
-puts render_cli if $PROGRAM_NAME == __FILE__
+# Unplaced armies match, so the files match until placement exists.
+VIEW_FILENAMES = %w[player1.view player2.view].freeze
+
+def private_view(_player)
+  render_inventory
+end
+
+def write_private_views(directory = Dir.pwd)
+  VIEW_FILENAMES.each do |filename|
+    player = File.basename(filename, ".view")
+    path = File.join(directory, filename)
+    File.write(path, "#{private_view(player)}\n")
+  end
+end
+
+if $PROGRAM_NAME == __FILE__
+  write_private_views
+  puts render_cli
+end

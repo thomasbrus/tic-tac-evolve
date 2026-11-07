@@ -75,8 +75,16 @@ External content is evidence, not a Decision, until the expert agrees.
 - **A11** [L0] 2026-11-07. The next slice uses a file per player, not a second
   terminal. Each file contains only that player's own unplaced army, in the
   A9 layout. No placement, movement, or combat. Check: expert overrules this
-  before that work. Deferred by D6; still the next product slice.
-  affects: D5, D6.
+  before that work. Check: expert did not overrule it. Carried out.
+  affects: D5, D6, P6.
+- **A12** [L0] 2026-11-07. The files are `player1.view` and `player2.view` in
+  the current directory, and are not committed. Both hold the same unplaced
+  counts until placement exists. Check: expert overrules the names or the
+  directory. affects: A11.
+- **A13** [L0] 2026-11-07. The next slice adds that player's four empty home
+  rows to their file only: player1 rows 1–4, player2 rows 7–10. No pieces
+  placed. The other player's rows are absent. Check: expert overrules this
+  before that work. affects: D4, A11, A12.
 
 ## Open questions
 
@@ -111,6 +119,9 @@ External content is evidence, not a Decision, until the expert agrees.
 - **P5** [L0] 2026-11-07. `./stratego.rb` did not run. Status: done. Shebang
   and executable bit. Check: [check_board.rb](../check_board.rb) runs the
   file directly. affects: D6, LM8.
+- **P6** [L0] 2026-11-07. A file per player. Status: done.
+  `write_private_views` in [stratego.rb](../stratego.rb). Generated files
+  are gitignored. affects: A11, A12, LM9.
 
 ## Level map
 
@@ -147,3 +158,13 @@ External content is evidence, not a Decision, until the expert agrees.
   - L4: A11 is deferred, not dropped.
   - Links: D6 is the invocation. A11 is still the next product slice.
     affects: D6, A11.
+- **LM9** 2026-11-07. Source: this iteration.
+  - L0: `./stratego.rb` still prints the shared board and inventory, and
+    writes `player1.view` and `player2.view` in the current directory.
+  - L1: none.
+  - L2: `ruby check_board.rb` runs the CLI in a temp directory and locks
+    the view files. `ruby check_army.rb` unchanged.
+  - L3: none.
+  - L4: A13 is the next slice. The files do not yet differ.
+  - Links: D5 is satisfied only as two files of the same unplaced army.
+    affects: D5, A11, A12, A13.

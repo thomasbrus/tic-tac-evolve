@@ -146,3 +146,22 @@ zsh treated the Ruby as a shell script. Recorded D6. Deferred A11.
   the shebang removed failed with `direct exit 2` and the same zsh syntax
   error. That copy was not
   committed. No push.
+
+## 2026-11-07 — 10
+
+Carried out A11. The expert did not overrule it. Did not add a second
+terminal, placement, movement, or combat. Did not edit the prompt.
+
+- L0: `./stratego.rb` writes `player1.view` and `player2.view` in the
+  current directory. Each file is that player's unplaced army in the A9
+  layout. Shared stdout is unchanged. A12 names the files.
+- L2: [check_board.rb](../check_board.rb) runs the CLI in a temp directory
+  and rejects a view that is not only the army. [.gitignore](../.gitignore)
+  keeps generated views out of commits.
+- L1 and L3: unchanged.
+- Verified: `ruby check_board.rb` and `ruby check_army.rb` each printed
+  `ok`. A temp run wrote both files and no others. A one-off copy whose
+  private view included the board failed with `player1.view is not only
+  the army` and exited 1. That copy was not committed.
+- Ripple: the two files are still identical, so privacy is not demonstrated
+  yet. A13 is the next slice unless overruled. No push.

@@ -3,6 +3,7 @@
 # Locks ledger A5. A rules change has to change this fixture too.
 require "open3"
 require "rbconfig"
+require "tmpdir"
 require_relative "stratego"
 
 EXPECTED = [
@@ -70,12 +71,31 @@ fail!("render_cli drifted") unless render_cli == "#{EXPECTED}\n\n#{INVENTORY}"
 script = File.expand_path("stratego.rb", __dir__)
 fail!("not executable") unless File.executable?(script)
 
-stdout, status = Open3.capture2(RbConfig.ruby, script)
+def run_in_clean_dir(*command)
+  Dir.mktmpdir do |dir|
+    stdout, status = Open3.capture2(*command, chdir: dir)
+    views = VIEW_FILENAMES.to_h do |filename|
+      path = File.join(dir, filename)
+      [filename, File.file?(path) ? File.read(path) : nil]
+    end
+    [stdout, status, views, Dir.children(dir)]
+  end
+end
+
+expected_view = "#{INVENTORY}\n"
+stdout, status, views, written = run_in_clean_dir(RbConfig.ruby, script)
 fail!("ruby exit #{status.exitstatus}") unless status.success?
 fail!("ruby output drifted") unless stdout == "#{EXPECTED}\n\n#{INVENTORY}\n"
+fail!("ruby view files #{written.inspect}") unless written.sort == VIEW_FILENAMES.sort
+views.each do |filename, body|
+  fail!("#{filename} missing") if body.nil?
+  fail!("#{filename} is not only the army") unless body == expected_view
+  fail!("#{filename} leaks the board") if body.include?("#") || body.include?("a b c")
+end
 
-direct, direct_status = Open3.capture2(script)
+direct, direct_status, direct_views, = run_in_clean_dir(script)
 fail!("direct exit #{direct_status.exitstatus}") unless direct_status.success?
 fail!("direct output drifted") unless direct == stdout
+fail!("direct views drifted") unless direct_views == views
 
 puts "ok"
