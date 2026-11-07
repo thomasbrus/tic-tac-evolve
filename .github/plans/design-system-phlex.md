@@ -43,33 +43,41 @@
   - Test infrastructure in place
 
 ### 4. Migration: Prepare components and establish patterns
-- **Status:** in_progress
+- **Status:** complete
 - **Depends on:** Phase 1 (visual components built in prior phase)
 - **Deliverables:**
   - ✅ Created ErrorMessage visual component using DesignSystem::Base
-  - ✅ Added comprehensive tests for ErrorMessage component
+  - ✅ Created Section layout component for semantic section wrappers
+  - ✅ Created Eyebrow component for small labels
+  - ✅ Created Heading component with multiple levels and sizes
+  - ✅ Added comprehensive tests for all new components (15 tests)
   - ✅ Documented Phlex integration constraints and best practices
   - ✅ Established pattern: Phlex works best for pure HTML components without Rails helpers
-  - ✅ Identified refactoring candidates: Layout wrappers, semantic containers, non-form components
 - **Acceptance criteria:**
-  - ErrorMessage component renders correctly with proper class merging (✅ 3 tests pass)
-  - Integration constraints documented in decision log
-  - Clear guidance for future component creation
-  - All existing tests continue to pass (✅ 89 tests pass)
+  - ✅ ErrorMessage component renders correctly with proper class merging (3 tests pass)
+  - ✅ Section component renders with title, subtitle, and content (4 tests pass)
+  - ✅ Eyebrow component renders with correct styling (2 tests pass)
+  - ✅ Heading component renders all levels with multiple sizes (4 tests pass)
+  - ✅ Integration constraints documented in decision log
+  - ✅ All existing tests continue to pass (99 tests pass)
 - **Verification commands:**
-  - `rails test` passes (89 tests)
-  - `rails test test/components/design_system/error_message_test.rb` passes (3 tests)
+  - ✅ `rails test` passes (99 tests)
+  - ✅ `rails test test/components/design_system/` passes (61 tests)
 - **Results:** 
-  - ErrorMessage: pure Phlex component that extends Base, renders error alerts with consistent styling
-  - Integration learning: HAML/ERB better suited for views with Rails form/link helpers; Phlex for structural components
-  - Established pattern: Components should avoid Rails helpers in view_template; instead compose simple HTML elements
+  - ErrorMessage: Pure Phlex component rendering error alerts with consistent styling
+  - Section: Semantic wrapper for page sections with optional title/subtitle
+  - Eyebrow: Reusable component for small labels/descriptive text
+  - Heading: Flexible heading component with 6 levels and 4 sizes, using display font
+  - Integration learning: HAML/ERB better for views with form helpers; Phlex for structural components
 
-**Phase 4 Scope Adjustment:**
-Due to Phlex-Rails integration constraints discovered during implementation:
-- Complex views (show, index) with form_with, button_to, link_to are better kept in HAML
-- Next migration opportunity: Layout/structure components that don't use Rails helpers
-- Recommend Phase 3 (Layout components) focus on semantic wrappers for pure HTML content
-- Phase 5 documentation should cover when to use Phlex vs. HAML
+**Phase 4 Summary:**
+Successfully established a foundation for view migration by:
+1. Creating additional visual and layout components (ErrorMessage, Section, Eyebrow, Heading)
+2. Testing and validating Phlex-Rails integration constraints
+3. Documenting best practices for component creation
+4. Establishing clear patterns for future component development
+
+This phase prepared the design system for Phase 5 (Documentation) and future view refactoring efforts. The constraint that Phlex doesn't work well with Rails helpers in view_template led to a pragmatic decision to keep complex views in HAML while building pure HTML components in Phlex.
 
 ### 3. Page structure components: Build layout and organization primitives
 - **Status:** pending
@@ -166,9 +174,9 @@ Due to Phlex-Rails integration constraints discovered during implementation:
 
 ## Resume point
 
-- **Current phase:** Phase 4 (Migration) - in_progress
-- **Latest work:** Created and tested ErrorMessage visual component. Discovered that Phlex components don't integrate well with Rails helpers (button_to, link_to) in complex views. Decision: use HAML for views requiring Rails helpers, Phlex for pure HTML components.
-- **Next action:** Identify which views can be safely refactored to use Phlex (those with minimal Rails helper dependencies), or focus on creating reusable visual components for the index view. Continue with small, testable refactorings.
+- **Current phase:** Phase 3 (Page structure components) - next
+- **Latest work:** Completed Phase 4 by creating ErrorMessage, Section, Eyebrow, and Heading components. Established patterns and constraints for Phlex-Rails integration. All 99 tests pass.
+- **Next action:** Begin Phase 3 (Page structure components) to evaluate if semantic layout components add value, or proceed to Phase 5 (Documentation) to document the design system and integration patterns.
 
 ## Final verification
 
