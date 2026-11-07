@@ -5,8 +5,8 @@
 Whenever the user explicitly corrects your output, flags a misunderstanding, or refines a preference:
 
 1. **Acknowledge the correction concisely** — thank the user and confirm what you understood.
-2. **Execute a Self-Reflection step** — use the self-reflection skill to log the lesson.
-3. **Append to project memory** — write to `.github/memory/learnings.md` before finalizing your response.
+2. **Execute a Self-Reflection step** — use the self-reflection skill to decide whether there is a durable, generalizable lesson.
+3. **Update project memory when warranted** — record qualifying lessons in `.github/memory/learnings.md` before finalizing your response; do not log routine one-off fixes.
 
 At the start of complex tasks, **review `.github/memory/learnings.md`** to ensure past mistakes are not repeated.
 

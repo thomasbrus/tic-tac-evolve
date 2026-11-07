@@ -44,7 +44,7 @@ Each entry uses this structure:
 - **The Fix:** Use a formatted temporary script, allow review and request approval before running it, then explicitly remove it.
 - **General Principle:** Prefer existing tests or simple commands; make necessary one-off scripts readable and user-approved before execution, and clean them up afterward.
 
-### [2026-11-07] Terminal interruption
-- **Scenario:** Ctrl-C at a move prompt printed an exception backtrace, despite working in menus.
-- **The Fix:** Handle interruptions gracefully throughout the game and test the actual terminal interaction.
-- **General Principle:** Verify cancellation works consistently across menus and input prompts without exposing backtraces.
+### [2026-11-07] Generalizable learnings
+- **Scenario:** A one-off terminal interruption bug was recorded as a project learning.
+- **The Fix:** Record durable lessons useful for future work, not routine bug fixes without a generalizable takeaway.
+- **General Principle:** Evaluate whether a correction yields a reusable, actionable lesson before adding it to project memory.

@@ -7,7 +7,7 @@ applyTo:
 
 # Self-Reflection Protocol
 
-When triggered by a user correction or explicit preference update, summarize the interaction into a structured entry and append it to `.github/memory/learnings.md`.
+When triggered by a user correction or explicit preference update, consider whether it reveals a durable, actionable lesson useful beyond the immediate task. Record qualifying lessons in `.github/memory/learnings.md`; do not log routine, one-off bug fixes without a generalizable takeaway.
 
 ## Entry Format
 
@@ -27,15 +27,16 @@ Append the following Markdown block to `.github/memory/learnings.md` under the "
    - ✅ "Always use X over Y when building Z"
    - ✅ "Never place domain state inside controller actions"
    - ✅ "Prioritize security over convenience in authentication flows"
-3. **No Duplicate Rules:** If a similar principle already exists in `learnings.md`, update the existing entry rather than adding a duplicate.
-4. **Timestamp Format:** Use ISO 8601 date format `[YYYY-MM-DD]` to match the file's consistency.
+3. **Generalize Carefully:** Record only lessons that will help with future work; do not turn every bug report into a project rule.
+4. **No Duplicate Rules:** If a similar principle already exists in `learnings.md`, update the existing entry rather than adding a duplicate.
+5. **Timestamp Format:** Use ISO 8601 date format `[YYYY-MM-DD]` to match the file's consistency.
 
 ## When to Trigger
 
 Execute this protocol when:
 - ✅ User explicitly says "No, that's wrong" or provides a correction
 - ✅ User clarifies a misunderstood preference or requirement
-- ✅ User reveals a bug or issue in delivered work
+- ✅ User reveals a bug or issue that exposes a generalizable lesson
 - ✅ User shares a domain-specific rule or convention specific to this project
 
 Do **not** trigger when:
