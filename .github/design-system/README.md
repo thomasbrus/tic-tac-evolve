@@ -1,26 +1,39 @@
-# Design System with Phlex & Literal Props
+# Design System with Phlex & Props
 
-This directory contains documentation for the tic-tac-evolve design system. The system is built using [Phlex](https://www.phlex.fun/) components with literal props that map directly to Tailwind CSS utilities.
+This directory contains documentation for the tic-tac-evolve design system. The system is built using [Phlex](https://www.phlex.fun/) components with explicit props and predefined style maps.
 
 ## Core Concept
 
-Components accept "literal props" — Ruby symbol and value pairs that translate to Tailwind CSS class names:
+Components declare explicit props using the `prop` DSL. Style classes are organized in keyed maps that combine prop values:
 
 ```ruby
-DesignSystem::View.new(
-  gap: 2,              # → gap-2
-  items: :center,      # → items-center  
-  p: 4,                # → p-4
-  class: "custom"      # → custom (merged)
-)
+class Badge < Base
+  VARIANT_STYLE_CLASSES = {
+    %i[default] => "bg-white border border-line",
+    %i[success] => "bg-soft-green border border-green",
+    %i[error] => "bg-red border border-red text-error"
+  }.freeze
+
+  SIZE_STYLE_CLASSES = {
+    %i[sm] => "px-2 py-1 text-xs",
+    %i[base] => "px-3 py-1.5 text-sm"
+  }.freeze
+
+  prop :variant, default: :default
+  prop :size, default: :base
+end
 ```
 
-Literal props reduce boilerplate and make styling intent clear without CSS class strings polluting the component code.
+This approach provides:
+- **Explicit props** — component behavior is clear and type-safe
+- **Predefined styles** — no runtime magic, all styles are in maps
+- **Maintainability** — changes to variants/sizes are in one place
+- **Clarity** — props define *what*, styles define *how*
 
 ## Component Hierarchy
 
 ```
-View (base)
+Base
 ├── Container
 ├── Typography
 ├── Button (variants: primary, secondary, tertiary; sizes: sm, base, lg)
@@ -110,94 +123,81 @@ DesignSystem::Badge.new(variant: :success) { "Active" }
 DesignSystem::Badge.new(variant: :error, size: :sm) { "Error" }
 ```
 
-## Base Components
+## Base Component
 
-### View
-
-The foundation for all components. Handles literal prop-to-Tailwind conversion.
-
-**Literal Prop Categories:**
-- **Spacing:** `p`, `px`, `py`, `pt`, `pb`, `pl`, `pr`, `m`, `mx`, `my`, `mt`, `mb`, `ml`, `mr`
-- **Flexbox:** `flex`, `flex_col`, `flex_row`, `flex_wrap`, `items`, `justify`, `content`
-- **Grid:** `grid`, `grid_cols`, `grid_rows`
-- **Gap:** `gap`, `gap_x`, `gap_y`
-- **Typography:** `text`, `font`, `color`
-- **Layout:** `w`, `h`, `max_w`, `max_h`, `min_w`, `min_h`, `overflow`
-- **Styling:** `bg`, `border`, `rounded`, `shadow`, `opacity`, `cursor`
-
-**HTML Attributes:**
-- `data: {}` — data attributes
-- `aria: {}` — ARIA attributes
-- `class: "string"` — merged with generated Tailwind classes
-- Any other standard HTML attribute
-
-**Examples:**
+The foundation for all components. Provides the `prop` DSL and standard `attrs` method.
 
 ```ruby
-# Basic flex container
-DesignSystem::View.new(flex: true, gap: 4, p: 6)
+class Base < Phlex::HTML
+  def self.prop(name, type = nil, default: nil, required: false)
+    # Declares a component prop with optional default
+  end
 
-# Responsive spacing
-DesignSystem::View.new(p: { base: 2, sm: 4, lg: 6 })
+  def default_attrs
+    # Subclasses override this to provide default Tailwind classes
+  end
 
-# With HTML attributes
-DesignSystem::View.new(
-  flex: true,
-  data: { controller: "slideshow" },
-  aria: { label: "Gallery" }
-)
+  def attrs
+    # Merges default_attrs with custom HTML attributes
+  end
+end
 ```
 
-### Container
-
-Centered container with max-width. Defaults to `max-w-[1040px]`.
+When you create a component:
 
 ```ruby
-DesignSystem::Container.new(max_width: "max-w-2xl") { "Content" }
+class MyComponent < Base
+  prop :variant, default: :default
+  prop :size, default: :base
+
+  STYLE_MAP = { ... }.freeze
+
+  def view_template(&block)
+    div(**attrs, &block)
+  end
+
+  private
+
+  def default_attrs
+    {
+      class: [
+        "base-classes",
+        STYLE_MAP[[@variant, @size]]
+      ]
+    }
+  end
+end
 ```
 
-### Typography
-
-Text component with size, weight, and color variants.
-
-**Sizes:** `:xs`, `:sm`, `:base`, `:lg`, `:xl`, `:"2xl"`, `:"3xl"`, `:display`
-**Weights:** `:normal`, `:medium`, `:semibold`, `:bold`
-**Colors:** `:default`, `:secondary`, `:subtle`, `:error`
+Usage:
 
 ```ruby
-DesignSystem::Typography.new(
-  tag: :h1,
-  size: :display,
-  weight: :bold,
-  color: :default
-) { "Heading" }
-
-DesignSystem::Typography.new(size: :sm, color: :subtle) { "Meta text" }
+MyComponent.new(variant: :primary, class: "custom") { "Content" }
+# Renders: <div class="base-classes primary-5-base custom">Content</div>
 ```
 
-
-
-**Prefer literal props when:**
+**Prefer props when:**
 - Composing components for semantic meaning
-- You want to change styling in one place (the component)
+- You want to change styling in one place (the component definition)
 - Props are reused across multiple instances
+- You need explicit, type-safe component options
 
-**Use Tailwind utilities directly when:**
-- Building one-off layouts with `flex`, `grid`, `gap`, etc.
-- The styling is temporary or page-specific
-- Mixing with existing Tailwind in HAML/HTML
+**Use HTML attributes when:**
+- Adding one-off classes or data attributes for a specific use
+- Integrating with other tools (e.g., Stimulus with `data-controller`)
+- Adding accessibility attributes (ARIA, role) for specific context
 
 ## Layout Strategy
 
-For now, **use Tailwind utility classes for layout** (flexbox, grid, gap, positioning). Literal props focus on visual components (Button, Input, Card).
+Use **Tailwind utility classes directly in views** for layout (flexbox, grid, gap, positioning). Components focus on visual styling (Button, Input, Card), not layout.
 
-Once the visual component library stabilizes, we can introduce semantic layout components if beneficial.
+Layout remains flexible and easy to adjust without creating new components. As we discover repeated layout patterns, we can introduce semantic layout components later.
 
 ## File Structure
 
 ```
 app/components/design_system/
-├── view.rb              # Base class with literal prop conversion
+├── base.rb              # Base class with prop DSL
 ├── container.rb         # Centered max-width wrapper
 ├── typography.rb        # Text & heading styles
 ├── button.rb            # Primary, secondary, tertiary variants
