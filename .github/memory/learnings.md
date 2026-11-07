@@ -43,3 +43,8 @@ Each entry uses this structure:
 - **Scenario:** A complex inline Ruby validation command was difficult for the user to review.
 - **The Fix:** Use a formatted temporary script, allow review and request approval before running it, then explicitly remove it.
 - **General Principle:** Prefer existing tests or simple commands; make necessary one-off scripts readable and user-approved before execution, and clean them up afterward.
+
+### [2026-11-07] Terminal interruption
+- **Scenario:** Ctrl-C at a move prompt printed an exception backtrace, despite working in menus.
+- **The Fix:** Handle interruptions gracefully throughout the game and test the actual terminal interaction.
+- **General Principle:** Verify cancellation works consistently across menus and input prompts without exposing backtraces.

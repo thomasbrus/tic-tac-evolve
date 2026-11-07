@@ -8,7 +8,7 @@ class CliTest < Minitest::Test
   def test_control_both_sides_with_numbered_moves
     with_terminal do |terminal|
       terminal.wait_for("Choose a mode:")
-      terminal.send_keys(ENTER)
+      terminal.send_keys(DOWN + ENTER)
       terminal.wait_for("Player X, choose a square:")
       terminal.send_keys("1\n")
       terminal.wait_for("Player O, choose a square:")
@@ -24,7 +24,7 @@ class CliTest < Minitest::Test
     %w[Random Easy Medium Hard].each_with_index do |strategy, index|
       with_terminal do |terminal|
         terminal.wait_for("Choose a mode:")
-        terminal.send_keys(DOWN + ENTER)
+        terminal.send_keys(ENTER)
         terminal.wait_for("Choose a computer strategy:")
         terminal.send_keys(DOWN * index + ENTER)
         output = terminal.wait_for("Player X, choose a square:")
@@ -51,7 +51,7 @@ class CliTest < Minitest::Test
   def test_ctrl_d_exits_strategy_menu
     with_terminal do |terminal|
       terminal.wait_for("Choose a mode:")
-      terminal.send_keys(DOWN + ENTER)
+      terminal.send_keys(ENTER)
       terminal.wait_for("Choose a computer strategy:")
       terminal.send_keys("\u0004")
       terminal.wait_for("Game ended.")
@@ -64,6 +64,21 @@ class CliTest < Minitest::Test
       terminal.wait_for("Choose a mode:")
       terminal.send_keys("\u0003")
       terminal.wait_for("Game ended.")
+      assert_predicate terminal.wait_for_exit, :success?
+    end
+  end
+
+  def test_ctrl_c_exits_move_prompt_without_a_backtrace
+    with_terminal do |terminal|
+      terminal.wait_for("Choose a mode:")
+      terminal.send_keys(ENTER)
+      terminal.wait_for("Choose a computer strategy:")
+      terminal.send_keys(ENTER)
+      terminal.wait_for("Player X, choose a square:")
+      terminal.send_keys("\u0003")
+      output = terminal.wait_for("Game ended.")
+      refute_includes output, "Interrupt"
+      refute_includes output, "game.rb:"
       assert_predicate terminal.wait_for_exit, :success?
     end
   end

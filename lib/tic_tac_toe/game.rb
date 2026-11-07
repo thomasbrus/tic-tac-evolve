@@ -25,14 +25,16 @@ module TicTacToe
       end
 
       play_round(mode)
+    rescue Interrupt
+      end_game
     end
 
     private
 
     def choose_mode
       @menu.select("Choose a mode:", {
-        "Control both X and O" => :both,
         "Play against the computer" => :computer,
+        "Control both X and O" => :both,
         "Quit" => :quit
       })
     end

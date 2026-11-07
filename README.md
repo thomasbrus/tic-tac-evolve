@@ -20,7 +20,7 @@ Against the computer, use the same menu controls to choose a strategy:
 - **Medium:** takes an immediate win or blocks an immediate loss; otherwise plays randomly.
 - **Hard:** plays optimally using minimax.
 
-Enter the number displayed in an empty square to place your mark. Enter `q` or press Ctrl-D at a move prompt to end the game early. At a menu, choose Quit or press Ctrl-D or Ctrl-C. Menus require an interactive terminal.
+Enter the number displayed in an empty square to place your mark. Enter `q`, or press Ctrl-D or Ctrl-C at a move prompt to end the game early. At a menu, choose Quit or press Ctrl-D or Ctrl-C. Menus require an interactive terminal.
 
 ## Test
 
