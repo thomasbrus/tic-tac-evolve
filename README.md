@@ -1,6 +1,6 @@
 # Tic-tac-toe
 
-An interactive, two-player tic-tac-toe game for the terminal. The board is rendered with the `terminal-table` Ruby gem.
+An interactive tic-tac-toe game for the terminal. The board is rendered with the `terminal-table` Ruby gem.
 
 ## Run
 
@@ -11,10 +11,12 @@ bundle install
 bundle exec ruby bin/tic-tac-toe
 ```
 
-Players take turns on the same terminal, starting with X. Enter the number displayed in an empty square to place your mark. Enter `q`, or press Ctrl-D, to end the game early.
+Choose whether to control both X and O yourself, or play X against the computer as O. In the first mode, you can pass the terminal to another person between turns. X always starts; the computer chooses an available square at random.
+
+Enter the number displayed in an empty square to place your mark. Enter `q`, or press Ctrl-D, to end the game early, including at the mode prompt.
 
 ## Test
 
 ```sh
-bundle exec ruby -Itest test/tic_tac_toe_test.rb
+bundle exec ruby -Itest -e 'Dir["test/**/*_test.rb"].sort.each { |file| require_relative file }'
 ```
