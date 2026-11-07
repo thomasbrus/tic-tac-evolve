@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f4f5f3;
+  --color-ink: #202622;
+  --color-line: #ced4ce;
+  --color-red: #ba352d;
+  --color-green: #22634c;
+  --color-soft-green: #e5eee7;
+  --color-muted: #e9ece8;
+  --color-secondary: #59655d;
+  --color-subtle: #667369;
+  --color-error: #8c2922;
+  --font-mono: "Courier New", monospace;
+  --font-display: Georgia, serif;
+  --background-image-grid: linear-gradient(90deg, #20262204 1px, transparent 1px), linear-gradient(#20262204 1px, transparent 1px);
+}
+
+@layer base {
+  :focus-visible {
+    @apply outline-3 outline-offset-4 outline-green;
+  }
+}

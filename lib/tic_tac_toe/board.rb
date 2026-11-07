@@ -1,5 +1,3 @@
-require "terminal-table"
-
 module TicTacToe
   class Board
     WINNING_LINES = [
@@ -8,8 +6,16 @@ module TicTacToe
       [0, 4, 8], [2, 4, 6]
     ].freeze
 
-    def initialize
-      @cells = Array.new(9)
+    def initialize(cells: Array.new(9))
+      unless cells.is_a?(Array) && cells.length == 9 && cells.all? { |cell| cell.nil? || %w[X O].include?(cell) }
+        raise ArgumentError, "Board must contain nine empty, X, or O cells"
+      end
+
+      @cells = cells.map { |cell| cell&.dup }
+    end
+
+    def to_a
+      @cells.map { |cell| cell&.dup }
     end
 
     def initialize_copy(original)
@@ -49,6 +55,8 @@ module TicTacToe
     end
 
     def render
+      require "terminal-table"
+
       cells = @cells.each_with_index.map { |mark, index| mark || (index + 1).to_s }
       Terminal::Table.new(rows: cells.each_slice(3).to_a, style: { all_separators: true }).to_s
     end

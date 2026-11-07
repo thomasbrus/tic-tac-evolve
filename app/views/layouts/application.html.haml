@@ -1,0 +1,17 @@
+!!! 5
+%html{lang: "en"}
+  %head
+    %title= content_for(:title) || "Tic Tac Evolve"
+    %meta{name: "viewport", content: "width=device-width,initial-scale=1"}
+    %meta{name: "application-name", content: "Tic Tac Evolve"}
+    = csrf_meta_tags
+    = csp_meta_tag
+    = yield :head
+    = stylesheet_link_tag "tailwind", "data-turbo-track": "reload"
+    = javascript_importmap_tags
+  %body{class: "bg-paper bg-grid bg-size-[48px_48px] font-mono text-ink tracking-normal"}
+    %header.site-header{class: "flex items-center justify-between gap-4 border-b border-line px-5 py-5 sm:px-[5%] sm:py-6"}
+      = link_to "tic-tac-evolve", root_path, class: "wordmark text-lg font-bold no-underline"
+      %span.edition{class: "hidden text-xs sm:inline"} CLASSIC / 01
+    %main#main-content{class: "mx-auto max-w-[1040px] px-5 py-7 sm:px-6 sm:py-12"}
+      = yield

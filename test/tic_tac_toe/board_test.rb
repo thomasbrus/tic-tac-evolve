@@ -3,6 +3,24 @@ require_relative "../../lib/tic_tac_toe/board"
 
 module TicTacToe
   class BoardTest < Minitest::Test
+    def test_restores_state_without_sharing_mutable_cells
+      cells = [String.new("X"), "O", nil, nil, nil, nil, nil, nil, nil]
+      board = Board.new(cells: cells)
+      cells.first.replace("O")
+      snapshot = board.to_a
+      snapshot.first.replace("O")
+      snapshot[2] = "X"
+
+      assert_equal ["X", "O", nil, nil, nil, nil, nil, nil, nil], board.to_a
+      assert_equal [3, 4, 5, 6, 7, 8, 9], board.available_positions
+    end
+
+    def test_rejects_malformed_state
+      [nil, "XXXXXXXXX", [], Array.new(8), ["Z"] + Array.new(8)].each do |cells|
+        assert_raises(ArgumentError) { Board.new(cells: cells) }
+      end
+    end
+
     def test_all_winning_lines
       Board::WINNING_LINES.each do |line|
         board = Board.new
