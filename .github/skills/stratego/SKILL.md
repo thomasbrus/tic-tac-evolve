@@ -1,6 +1,6 @@
 ---
 name: stratego
-description: "Work on the Stratego game code. Use when adding or changing rules, classes, the CLI, board, army, or private views in lib/stratego or stratego.rb. Do not use to edit skill files, rewrite how work is done, or update a playbook."
+description: "Work on the Stratego game code. Use when adding or changing rules, classes, the CLI, board, or army in lib/stratego or stratego.rb. Do not use to edit skill files, rewrite how work is done, or update a playbook."
 argument-hint: "What to change in the game"
 ---
 
@@ -29,12 +29,9 @@ The code is the source of truth for counts, tokens, lakes, and home rows. Do not
 
 - `stratego.rb` launches `Stratego.start`.
 - `lib/stratego.rb` loads the composition root.
-- `lib/stratego/game.rb` is the CLI composition root. It delegates. It does not own board, army, or view rules.
-- `lib/stratego/board.rb` owns the shared board, including lakes. No pieces.
+- `lib/stratego/game.rb` is the CLI composition root. It delegates. It does not own board or army rules.
+- `lib/stratego/board.rb` owns the shared open board: lakes and placed pieces.
 - `lib/stratego/army.rb` owns piece counts and setup tokens.
-- `lib/stratego/view.rb` owns one player's private file: inventory plus that player's home rows.
-
-`player1.view` and `player2.view` are generated. Do not commit them.
 
 ## Procedure
 
@@ -43,8 +40,8 @@ The code is the source of truth for counts, tokens, lakes, and home rows. Do not
 3. Do not move a rule into `game.rb` because it is convenient.
 4. Do not add a second copy of a constant. Point at the owner.
 5. Leave every skill file alone.
-6. Run `ruby -c` on files you edited. If behavior changed, run `ruby stratego.rb`. When views matter, also run `ruby stratego.rb read`. A syntax check is not a rules check.
+6. Run `ruby -c` on files you edited. If behavior changed, run `ruby stratego.rb`. A syntax check is not a rules check. Propose RuboCop instead of skipping it.
 
 ## Done
 
-The asked behavior is in the owning class. Unrelated classes and all three skills are unchanged.
+The asked behavior is in the owning class. Unrelated classes and all three skills are unchanged. Commit the finished work.

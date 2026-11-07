@@ -36,6 +36,7 @@ Read the Ruby if the playbook must name the right owner. Do not change the Ruby 
 5. Do not copy piece counts, tokens, lakes, or home rows into the skill. The code owns those.
 6. Do not add a rule the expert did not ask for and that the miss does not require.
 7. Do not edit `lib/`, `stratego.rb`, or either of the other skills.
+8. After that edit, check the code against the judgment you added. If it does not adhere, say so and stop. That is the maker's desk. Do not change the Ruby to make the playbook true.
 
 ## Done
 
