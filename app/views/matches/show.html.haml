@@ -5,7 +5,8 @@
     %p.eyebrow{class: "text-xs"}= t(".eyebrow", number: @match.id.to_s.rjust(3, "0"))
     %h1{class: "mt-3 mb-4 font-display text-[34px] font-normal sm:text-[42px]", role: "status"}= @match.status_label
     %p.match-meta{class: "text-sm text-secondary"}= @match.mode_label
-  = render "errors", match: @match
+  - if @match.errors.any?
+    = raw(DesignSystem::ErrorMessage.new(message: @match.errors.full_messages.to_sentence).call)
   .board{class: "my-7 grid aspect-square grid-cols-3 grid-rows-3 gap-0.5 border-2 border-ink bg-ink", aria: { label: t(".board_label") }}
     - @match.cells.each_with_index do |mark, index|
       - if mark.nil? && !complete
