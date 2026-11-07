@@ -42,9 +42,14 @@ Each entry uses this structure:
 ### [2026-11-07] Reviewable verification scripts
 - **Scenario:** A complex inline Ruby validation command was difficult for the user to review.
 - **The Fix:** Use a formatted temporary script, allow review and request approval before running it, then explicitly remove it.
-- **General Principle:** Prefer existing tests or simple commands; make necessary one-off scripts readable and user-approved before execution, and clean them up afterward.
+- **General Principle:** Prefer existing tests or simple commands; do not run inline custom verification scripts. Put necessary one-off scripts in readable temporary files, obtain approval before execution, and explicitly remove them afterward, including on failure.
 
 ### [2026-11-07] Generalizable learnings
 - **Scenario:** A one-off terminal interruption bug was recorded as a project learning.
 - **The Fix:** Record durable lessons useful for future work, not routine bug fixes without a generalizable takeaway.
 - **General Principle:** Evaluate whether a correction yields a reusable, actionable lesson before adding it to project memory.
+
+### [2026-11-07] Rails frontend stack
+- **Scenario:** The Rails migration used ERB views and handwritten match CSS before the user specified the preferred frontend stack.
+- **The Fix:** Use Haml and Tailwind CSS 4 when migration work resumes.
+- **General Principle:** Use Haml for this project's Rails application views and Tailwind CSS 4 for styling; preserve these choices in subsequent frontend work.
