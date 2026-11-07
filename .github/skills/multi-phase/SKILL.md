@@ -27,12 +27,9 @@ Carry a substantial goal through approved, independently verifiable phases. Keep
 ## Execute each phase
 
 1. Mark the current phase `in_progress`. Start it only when its dependencies are complete.
-2. Before editing, state a local hypothesis, its controlling code path, and a cheap check that could disprove it. Make the smallest grounded change, then immediately run the focused check. Repair local failures before widening scope.
-3. Reuse existing domain logic, tests, and utilities. Preserve behavior unless its change belongs to the approved plan. Keep adjacent changes limited to the current phase's acceptance criteria.
-4. Follow repository-required code-quality review and verification gates. Prefer existing tests or simple commands. Do not run inline custom verification scripts; if a one-off script is necessary, put it in a readable temporary file, show its purpose and path, obtain approval before running it, and explicitly remove it afterward, including on failure.
-5. Before browser-based verification, ask which scenarios the user wants tested. Combine those scenarios with applicable required checks.
-6. Record commands and outcomes as checks run. Mark a phase complete only when its acceptance criteria and required gates have passed. Unrun, inconclusive, and failing checks are not passes.
-7. Update the plan and briefly report the phase's outcome, then proceed to the next approved phase.
+2. Implement the smallest complete slice meeting its acceptance criteria. Follow the repository's [verification and review policy](../../copilot-instructions.md#verification) rather than inventing a second editing or testing workflow.
+3. At the phase boundary, record the meaningful changes, decisions, and verification commands/results. Do not rewrite the plan after every tool call or small edit; update it sooner only for scope changes, blockers, or a pause.
+4. Mark a phase complete only when its criteria and required gates pass. Briefly report the outcome and proceed to the next approved phase; unrun or inconclusive checks are not passes.
 
 ## Handle discoveries and blockers
 

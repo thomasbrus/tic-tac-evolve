@@ -2,6 +2,8 @@
 
 *This file is automatically updated by the AI agent when corrections are made. It serves as a persistent knowledge base across all sessions and agent interactions.*
 
+These entries preserve historical rationale. Current standards live in the [main instructions](../copilot-instructions.md), [Rails conventions](../instructions/rails.instructions.md), [frontend conventions](../instructions/views.instructions.md), and owning skills; maintain those authorities rather than copying rules into additional workflows.
+
 ---
 
 ## Format
@@ -63,3 +65,8 @@ Each entry uses this structure:
 - **Scenario:** During CLI-to-Rails migration, the default game mode changed from "Play against the computer" (user's first choice) to "Two players" (database default). The user's earlier deliberate design decision was not carried forward into the new technology stack.
 - **The Fix:** Explicitly verify design decisions and defaults from the source system before implementing them in the target system; document which decisions are deliberate vs. accidental.
 - **General Principle:** When migrating between technologies or architectures, treat intentional design decisions as a checklist item. Cross-reference the original system's documented choices (or meeting notes) against the new implementation, and confirm that no deliberate behavior is being lost to framework defaults or shortcuts.
+
+### [2026-11-07] Relative Rails view translations
+- **Scenario:** Match views used absolute translation keys for page-specific labels and left some accessible text hardcoded.
+- **The Fix:** Use relative view lookups and scope locale entries to their template; retain absolute keys for shared and model translations.
+- **General Principle:** Prefer `t(".key")` for view- and partial-specific text, with locale keys matching the template path. Use absolute keys for genuinely shared translations, and translate complete accessible labels with interpolation rather than concatenating localized fragments.
