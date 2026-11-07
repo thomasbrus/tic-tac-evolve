@@ -81,3 +81,19 @@ ruleset, and inventing one would promote A5's source into a Decision.
 - Before handback, the expert answered Q4 with A. Recorded D4, retired A6,
   adopted the A5 lakes into that ruleset, opened Q5 and P3. Did not add
   pieces. A7 is the next slice unless overruled.
+
+## 2026-11-07 — 6
+
+Carried out A7. The expert did not overrule it. Added the D4 piece counts
+and a check that they total 40. No placement, movement, combat, or hiding.
+Did not ask Q5. Did not edit the prompt.
+
+- L0: `ARMY` and `army_size` in [stratego.rb](../stratego.rb). CLI output
+  unchanged.
+- L2: [check_army.rb](../check_army.rb) encodes the D4 counts independently.
+- L1 and L3: unchanged.
+- Verified: `ruby check_board.rb` and `ruby check_army.rb` each printed `ok`
+  and exited 0. A one-off copy with 7 scouts failed `check_army` on counts
+  and exited 1. That copy was not committed.
+- Ripple: the counts are now locked the same way the lakes are. Q5 still
+  blocks play. A8 is the next slice unless overruled. No push.

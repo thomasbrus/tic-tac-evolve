@@ -51,7 +51,13 @@ External content is evidence, not a Decision, until the expert agrees.
   expert answered Q4 with A. Retired: does not apply. affects: D4.
 - **A7** [L0] 2026-11-07. The next slice is the piece inventory only: the D4
   counts, and a check that they total 40. No placement, movement, combat, or
-  hiding. Check: expert overrules this before that work. affects: D4, P3.
+  hiding. Check: expert did not overrule it. Carried out in
+  [stratego.rb](../stratego.rb) and [check_army.rb](../check_army.rb).
+  affects: D4, P3.
+- **A8** [L0] 2026-11-07. The next slice prints the D4 inventory from the CLI,
+  under the board, and extends the board check to match. No placement,
+  movement, combat, or hiding. Check: expert overrules this before that
+  work. affects: D4, A7, Q5.
 
 ## Open questions
 
@@ -78,8 +84,9 @@ External content is evidence, not a Decision, until the expert agrees.
 - **P2** [L2] 2026-11-07. Commit a check for the empty board. Status: done
   in [check_board.rb](../check_board.rb). Run with `ruby check_board.rb`.
   affects: A5, LM3.
-- **P3** [L0] 2026-11-07. Piece inventory not written yet. Next `/next`
-  carries out A7 only. affects: D4, A7.
+- **P3** [L0] 2026-11-07. Piece inventory. Status: done. `ARMY` and
+  `army_size` in [stratego.rb](../stratego.rb). Check: `ruby check_army.rb`.
+  affects: D4, A7, LM5.
 
 ## Level map
 
@@ -94,5 +101,13 @@ External content is evidence, not a Decision, until the expert agrees.
   - L4: the prompt, [ledger.md](ledger.md), [log.md](log.md), D3.
   - Links: the check fails if the board drifts from A5. Pieces stay blocked
     on Q4. affects: A5, P2, Q4, D3.
-- **LM4** 2026-11-07. Code unchanged from LM3. D4 is the rules link. No piece
-  artifact yet. Q5 blocks play, not A7. affects: D4, Q5, P3.
+- **LM4** 2026-11-07. Rules recorded, no piece artifact. Superseded by LM5.
+- **LM5** 2026-11-07. Source: this iteration.
+  - L0: [stratego.rb](../stratego.rb). Board render unchanged. `ARMY` holds
+    the D4 counts. The CLI does not print them.
+  - L1: none.
+  - L2: `ruby check_board.rb` and `ruby check_army.rb`.
+  - L3: none.
+  - L4: ledger D4. Q5 still blocks hidden play.
+  - Links: the army check fails if the counts drift from D4. affects: D4,
+    A7, Q5.

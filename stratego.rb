@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Empty Stratego board. Lakes are an assumption (ledger A5), not an agreed ruleset.
+# Empty board and one army's piece counts (ledger D4). No placement or combat.
 COLUMNS = ("a".."j").to_a.freeze
 ROWS = (1..10).to_a.freeze
 LAKES = [
@@ -10,6 +10,25 @@ LAKES = [
 
 def square(column, row)
   LAKES.include?([column, row]) ? "#" : "."
+end
+
+ARMY = [
+  ["flag", 1],
+  ["spy", 1],
+  ["scout", 8],
+  ["miner", 5],
+  ["sergeant", 4],
+  ["lieutenant", 4],
+  ["captain", 4],
+  ["major", 3],
+  ["colonel", 2],
+  ["general", 1],
+  ["marshal", 1],
+  ["bomb", 6]
+].freeze
+
+def army_size
+  ARMY.sum { |_name, count| count }
 end
 
 def render_board
