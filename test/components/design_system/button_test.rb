@@ -3,15 +3,15 @@
 require "test_helper"
 require_relative "../../components/design_system_test_helper"
 
-class DesignSystem::ButtonTest < DesignSystemTest
+class Components::ButtonTest < DesignSystemTest
   test "renders button tag" do
-    component = DesignSystem::Button.new
+    component = Components::Button.new
     html = render_component(component)
     assert_match(/<button/, html)
   end
 
   test "applies primary variant by default" do
-    component = DesignSystem::Button.new
+    component = Components::Button.new
     html = render_component(component)
     assert_includes(html, "bg-ink")
     assert_includes(html, "text-white")
@@ -19,7 +19,7 @@ class DesignSystem::ButtonTest < DesignSystemTest
   end
 
   test "applies secondary variant" do
-    component = DesignSystem::Button.new(variant: :secondary)
+    component = Components::Button.new(variant: :secondary)
     html = render_component(component)
     assert_includes(html, "border")
     assert_includes(html, "border-line")
@@ -27,7 +27,7 @@ class DesignSystem::ButtonTest < DesignSystemTest
   end
 
   test "applies tertiary variant" do
-    component = DesignSystem::Button.new(variant: :tertiary)
+    component = Components::Button.new(variant: :tertiary)
     html = render_component(component)
     assert_includes(html, "text-link")
     assert_includes(html, "underline")
@@ -40,21 +40,21 @@ class DesignSystem::ButtonTest < DesignSystemTest
       lg: "text-lg"
     }
     sizes.each do |size, expected_class|
-      component = DesignSystem::Button.new(size:)
+      component = Components::Button.new(size:)
       html = render_component(component)
       assert_includes(html, expected_class, "Size #{size} should include #{expected_class}")
     end
   end
 
   test "merges additional props" do
-    component = DesignSystem::Button.new(class: "custom", data: { test: "value" })
+    component = Components::Button.new(class: "custom", data: { test: "value" })
     html = render_component(component)
     assert_includes(html, "custom")
     assert_includes(html, "data-test=\"value\"")
   end
 
   test "yields content" do
-    component = DesignSystem::Button.new { "Click me" }
+    component = Components::Button.new { "Click me" }
     html = render_component(component)
     assert_includes(html, "Click me")
   end

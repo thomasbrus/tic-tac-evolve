@@ -1,4 +1,4 @@
-module Matches
+module Components
   class MatchSetupSection < Phlex::HTML
     def initialize(t_scope: "matches.index")
       @t_scope = t_scope

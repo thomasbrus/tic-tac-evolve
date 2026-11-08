@@ -12,7 +12,7 @@ gem "haml-rails", "~> 3.0"
 gem "tailwindcss-rails", "~> 4.0"
 gem "tailwindcss-ruby", "~> 4.0"
 gem "phlex", "~> 1.10"
-gem "phlex-rails", "~> 0.0"
+gem "phlex-rails", "~> 1.2.2"
 gem "literal", "~> 0.1"
 
 group :development, :test do

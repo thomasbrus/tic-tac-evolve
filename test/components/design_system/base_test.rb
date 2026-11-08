@@ -3,26 +3,26 @@
 require "test_helper"
 require_relative "../../components/design_system_test_helper"
 
-class DesignSystem::BaseTest < DesignSystemTest
+class Components::BaseTest < DesignSystemTest
   test "Base is the foundation for all components" do
     # Base is abstract; we test it through concrete components
-    assert_includes(DesignSystem::Button.ancestors, DesignSystem::Base)
-    assert_includes(DesignSystem::Card.ancestors, DesignSystem::Base)
+    assert_includes(Components::Button.ancestors, Components::Base)
+    assert_includes(Components::Card.ancestors, Components::Base)
   end
 
   test "prop DSL declares instance variables" do
-    component = DesignSystem::Button.new(variant: :secondary)
+    component = Components::Button.new(variant: :secondary)
     assert_equal(:secondary, component.variant)
   end
 
   test "prop defaults work" do
-    component = DesignSystem::Button.new
+    component = Components::Button.new
     assert_equal(:primary, component.variant)
     assert_equal(:base, component.size)
   end
 
   test "attrs method merges default and custom classes" do
-    component = DesignSystem::Button.new(class: "custom-class")
+    component = Components::Button.new(class: "custom-class")
     attrs = component.send(:attrs)
     classes = attrs[:class]
     # Classes is an array, check that it contains both default and custom
@@ -32,7 +32,7 @@ class DesignSystem::BaseTest < DesignSystemTest
   end
 
   test "custom HTML attributes pass through" do
-    component = DesignSystem::Button.new(data: { test: "value" }, aria: { label: "Test" })
+    component = Components::Button.new(data: { test: "value" }, aria: { label: "Test" })
     attrs = component.send(:attrs)
     assert_equal({ test: "value" }, attrs[:data])
     assert_equal({ label: "Test" }, attrs[:aria])

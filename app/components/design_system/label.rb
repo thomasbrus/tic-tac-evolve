@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module DesignSystem
+module Components
   class Label < Base
     def view_template(&block)
       label(**attrs, &block)

@@ -1,4 +1,4 @@
-module DesignSystem
+module Components
   class Section < Phlex::HTML
     def initialize(title: nil, subtitle: nil, content: nil, **html_attrs)
       @title = title

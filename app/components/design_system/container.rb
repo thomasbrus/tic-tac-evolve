@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module DesignSystem
+module Components
   class Container < Base
     prop :max_width, String, default: "max-w-[1040px]", reader: :public
 

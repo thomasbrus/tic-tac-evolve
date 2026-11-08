@@ -1,4 +1,4 @@
-module DesignSystem
+module Components
   class ErrorMessage < Base
     def initialize(message:, **html_attrs)
       html_attrs[:class] ||= []

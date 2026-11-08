@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module DesignSystem
+module Components
   class Badge < Base
     Variant = _Union(:default, :success, :error)
     Size = _Union(:sm, :base)

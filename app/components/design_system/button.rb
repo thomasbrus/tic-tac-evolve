@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module DesignSystem
+module Components
   class Button < Base
     Variant = _Union(:primary, :secondary, :tertiary)
     Size = _Union(:sm, :base, :lg)

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module DesignSystem
+module Components
   class Typography < Base
     Size = _Union(:xs, :sm, :base, :lg, :xl, :"2xl", :"3xl", :display)
     Weight = _Union(:normal, :medium, :semibold, :bold)

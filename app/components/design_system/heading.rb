@@ -1,4 +1,4 @@
-module DesignSystem
+module Components
   class Heading < Phlex::HTML
     SIZE_STYLE_CLASSES = {
       sm: "text-lg",

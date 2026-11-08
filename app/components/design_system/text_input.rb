@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module DesignSystem
+module Components
   class TextInput < Base
     Size = _Union(:sm, :base, :lg)
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module DesignSystem
+module Components
   class FormFieldset < Base
     def view_template(&block)
       fieldset(**attrs, &block)

@@ -1,8 +1,8 @@
 require "test_helper"
 
-class DesignSystem::ErrorMessageTest < ActiveSupport::TestCase
+class Components::ErrorMessageTest < ActiveSupport::TestCase
   test "renders error message with default styling" do
-    component = DesignSystem::ErrorMessage.new(message: "Something went wrong")
+    component = Components::ErrorMessage.new(message: "Something went wrong")
     html = component.call
     assert_includes html, "role=\"alert\""
     assert_includes html, "border-l-[3px]"
@@ -14,7 +14,7 @@ class DesignSystem::ErrorMessageTest < ActiveSupport::TestCase
   end
 
   test "accepts custom html attributes" do
-    component = DesignSystem::ErrorMessage.new(
+    component = Components::ErrorMessage.new(
       message: "Error occurred",
       data: { test: "value" }
     )
@@ -24,7 +24,7 @@ class DesignSystem::ErrorMessageTest < ActiveSupport::TestCase
   end
 
   test "renders with custom class merging" do
-    component = DesignSystem::ErrorMessage.new(
+    component = Components::ErrorMessage.new(
       message: "Test error",
       class: "custom-class"
     )

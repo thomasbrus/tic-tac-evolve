@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module DesignSystem
+module Components
   class Select < Base
     Size = _Union(:sm, :base, :lg)
 

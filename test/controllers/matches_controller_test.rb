@@ -53,6 +53,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
       post matches_path, params: { match: { mode: "unknown" } }
     end
     assert_response :unprocessable_content
+    assert_select "div[role=alert].border-red.text-error", count: 1, text: /Mode/
   end
 
   test "creates computer matches for all four strategies" do
@@ -72,7 +73,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_response :see_other
     post move_match_path(match), params: { position: "2", revision: "0" }
     assert_response :unprocessable_content
-    assert_select "[role=alert]", text: /board changed/
+    assert_select "div[role=alert].border-red.text-error", count: 1, text: /board changed/
     post move_match_path(match), params: { position: "2" }
     assert_response :unprocessable_content
     assert_equal ["X"] + Array.new(8), match.reload.cells

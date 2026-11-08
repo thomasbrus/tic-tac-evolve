@@ -1,4 +1,4 @@
-module Matches
+module Components
   class MatchHistoryItem < Phlex::HTML
     include Rails.application.routes.url_helpers
 

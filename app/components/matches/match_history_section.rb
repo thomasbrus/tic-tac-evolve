@@ -1,4 +1,4 @@
-module Matches
+module Components
   class MatchHistorySection < Phlex::HTML
     def initialize(page:, t_scope: "matches.index")
       @page = page

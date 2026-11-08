@@ -1,4 +1,4 @@
-module DesignSystem
+module Components
   class Eyebrow < Base
     def initialize(text:, **html_attrs)
       html_attrs[:class] ||= []

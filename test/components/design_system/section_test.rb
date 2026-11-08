@@ -1,8 +1,8 @@
 require "test_helper"
 
-class DesignSystem::SectionTest < ActiveSupport::TestCase
+class Components::SectionTest < ActiveSupport::TestCase
   test "renders section with title" do
-    component = DesignSystem::Section.new(title: "Test Section", content: "Content here")
+    component = Components::Section.new(title: "Test Section", content: "Content here")
     html = component.call
     assert_includes html, "<section"
     assert_includes html, "Test Section"
@@ -11,7 +11,7 @@ class DesignSystem::SectionTest < ActiveSupport::TestCase
   end
 
   test "renders section with title and subtitle" do
-    component = DesignSystem::Section.new(
+    component = Components::Section.new(
       title: "Main", 
       subtitle: "Sub", 
       content: "Body content"
@@ -24,7 +24,7 @@ class DesignSystem::SectionTest < ActiveSupport::TestCase
   end
 
   test "renders section without title" do
-    component = DesignSystem::Section.new(content: "Just content")
+    component = Components::Section.new(content: "Just content")
     html = component.call
     assert_includes html, "<section"
     assert_includes html, "Just content"
@@ -32,7 +32,7 @@ class DesignSystem::SectionTest < ActiveSupport::TestCase
   end
 
   test "accepts custom html attributes" do
-    component = DesignSystem::Section.new(
+    component = Components::Section.new(
       class: "custom-class",
       id: "main-section",
       content: "Content"

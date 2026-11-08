@@ -3,22 +3,22 @@
 require "test_helper"
 require_relative "../../components/design_system_test_helper"
 
-class DesignSystem::FormFieldsetTest < DesignSystemTest
+class Components::FormFieldsetTest < DesignSystemTest
   test "renders fieldset tag" do
-    component = DesignSystem::FormFieldset.new
+    component = Components::FormFieldset.new
     html = render_component(component)
     assert_match(/<fieldset/, html)
   end
 
   test "has base styling" do
-    component = DesignSystem::FormFieldset.new
+    component = Components::FormFieldset.new
     html = render_component(component)
     assert_includes(html, "border-0")
     assert_includes(html, "p-0")
   end
 
   test "merges additional HTML attributes" do
-    component = DesignSystem::FormFieldset.new(class: "custom", aria: { label: "Form" })
+    component = Components::FormFieldset.new(class: "custom", aria: { label: "Form" })
     html = render_component(component)
     assert_includes(html, "border-0")
     assert_includes(html, "p-0")
@@ -27,7 +27,7 @@ class DesignSystem::FormFieldsetTest < DesignSystemTest
   end
 
   test "yields content" do
-    component = DesignSystem::FormFieldset.new { "Form content" }
+    component = Components::FormFieldset.new { "Form content" }
     html = render_component(component)
     assert_includes(html, "Form content")
   end

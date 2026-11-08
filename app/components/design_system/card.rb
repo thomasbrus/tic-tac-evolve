@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module DesignSystem
+module Components
   class Card < Base
     Variant = _Union(:default, :soft)
 

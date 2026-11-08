@@ -1,8 +1,8 @@
 require "test_helper"
 
-class DesignSystem::EyebrowTest < ActiveSupport::TestCase
+class Components::EyebrowTest < ActiveSupport::TestCase
   test "renders eyebrow text with default styling" do
-    component = DesignSystem::Eyebrow.new(text: "Label text")
+    component = Components::Eyebrow.new(text: "Label text")
     html = component.call
     assert_includes html, "<p"
     assert_includes html, "text-xs"
@@ -10,7 +10,7 @@ class DesignSystem::EyebrowTest < ActiveSupport::TestCase
   end
 
   test "accepts custom html attributes" do
-    component = DesignSystem::Eyebrow.new(
+    component = Components::Eyebrow.new(
       text: "Custom",
       class: "custom-class",
       id: "eyebrow-1"

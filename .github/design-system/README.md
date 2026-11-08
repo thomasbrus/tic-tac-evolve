@@ -36,6 +36,8 @@ This approach provides:
 
 ## Component Hierarchy
 
+All component classes live under `Components`. The `design_system` and `matches` directories group files but do not add namespace levels.
+
 ```
 Base
 ├── Container
@@ -49,6 +51,23 @@ Base
 └── Badge (variants: default, success, error; sizes: sm, base)
 ```
 
+## Rails rendering
+
+The [Phlex initializer](../../config/initializers/phlex.rb) defines a `Components` Kit, registers `app/components` under that namespace, and collapses its grouping directories. For example, `app/components/design_system/badge.rb` defines `Components::Badge`.
+
+[ApplicationHelper](../../app/helpers/application_helper.rb) includes `Components`, exposing Kit methods in Haml:
+
+```haml
+= ErrorMessage(message: @match.errors.full_messages.to_sentence)
+= MatchSetupSection()
+```
+
+Use parentheses for components without arguments. The compatible `phlex-rails` adapter handles Rails rendering and safe HTML output; do not wrap these calls in `raw` or call components manually from templates.
+
+This Haml pattern is verified by [helper tests](../../test/helpers/application_helper_test.rb) and [request tests](../../test/controllers/matches_controller_test.rb) with Phlex 1.x and phlex-rails 1.2.2. The current [Kits documentation](https://www.phlex.fun/components/kits.html) describes Phlex callers and warns against ERB usage; do not assume identical behavior across library versions.
+
+Inside a Phlex component, include `Components` for unqualified Kit calls. The constructor examples below create component instances; they are not Haml rendering calls.
+
 ## Visual Components
 
 ### Button
@@ -59,8 +78,8 @@ Button with variant and size support.
 **Sizes:** `:sm`, `:base` (default), `:lg`
 
 ```ruby
-DesignSystem::Button.new(variant: :primary, size: :base) { "Click me" }
-DesignSystem::Button.new(variant: :secondary) { "Secondary" }
+Components::Button.new(variant: :primary, size: :base) { "Click me" }
+Components::Button.new(variant: :secondary) { "Secondary" }
 ```
 
 ### TextInput
@@ -70,8 +89,8 @@ Text input field with size variants and disabled state styling.
 **Sizes:** `:sm`, `:base` (default), `:lg`
 
 ```ruby
-DesignSystem::TextInput.new(type: "email", placeholder: "Enter email")
-DesignSystem::TextInput.new(size: :lg, disabled: true)
+Components::TextInput.new(type: "email", placeholder: "Enter email")
+Components::TextInput.new(size: :lg, disabled: true)
 ```
 
 ### Select
@@ -81,7 +100,7 @@ Select dropdown with size variants.
 **Sizes:** `:sm`, `:base` (default), `:lg`
 
 ```ruby
-DesignSystem::Select.new(size: :sm) do
+Components::Select.new(size: :sm) do
   # option elements
 end
 ```
@@ -91,7 +110,7 @@ end
 Basic label element with cursor-pointer styling.
 
 ```ruby
-DesignSystem::Label.new(for: "input-id") { "Label text" }
+Components::Label.new(for: "input-id") { "Label text" }
 ```
 
 ### FormFieldset
@@ -99,7 +118,7 @@ DesignSystem::Label.new(for: "input-id") { "Label text" }
 Semantic fieldset wrapper for form groups (removes border and padding).
 
 ```ruby
-DesignSystem::FormFieldset.new(flex: true, flex_col: true, gap: 4) do
+Components::FormFieldset.new(flex: true, flex_col: true, gap: 4) do
   # form inputs and labels
 end
 ```
@@ -111,8 +130,8 @@ Card container with variant support.
 **Variants:** `:default` (white with border), `:soft` (soft green background)
 
 ```ruby
-DesignSystem::Card.new(variant: :default) { "Card content" }
-DesignSystem::Card.new(variant: :soft, p: 6) { "Soft card" }
+Components::Card.new(variant: :default) { "Card content" }
+Components::Card.new(variant: :soft, p: 6) { "Soft card" }
 ```
 
 ### Badge
@@ -123,8 +142,8 @@ Badge component with variant and size support.
 **Sizes:** `:sm`, `:base` (default)
 
 ```ruby
-DesignSystem::Badge.new(variant: :success) { "Active" }
-DesignSystem::Badge.new(variant: :error, size: :sm) { "Error" }
+Components::Badge.new(variant: :success) { "Active" }
+Components::Badge.new(variant: :error, size: :sm) { "Error" }
 ```
 
 ## Base Component
