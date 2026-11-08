@@ -7,6 +7,7 @@ Persistent, repository-backed context for multi-session engineering work. The `/
 | Initiative | Status | Current focus | State |
 | --- | --- | --- | --- |
 | [Phlex rendering integration](phlex-rendering/README.md) | complete | Closed and accepted; Haml Kit rendering verified | [STATE.md](phlex-rendering/STATE.md) |
+| [Rails view composition](rails-view-composition/README.md) | proposed | Baseline investigated; review composition guidance and migration plan | [STATE.md](rails-view-composition/STATE.md) |
 
 Use one row per initiative. Link its overview and `STATE.md`; keep status and focus current. Suggested statuses are `proposed`, `active`, `blocked`, `paused`, and `complete`. Multiple initiatives can be active; select using the user's request and each initiative's current state, and ask only when the choice is genuinely ambiguous.
 
