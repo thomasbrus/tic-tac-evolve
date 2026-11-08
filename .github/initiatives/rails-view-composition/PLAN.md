@@ -4,7 +4,7 @@
 
 Use Rails-native feature composition and shared UI primitives without changing match behavior or redesigning the interface.
 
-- **Status:** paused.
+- **Status:** complete.
 - **Approved scope:** Phases 1–3, including setup/history, play/layout composition, consolidation, and related tests and guidance.
 - **Approval:** The user requested continuing with the remaining two phases on 2026-11-08.
 - **Execution policy:** Work only within the approved phase; pause for material scope or behavior changes.
@@ -58,7 +58,7 @@ Use Rails-native feature composition and shared UI primitives without changing m
 
 ### 3. Consolidate and verify the outcome
 
-- Status: in_progress (paused by user).
+- Status: complete.
 - Depends on: phase 2.
 - Deliverables:
   - Remove superseded wrappers and styling duplication within the migrated scope.
@@ -67,7 +67,7 @@ Use Rails-native feature composition and shared UI primitives without changing m
 - Acceptance criteria: Each retained feature component has a concrete reason; no obsolete helper/component references or missing translations remain; the documented architecture matches working code.
 - Checks: `bin/rails test test`; `bin/rails tailwindcss:build`; `bin/rails zeitwerk:check`; scoped whitespace/link review.
 - Browser checks: Ask for scenarios before running any. If deferred, record visual parity as unverified rather than passed.
-- Results: contributor guidance is updated. The final cleanup removed non-styling board/state classes used only as test hooks and changed tests to select the board by its accessible name. The full suite, Tailwind build, Zeitwerk check, focused suite, and whitespace check passed before this cleanup; rerun them before marking phase 3 complete. No browser check was performed. See the [phase 3 verification record](history/experiments/2026-11-08-guidance-and-verification.md).
+- Results: contributor guidance is updated and the migrated views no longer carry unstyled feature class names. Tailwind utilities and the explicit `data-test-id` hooks remain. Full suite passed (112 tests, 6,788 assertions), focused controller/helper/component suite passed (28 tests, 197 assertions), changed-view Haml lint passed, and Tailwind build, Zeitwerk check, and whitespace check passed. No browser check was performed. See the [phase 3 verification record](history/experiments/2026-11-08-guidance-and-verification.md).
 
 ## Cross-workstream dependencies
 
@@ -85,4 +85,4 @@ No database or dependency migration is planned. Keep each slice independently re
 
 ## Pause point
 
-Phases 1–2 are complete. Phase 3 is paused after its final selector cleanup; resume with focused and full verification. Visual parity beyond request-test assertions remains unverified because no browser scenarios were requested.
+Phases 1–3 are complete. Visual parity beyond request-test assertions remains unverified because no browser scenarios were requested.

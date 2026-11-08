@@ -3,7 +3,7 @@
 %div(class="my-7 grid aspect-square grid-cols-3 grid-rows-3 gap-0.5 border-2 border-ink bg-ink"){ aria: { label: t('.board_label') } }
   - match.cells.each_with_index do |mark, index|
     - if mark.nil? && !complete
-      = button_to(move_match_path(match), params: { position: index + 1, revision: match.lock_version }, form: { class: 'min-h-0 min-w-0' }, class: 'square empty-square flex h-full w-full cursor-pointer items-center justify-center border-0 bg-white hover:bg-soft-green', aria: { label: t('.square_label', number: index + 1, mark: t('.empty')) }) do
-        %span.square-number.text-sm.font-normal.text-subtle{ aria: { hidden: true } }= index + 1
+      = button_to(move_match_path(match), params: { position: index + 1, revision: match.lock_version }, form: { class: 'min-h-0 min-w-0' }, class: 'flex h-full w-full cursor-pointer items-center justify-center border-0 bg-white hover:bg-soft-green', aria: { label: t('.square_label', number: index + 1, mark: t('.empty')) }) do
+        %span.text-sm.font-normal.text-subtle{ aria: { hidden: true } }= index + 1
     - else
-      .square(class="flex h-full w-full items-center justify-center bg-white text-[52px] font-bold sm:text-[64px] #{mark == 'X' ? 'text-red' : 'text-green'}"){ aria: { label: t('.square_label', number: index + 1, mark: mark || t('.empty')) } }= mark
+      %div(class="flex h-full w-full items-center justify-center bg-white text-[52px] font-bold sm:text-[64px] #{mark == 'X' ? 'text-red' : 'text-green'}"){ aria: { label: t('.square_label', number: index + 1, mark: mark || t('.empty')) } }= mark

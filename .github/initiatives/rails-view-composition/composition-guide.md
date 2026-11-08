@@ -76,7 +76,7 @@ Use the shared primitives for typography while leaving feature layout and link b
 The application header follows the same boundary. The link owns navigation; `Typography` owns the wordmark's size and weight:
 
 ```haml
-= link_to(root_path, class: 'wordmark no-underline') do
+= link_to(root_path, class: 'no-underline') do
   = Typography(tag: :span, size: :lg, weight: :bold) do
     tic-tac-evolve
 ```
