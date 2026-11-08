@@ -23,6 +23,7 @@ No other initiative is a prerequisite. Coordinate documentation with the existin
 - User requested initiative and plan creation only. No application or dependency changes were made.
 - Resumed implementation later on 2026-11-08. The first vertical slice failed because of Minitest helper discovery, the `assert_select` collision, an unavailable helper-test receiver, and a mistaken region selector. See the [implementation record](../history/experiments/2026-11-08-controller-migration.md).
 - The user approved literal hooks instead of both helpers. Full controller migration and focused response contract tests now pass; mark color checks remain in rendering tests rather than controller styling selectors.
+- 2026-11-08: Implementation committed as `089a512` and accepted by the user. Workstream complete; no remaining deliverables.
 
 ## Open questions and risks
 

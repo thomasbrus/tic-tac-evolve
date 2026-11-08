@@ -4,11 +4,11 @@
 
 - Replace styling-dependent controller HTML assertions with accessible Capybara selectors and literal, dashed data hooks.
 - Preserve HTTP behavior, accessibility, markup semantics, form contracts, and the CLI.
-- Leave existing helper/component assertions unchanged. Add focused tests for the new helper contract.
+- Leave existing helper/component assertions unchanged. Add focused tests for the response assertion contract.
 
 ## Approval
 
-- Status: approved for implementation; results await user review.
+- Status: complete and accepted by the user on 2026-11-08. Implementation committed as `089a512`.
 - Agreed direction: data attributes, controller tests and required markup only.
 - Execution policy: resumed implementation on 2026-11-08. The user approved [literal hooks without naming helpers](history/decisions/2026-11-08-literal-test-hooks.md) and uncached response parsing.
 - This initiative plan is the persistent multi-phase roadmap; do not create a duplicate plan.
@@ -18,7 +18,7 @@
 ### Controller assertions
 
 - Objective: provide and adopt one reliable response assertion interface.
-- Status: implemented and verified.
+- Status: complete and accepted.
 - Details: [workstream](workstreams/controller-assertions.md).
 - Contract: literal `data-test-id` names, configured Capybara test IDs, and uncached response parsing.
 
@@ -101,4 +101,4 @@ No database schema or data migration is required. Prepare the test database if r
 
 ## Resume point
 
-Review the verified implementation. All planned phases are implemented; accept or request changes before committing.
+Closed and accepted on 2026-11-08. No remaining deliverables.
