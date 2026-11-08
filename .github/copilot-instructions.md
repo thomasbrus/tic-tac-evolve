@@ -6,6 +6,7 @@
 - Clarify consequential stack or compatibility choices before implementing them; use the scoped [Rails](instructions/rails.instructions.md) and [view](instructions/views.instructions.md) conventions.
 - Reuse context and skill instructions already read unless they changed or context was lost. Keep searches and diff output bounded; batch independent operations.
 - Use the [multi-phase skill](skills/multi-phase/SKILL.md) for substantial dependent milestones, not routine edits. Update plans at phase boundaries, material decisions, blockers, and pauses.
+- Use the [`/initiative` prompt](prompts/initiative.prompt.md) for persistent multi-session engineering initiatives; it loads the workflow and repository records from [initiatives](initiatives/README.md).
 - After code changes, perform the [code-quality review](skills/code-quality/SKILL.md) before closing. Do not repeat completed reviews or checks without intervening changes that affect their results.
 
 ## Verification
