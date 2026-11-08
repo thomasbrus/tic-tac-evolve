@@ -25,7 +25,7 @@ Each entry uses this structure:
 
 ### [2026-11-08] Establish initiatives before implementation
 - **Scenario:** Loaded the initiative skill but started dependency changes before creating initiative records.
-- **The Fix:** Follow the `/initiative` entry point and establish the overview, plan, state, and index first, as required by the [initiative workflow](../skills/initiative-workflow/SKILL.md).
+- **The Fix:** Follow the `/initiative` entry point and establish the overview, plan, state, and index first, as required by the [initiative workflow](../skills/initiative/SKILL.md).
 - **General Principle:** A new initiative request requires persistent setup before application or dependency edits; loading its skill is not enough.
 
 ### [2026-11-08] Avoid test-only markup classes

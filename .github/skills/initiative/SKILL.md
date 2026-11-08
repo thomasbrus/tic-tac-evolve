@@ -1,12 +1,13 @@
 ---
-name: initiative-workflow
+name: initiative
 description: "Workflow for persistent engineering initiatives across sessions: select or create initiatives, explore, plan, execute, review, reorient, and maintain Markdown knowledge, decisions, experiments, and evidence."
-user-invocable: false
+argument-hint: "Optional natural-language request; leave blank to resume or check status"
+user-invocable: true
 ---
 
 # Initiative Workflow
 
-Use this workflow when invoked through `.github/prompts/initiative.prompt.md`. This skill is intentionally not a separate slash command. Markdown and Git are the storage system; do not introduce a database, task manager, or metadata parser.
+Use this workflow when invoked as `/initiative` or when guiding a persistent engineering initiative. Treat text after `/initiative` as an optional natural-language request rather than requiring a fixed subcommand. If it is absent or ambiguous, reconstruct status and recommend a next step without beginning substantial implementation. Markdown and Git are the storage system; do not introduce a database, task manager, or metadata parser.
 
 ## Resume efficiently
 
@@ -64,7 +65,7 @@ Use this workflow when invoked through `.github/prompts/initiative.prompt.md`. T
 
 ## Create or select an initiative
 
-- For a new initiative request, read `.github/prompts/initiative.prompt.md` and create the overview, plan, state, and index entry before changing application code or dependencies. Loading this skill alone is not initiative setup.
+- For a new initiative request, create the overview, plan, state, and index entry before changing application code or dependencies. Loading this skill alone is not initiative setup.
 - For a new initiative, use the index to choose a short kebab-case directory name that does not collide. Gather only missing details that matter; reasonable provisional assumptions may be recorded explicitly and confirmed later.
 - Create `README.md`, `PLAN.md`, `STATE.md`, and relevant workstream files from templates. Create `history/experiments/`, `history/decisions/`, and `evidence/` as needed, and add the initiative to the root index.
 - Distinguish the user's underlying problem from an initial solution suggestion. A proposed technology is a hypothesis unless the user has made it a constraint.

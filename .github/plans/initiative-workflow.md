@@ -1,5 +1,7 @@
 # Persistent Initiative Workflow
 
+> The original prompt-and-hidden-skill design below was superseded by the directly invocable [`/initiative` skill](../skills/initiative/SKILL.md). The prompt wrapper was removed, and the workflow and templates were moved together.
+
 ## Outcome and scope
 - **Outcome:** Provide one `/initiative` command backed by repository-native prompts, a hidden workflow skill, and a durable Markdown knowledge base for independent engineering initiatives.
 - **Preserve:** Existing Copilot instructions, skills, plans, and the current application/CLI behavior.

@@ -1,6 +1,6 @@
 # Engineering Initiatives
 
-Persistent, repository-backed context for multi-session engineering work. The `/initiative` prompt is the single entry point; it selects or creates an initiative and loads only the relevant records. See the [workflow skill](../skills/initiative-workflow/SKILL.md) for operating rules and reusable [templates](../skills/initiative-workflow/templates/).
+Persistent, repository-backed context for multi-session engineering work. The `/initiative` skill is the single entry point; it selects or creates an initiative and loads only the relevant records. See the [workflow skill](../skills/initiative/SKILL.md) for operating rules and reusable [templates](../skills/initiative/templates/).
 
 ## Initiative index
 
