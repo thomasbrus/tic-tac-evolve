@@ -37,7 +37,7 @@ The original setup omitted the intended namespace configuration and used an obso
 
 ## Implications and follow-up
 
-Current usage guidance is in the [design-system documentation](../../../../design-system/README.md). Changes remain uncommitted pending user review.
+Current usage guidance is in the [design-system documentation](../../../../design-system/README.md). Implementation was committed as `d86a9b4`. The user confirmed the development-server error was resolved by restarting the server, then accepted closing the initiative on 2026-11-08.
 
 ## Related decisions
 
