@@ -6,6 +6,7 @@ Persistent, repository-backed context for multi-session engineering work. The `/
 
 | Initiative | Status | Current focus | State |
 | --- | --- | --- | --- |
+| [Accessible controller assertions](accessible-controller-assertions/README.md) | proposed | Scope agreed; implementation deferred | [STATE.md](accessible-controller-assertions/STATE.md) |
 | [Phlex rendering integration](phlex-rendering/README.md) | complete | Closed and accepted; Haml Kit rendering verified | [STATE.md](phlex-rendering/STATE.md) |
 | [Rails view composition](rails-view-composition/README.md) | paused | Phases 1–2 complete; phase 3 verification pending | [STATE.md](rails-view-composition/STATE.md) |
 | [Haml view linting](view-linting/README.md) | paused | Configuration and normalization verified; awaiting user review | [STATE.md](view-linting/STATE.md) |
