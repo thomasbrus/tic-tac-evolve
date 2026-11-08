@@ -1,4 +1,4 @@
-require_relative "random"
+require_relative('random')
 
 module TicTacToe
   module Strategies
@@ -9,8 +9,8 @@ module TicTacToe
       end
 
       def choose_move(board)
-        winning_move(board, "O") ||
-          (@block && winning_move(board, "X")) ||
+        winning_move(board, 'O') ||
+          (@block && winning_move(board, 'X')) ||
           @fallback.choose_move(board)
       end
 

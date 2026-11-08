@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
-require "test_helper"
-require_relative "../../components/design_system_test_helper"
+require('test_helper')
+require_relative('../../components/design_system_test_helper')
 
 class Components::TypographyTest < DesignSystemTest
-  test "renders with default tag and classes" do
+  test('renders with default tag and classes') do
     component = Components::Typography.new
     html = render_component(component)
     assert_match(/<p[^>]*class="[^"]*text-ink[^"]*"/, html)
   end
 
-  test "renders with custom tag" do
+  test('renders with custom tag') do
     component = Components::Typography.new(tag: :h1)
     html = render_component(component)
     assert_match(/<h1[^>]*>/, html)
   end
 
-  test "applies size variants" do
+  test('applies size variants') do
     sizes = [:xs, :sm, :base, :lg, :xl, :"2xl", :"3xl", :display]
     sizes.each do |size|
       component = Components::Typography.new(size:)
@@ -26,7 +26,7 @@ class Components::TypographyTest < DesignSystemTest
     end
   end
 
-  test "applies weight variants" do
+  test('applies weight variants') do
     weights = [:normal, :medium, :semibold, :bold]
     weights.each do |weight|
       component = Components::Typography.new(weight:)
@@ -36,7 +36,7 @@ class Components::TypographyTest < DesignSystemTest
     end
   end
 
-  test "applies color variants" do
+  test('applies color variants') do
     colors = [:default, :secondary, :subtle, :error]
     colors.each do |color|
       component = Components::Typography.new(color:)
@@ -46,24 +46,24 @@ class Components::TypographyTest < DesignSystemTest
     end
   end
 
-  test "combines multiple variants" do
+  test('combines multiple variants') do
     component = Components::Typography.new(size: :xl, weight: :bold, color: :error)
     html = render_component(component)
-    assert_includes(html, "text-xl")
-    assert_includes(html, "font-bold")
-    assert_includes(html, "text-error")
+    assert_includes(html, 'text-xl')
+    assert_includes(html, 'font-bold')
+    assert_includes(html, 'text-error')
   end
 
-  test "yields content" do
-    component = Components::Typography.new { "Hello World" }
+  test('yields content') do
+    component = Components::Typography.new { 'Hello World' }
     html = render_component(component)
-    assert_includes(html, "Hello World")
+    assert_includes(html, 'Hello World')
   end
 
-  test "merges additional props" do
-    component = Components::Typography.new(class: "custom", data: { test: "value" })
+  test('merges additional props') do
+    component = Components::Typography.new(class: 'custom', data: { test: 'value' })
     html = render_component(component)
-    assert_includes(html, "custom")
-    assert_includes(html, "data-test=\"value\"")
+    assert_includes(html, 'custom')
+    assert_includes(html, 'data-test="value"')
   end
 end

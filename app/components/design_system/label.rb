@@ -9,7 +9,7 @@ module Components
     private
 
     def default_attrs
-      { class: "cursor-pointer" }
+      { class: 'cursor-pointer' }
     end
   end
 end

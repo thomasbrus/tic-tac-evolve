@@ -1,6 +1,6 @@
 module Components
-  extend Phlex::Kit
+  extend(Phlex::Kit)
 end
 
-Rails.autoloaders.main.push_dir(Rails.root.join("app/components"), namespace: Components)
-Rails.autoloaders.main.collapse(Rails.root.join("app/components/*"))
+Rails.autoloaders.main.push_dir(Rails.root.join('app/components'), namespace: Components)
+Rails.autoloaders.main.collapse(Rails.root.join('app/components/*'))

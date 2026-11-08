@@ -9,7 +9,7 @@ module Components
     private
 
     def default_attrs
-      { class: "border-0 p-0" }
+      { class: 'border-0 p-0' }
     end
   end
 end

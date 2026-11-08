@@ -6,18 +6,18 @@ module Components
     Size = _Union(:sm, :base)
 
     VARIANT_STYLE_CLASSES = {
-      %i[default] => "bg-white border border-line text-ink",
-      %i[success] => "bg-soft-green border border-green text-green",
-      %i[error] => "bg-red bg-opacity-10 border border-red text-error"
+      %i[default] => 'bg-white border border-line text-ink',
+      %i[success] => 'bg-soft-green border border-green text-green',
+      %i[error] => 'bg-red bg-opacity-10 border border-red text-error'
     }.freeze
 
     SIZE_STYLE_CLASSES = {
-      %i[sm] => "px-2 py-1 text-xs",
-      %i[base] => "px-3 py-1.5 text-sm"
+      %i[sm] => 'px-2 py-1 text-xs',
+      %i[base] => 'px-3 py-1.5 text-sm'
     }.freeze
 
-    prop :variant, Variant, default: :default, reader: :public
-    prop :size, Size, default: :base, reader: :public
+    prop(:variant, Variant, default: :default, reader: :public)
+    prop(:size, Size, default: :base, reader: :public)
 
     def view_template(&block)
       span(**attrs, &block)
@@ -28,7 +28,7 @@ module Components
     def default_attrs
       {
         class: [
-          "rounded font-semibold inline-block",
+          'rounded font-semibold inline-block',
           VARIANT_STYLE_CLASSES[[@variant]],
           SIZE_STYLE_CLASSES[[@size]]
         ]

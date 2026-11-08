@@ -8,7 +8,7 @@ module TicTacToe
 
     def initialize(cells: Array.new(9))
       unless cells.is_a?(Array) && cells.length == 9 && cells.all? { |cell| cell.nil? || %w[X O].include?(cell) }
-        raise ArgumentError, "Board must contain nine empty, X, or O cells"
+        raise(ArgumentError, 'Board must contain nine empty, X, or O cells')
       end
 
       @cells = cells.map { |cell| cell&.dup }
@@ -25,7 +25,7 @@ module TicTacToe
 
     def after_move(position, mark)
       copy = dup
-      raise ArgumentError, "Invalid move: #{position.inspect}" unless copy.place(position, mark)
+      raise(ArgumentError, "Invalid move: #{position.inspect}") unless copy.place(position, mark)
 
       copy
     end

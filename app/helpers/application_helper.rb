@@ -1,3 +1,3 @@
 module ApplicationHelper
-  include Components
+  include(Components)
 end

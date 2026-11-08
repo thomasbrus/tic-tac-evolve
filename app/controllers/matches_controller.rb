@@ -6,13 +6,13 @@ class MatchesController < ApplicationController
 
   def create
     attributes = params.expect(match: %i[mode strategy])
-    attributes[:strategy] = nil if attributes[:mode] == "local"
+    attributes[:strategy] = nil if attributes[:mode] == 'local'
     @match = Match.new(attributes)
     if @match.save
-      redirect_to @match, status: :see_other
+      redirect_to(@match, status: :see_other)
     else
       load_history
-      render :index, status: :unprocessable_content
+      render(:index, status: :unprocessable_content)
     end
   end
 
@@ -27,9 +27,9 @@ class MatchesController < ApplicationController
     revision = params[:revision]
     revision = revision.is_a?(String) && revision.match?(/\A[0-9]+\z/) ? revision.to_i : nil
     if @match.play(position: position, expected_version: revision)
-      redirect_to @match, status: :see_other
+      redirect_to(@match, status: :see_other)
     else
-      render :show, status: :unprocessable_content
+      render(:show, status: :unprocessable_content)
     end
   end
 

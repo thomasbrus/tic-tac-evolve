@@ -1,23 +1,23 @@
-require "test_helper"
+require('test_helper')
 
 class Components::EyebrowTest < ActiveSupport::TestCase
-  test "renders eyebrow text with default styling" do
-    component = Components::Eyebrow.new(text: "Label text")
+  test('renders eyebrow text with default styling') do
+    component = Components::Eyebrow.new(text: 'Label text')
     html = component.call
-    assert_includes html, "<p"
-    assert_includes html, "text-xs"
-    assert_includes html, "Label text"
+    assert_includes(html, '<p')
+    assert_includes(html, 'text-xs')
+    assert_includes(html, 'Label text')
   end
 
-  test "accepts custom html attributes" do
+  test('accepts custom html attributes') do
     component = Components::Eyebrow.new(
-      text: "Custom",
-      class: "custom-class",
-      id: "eyebrow-1"
+      text: 'Custom',
+      class: 'custom-class',
+      id: 'eyebrow-1'
     )
     html = component.call
-    assert_includes html, "custom-class"
-    assert_includes html, "id=\"eyebrow-1\""
-    assert_includes html, "text-xs"
+    assert_includes(html, 'custom-class')
+    assert_includes(html, 'id="eyebrow-1"')
+    assert_includes(html, 'text-xs')
   end
 end

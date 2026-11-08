@@ -1,6 +1,6 @@
-require_relative "strategies/random"
-require_relative "strategies/tactical"
-require_relative "strategies/optimal"
+require_relative('strategies/random')
+require_relative('strategies/tactical')
+require_relative('strategies/optimal')
 
 module TicTacToe
   class ComputerPlayer
@@ -10,12 +10,12 @@ module TicTacToe
                   when :easy then Strategies::Tactical.new(random: random, block: false)
                   when :medium then Strategies::Tactical.new(random: random, block: true)
                   when :hard then Strategies::Optimal.new
-                  else raise ArgumentError, "Unknown strategy: #{strategy.inspect}"
+                  else raise(ArgumentError, "Unknown strategy: #{strategy.inspect}")
                   end
     end
 
     def choose_move(board)
-      raise ArgumentError, "No available moves" if board.full?
+      raise(ArgumentError, 'No available moves') if board.full?
 
       @strategy.choose_move(board)
     end

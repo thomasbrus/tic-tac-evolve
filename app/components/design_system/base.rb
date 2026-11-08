@@ -2,9 +2,9 @@
 
 module Components
   class Base < Phlex::HTML
-    extend Literal::Properties
+    extend(Literal::Properties)
 
-    prop :html_attrs, _Hash(Symbol, _Any), :**, default: -> { {} }, reader: :public
+    prop(:html_attrs, _Hash(Symbol, _Any), :**, default: -> { {} }, reader: :public)
 
     protected
 

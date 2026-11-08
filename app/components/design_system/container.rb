@@ -2,7 +2,7 @@
 
 module Components
   class Container < Base
-    prop :max_width, String, default: "max-w-[1040px]", reader: :public
+    prop(:max_width, String, default: 'max-w-[1040px]', reader: :public)
 
     def view_template(&block)
       div(**attrs, &block)
@@ -14,7 +14,7 @@ module Components
       {
         class: [
           @max_width,
-          "mx-auto"
+          'mx-auto'
         ]
       }
     end
