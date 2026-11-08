@@ -6,6 +6,8 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     get root_path
     assert_select "title", text: "Play | tic-tac-evolve"
     assert_select "meta[name='application-name'][content='Tic-tac-evolve']"
+    assert_select "header a.wordmark[href='#{root_path}']", text: "tic-tac-evolve"
+    assert_select "header span.edition", text: "CLASSIC / 01"
     assert_select "legend", text: "Opponent"
     assert_select "input[type=submit][value='Start match']"
     assert_select "a[aria-label='Resume match #{match.id}']", text: "Resume"
@@ -13,10 +15,45 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
     get match_path(match)
     assert_select "title", text: "Match ##{match.id} | tic-tac-evolve"
-    assert_select ".board[aria-label='Tic-tac-toe board']"
+    assert_select "[aria-label='Tic-tac-toe board']"
     assert_select "button[aria-label='Square 1, empty']"
+    assert_select "h1[role='status']", text: "X to move"
     assert_select "a", text: "New match"
     assert_no_match(/translation missing/i, response.body)
+  end
+
+  test "active match board keeps accessible move forms and current revision" do
+    match = Match.create!(mode: "local")
+
+    get match_path(match)
+
+    assert_response :success
+    board_selector = "[aria-label='Tic-tac-toe board']"
+    form_selector = "#{board_selector} form[action='#{move_match_path(match)}']"
+    assert_select form_selector, count: 9
+    (1..9).each do |position|
+      assert_select "#{form_selector} input[name='position'][value='#{position}']", count: 1
+      assert_select "#{board_selector} button[aria-label='Square #{position}, empty']", count: 1
+    end
+    assert_select "#{form_selector} input[name='revision'][value='#{match.lock_version}']", count: 9
+  end
+
+  test "completed match board keeps labels and has no move controls" do
+    match = Match.create!(
+      mode: "local",
+      cells: ["X", "X", "X", "O", "O", nil, nil, nil, nil]
+    )
+
+    get match_path(match)
+
+    assert_response :success
+    assert_select "h1[role='status']", text: "X wins"
+    board_selector = "[aria-label='Tic-tac-toe board']"
+    assert_select "#{board_selector} [aria-label^='Square']", count: 9
+    assert_select "#{board_selector} [aria-label='Square 1, X'].text-red", text: "X"
+    assert_select "#{board_selector} [aria-label='Square 4, O'].text-green", text: "O"
+    assert_select "#{board_selector} [aria-label='Square 6, empty']", count: 1
+    assert_select "#{board_selector} form, #{board_selector} button", count: 0
   end
 
   test "setup form renders its default selections" do
@@ -45,7 +82,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     post move_match_path(match), params: { position: "1", revision: "0" }
     assert_redirected_to match_path(match)
     get match_path(match)
-    assert_select ".mark-x", text: "X"
+    assert_select "[aria-label='Tic-tac-toe board'] [aria-label='Square 1, X']", text: "X"
     assert_select "h1", text: "O to move"
   end
 

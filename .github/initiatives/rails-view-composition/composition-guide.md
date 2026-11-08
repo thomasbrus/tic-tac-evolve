@@ -1,6 +1,6 @@
 # Rails view composition guide
 
-This is original guidance for this repository, informed by the user's internal guide. The setup/history slice is implemented and verified; this guide is not yet a replacement for the [frontend instructions](../../instructions/views.instructions.md), and play/layout guidance remains proposed.
+This guide records the implemented composition boundaries and examples for this repository. The concise standards are in the [frontend instructions](../../instructions/views.instructions.md); the examples below reflect the verified setup/history and play/layout slices.
 
 ## Choose the smallest useful boundary
 
@@ -26,7 +26,7 @@ A genuinely custom feature element can use local Tailwind utilities and shared t
 
 ## Repository-specific examples
 
-The setup/history examples illustrate the implemented direction. The play/layout guidance remains proposed. Translation moves must stay coordinated with their callers.
+The setup/history and play/layout examples reflect the implemented direction. Translation moves must stay coordinated with their callers.
 
 ### A setup fragment built from shared primitives
 
@@ -58,17 +58,37 @@ Move the corresponding labels from `matches.index` to `matches.setup_heading`; d
 
 The `_history_item.html.haml` partial receives `match` explicitly. It uses Rails links, shared typography, and model display labels without needing its own component class.
 
-If match-number formatting is extracted, a small `matches_number(match)` helper is enough:
+Match-number formatting currently appears only in the play heading, so it stays in the view. If the formatting recurs, a small feature-prefixed `matches_number(match)` helper can format an already-loaded record. Keep it presentation-only; do not fetch records, calculate game outcomes, or change date and localization behavior as an incidental part of extraction.
 
-```ruby
-module MatchesHelper
-  def matches_number(match)
-    "##{match.id.to_s.rjust(3, '0')}"
-  end
-end
+### Shared typography in the play view and layout
+
+Use the shared primitives for typography while leaving feature layout and link behavior in Rails:
+
+```haml
+= Eyebrow(text: t(".eyebrow", number: @match.id.to_s.rjust(3, "0")))
+= Typography(tag: :h1, size: :display, class: "mt-3 mb-4", role: "status") do
+  = @match.status_label
+= Typography(size: :sm, color: :secondary) do
+  = @match.mode_label
 ```
 
-This formats an already-loaded record. It must not fetch records or calculate game outcomes. Do not change date formatting or localization behavior as an incidental part of extraction.
+The application header follows the same boundary. The link owns navigation; `Typography` owns the wordmark's size and weight:
+
+```haml
+= link_to root_path, class: "wordmark no-underline" do
+  = Typography(tag: :span, size: :lg, weight: :bold) do
+    tic-tac-evolve
+```
+
+### Keep the board as a Rails partial
+
+The play view passes the match explicitly:
+
+```haml
+= render "board", match: @match
+```
+
+The [board partial](../../../app/views/matches/_board.html.haml) owns square rendering and its accessible labels, while Rails `button_to` continues to own move submission and parameters. Its board-specific labels live under `matches.board`; no board component is needed for this boundary.
 
 ### Preserve Rails form ownership
 

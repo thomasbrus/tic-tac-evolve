@@ -6,14 +6,14 @@ Make recurring visual and semantic contracts reusable while leaving feature layo
 
 ## Status
 
-Phase 1 reused existing primitives without API changes. Remaining slices await approval.
+Implementation and guidance are complete. Phase 3 is paused pending final verification.
 
 ## Deliverables
 
-- [ ] Reuse existing typography and other applicable primitives in each migrated slice.
-- [ ] Demonstrate and test any necessary API extension, including attribute forwarding and Haml block rendering.
-- [ ] Document why any feature-specific component remains.
-- [ ] Promote approved, verified composition rules into the owning frontend instructions and update examples to match the final code.
+- [x] Reuse existing typography and other applicable primitives in each migrated slice.
+- [x] Confirm no shared API extension is needed for the migrated slices.
+- [x] No feature-specific component remains in the migrated scope.
+- [x] Promote approved, verified composition rules into the owning frontend instructions and update examples to match the final code.
 
 ## Dependencies
 
@@ -21,7 +21,8 @@ Direction approval and concrete needs from the [feature composition workstream](
 
 ## Progress
 
-- 2026-11-08: Existing Typography, Heading, Eyebrow, Button, and Base APIs inspected. Phase 1 reuses existing typography/heading primitives; no API changes were needed. Remaining slices await approval.
+- 2026-11-08: Existing Typography, Heading, Eyebrow, Button, and Base APIs inspected. Both migrated slices reuse existing typography primitives without API changes. The play board remains a Haml partial and Rails `button_to` owns move submissions.
+- 2026-11-08: Promoted the verified boundaries to the [frontend instructions](../../../instructions/views.instructions.md) and aligned the [composition guide](../composition-guide.md) with the final templates and APIs.
 
 ## Open questions and risks
 
@@ -31,7 +32,7 @@ Direction approval and concrete needs from the [feature composition workstream](
 
 ## References
 
-- [Proposed composition guide](../composition-guide.md)
+- [Composition guide](../composition-guide.md)
 - [Typography](../../../../app/components/design_system/typography.rb)
 - [Heading](../../../../app/components/design_system/heading.rb)
 - [Button](../../../../app/components/design_system/button.rb)

@@ -67,10 +67,12 @@ en:
     show:
       title: "Match #%{number} | tic-tac-evolve"
       eyebrow: "MATCH %{number}"
+      new_match: "New match"
+
+    board:
       board_label: "Tic-tac-toe board"
       square_label: "Square %{number}, %{mark}"
       empty: "empty"
-      new_match: "New match"
 
     status:
       draw: "Draw"

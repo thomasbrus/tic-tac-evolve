@@ -4,9 +4,9 @@
 
 Use Rails-native feature composition and shared UI primitives without changing match behavior or redesigning the interface.
 
-- **Status:** active.
-- **Approved scope:** Phase 1, setup/history composition and its related tests.
-- **Remaining implementation scope:** Phases 2–3 are not approved; request approval before starting phase 2.
+- **Status:** paused.
+- **Approved scope:** Phases 1–3, including setup/history, play/layout composition, consolidation, and related tests and guidance.
+- **Approval:** The user requested continuing with the remaining two phases on 2026-11-08.
 - **Execution policy:** Work only within the approved phase; pause for material scope or behavior changes.
 
 ## Workstreams
@@ -14,16 +14,16 @@ Use Rails-native feature composition and shared UI primitives without changing m
 ### Feature composition
 
 - Objective: Keep page orchestration in Haml and ordinary fragments in partials with explicit locals; use narrowly scoped helpers for presentation calculations.
-- Status: active; phase 1 complete, phase 2 awaiting approval.
-- Depends on: direction approval.
+- Status: complete.
+- Depends on: approved scope; guidance finalization follows validated feature slices.
 - Deliverables: [Feature composition workstream](workstreams/feature-composition.md).
 - Risks: relative translation paths, form-builder boundaries, changed DOM hooks, and unnecessary fragmentation.
 
 ### Shared UI and contributor guidance
 
 - Objective: Reuse typography and recurring UI components with clear ownership of appearance, semantics, and layout.
-- Status: active; phase 1 reused existing primitives, remaining work awaits approval.
-- Depends on: direction approval; actual API needs discovered in each feature slice.
+- Status: complete.
+- Depends on: concrete needs discovered in each feature slice; guidance follows both migrations.
 - Deliverables: [Shared UI workstream](workstreams/shared-ui.md).
 - Risks: class conflicts, heading semantics, changed form behavior, and overgeneralized component APIs.
 
@@ -46,7 +46,7 @@ Use Rails-native feature composition and shared UI primitives without changing m
 
 ### 2. Play view and layout use the same boundaries
 
-- Status: pending approval.
+- Status: complete.
 - Depends on: phase 1.
 - Deliverables:
   - Apply the established pattern to match headings, metadata, and layout typography.
@@ -54,11 +54,11 @@ Use Rails-native feature composition and shared UI primitives without changing m
   - Keep Rails form helpers responsible for submission wiring. Do not substitute a bare component button for `button_to` forms.
 - Acceptance criteria: Nine squares render with the same move availability, labels, submitted position/revision, and state styling. Completed games and invalid/stale submissions retain their behavior and feedback.
 - Checks: `bin/rails test test/controllers/matches_controller_test.rb test/helpers`; relevant changed component tests; `bin/rails tailwindcss:build`.
-- Results: not run.
+- Results: migrated match headings and metadata to existing shared primitives, moved the board loop and its relative translations to an explicit-local partial, and reused Typography in the application header. The final focused run passed: 23 tests, 172 assertions. `bin/rails tailwindcss:build` and `git diff --check` passed. No visual browser check was performed. See the [phase 2 implementation record](history/experiments/2026-11-08-play-layout-slice.md).
 
 ### 3. Consolidate and verify the outcome
 
-- Status: pending approval.
+- Status: in_progress (paused by user).
 - Depends on: phase 2.
 - Deliverables:
   - Remove superseded wrappers and styling duplication within the migrated scope.
@@ -67,7 +67,7 @@ Use Rails-native feature composition and shared UI primitives without changing m
 - Acceptance criteria: Each retained feature component has a concrete reason; no obsolete helper/component references or missing translations remain; the documented architecture matches working code.
 - Checks: `bin/rails test test`; `bin/rails tailwindcss:build`; `bin/rails zeitwerk:check`; scoped whitespace/link review.
 - Browser checks: Ask for scenarios before running any. If deferred, record visual parity as unverified rather than passed.
-- Results: not run.
+- Results: contributor guidance is updated. The final cleanup removed non-styling board/state classes used only as test hooks and changed tests to select the board by its accessible name. The full suite, Tailwind build, Zeitwerk check, focused suite, and whitespace check passed before this cleanup; rerun them before marking phase 3 complete. No browser check was performed. See the [phase 3 verification record](history/experiments/2026-11-08-guidance-and-verification.md).
 
 ## Cross-workstream dependencies
 
@@ -83,6 +83,6 @@ No database or dependency migration is planned. Keep each slice independently re
 - Quality gates: focused request/helper/component coverage per slice, Tailwind rebuilds, autoload checks, and code-quality review.
 - Desired outcome: inspect migrated templates against the success criteria, alongside test evidence. Passing tests alone does not establish good composition or visual parity.
 
-## Next planning checkpoint
+## Pause point
 
-Request approval before phase 2. Incorporate the user's deferred Haml-convention feedback when provided. Revisit shared UI APIs if the play/layout slice exposes concrete gaps; ask again if an extension changes appearance, behavior, or the agreed architecture.
+Phases 1–2 are complete. Phase 3 is paused after its final selector cleanup; resume with focused and full verification. Visual parity beyond request-test assertions remains unverified because no browser scenarios were requested.

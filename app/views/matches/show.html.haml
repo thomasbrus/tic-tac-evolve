@@ -1,17 +1,12 @@
 - content_for :title, t(".title", number: @match.id)
-- complete = @match.complete?
 %section.play-area{class: "mx-auto max-w-[460px]"}
   .match-heading
-    %p.eyebrow{class: "text-xs"}= t(".eyebrow", number: @match.id.to_s.rjust(3, "0"))
-    %h1{class: "mt-3 mb-4 font-display text-[34px] font-normal sm:text-[42px]", role: "status"}= @match.status_label
-    %p.match-meta{class: "text-sm text-secondary"}= @match.mode_label
+    = Eyebrow(text: t(".eyebrow", number: @match.id.to_s.rjust(3, "0")), class: "eyebrow")
+    = Typography(tag: :h1, size: :display, class: "mt-3 mb-4", role: "status") do
+      = @match.status_label
+    = Typography(size: :sm, color: :secondary, class: "match-meta") do
+      = @match.mode_label
   - if @match.errors.any?
     = ErrorMessage(message: @match.errors.full_messages.to_sentence)
-  .board{class: "my-7 grid aspect-square grid-cols-3 grid-rows-3 gap-0.5 border-2 border-ink bg-ink", aria: { label: t(".board_label") }}
-    - @match.cells.each_with_index do |mark, index|
-      - if mark.nil? && !complete
-        = button_to move_match_path(@match), params: { position: index + 1, revision: @match.lock_version }, form: { class: "min-h-0 min-w-0" }, class: "square empty-square flex h-full w-full cursor-pointer items-center justify-center border-0 bg-white hover:bg-soft-green", aria: { label: t(".square_label", number: index + 1, mark: t(".empty")) } do
-          %span.square-number{class: "text-sm font-normal text-subtle", aria: { hidden: true }}= index + 1
-      - else
-        .square{class: ["mark-#{mark&.downcase}", "flex h-full w-full items-center justify-center bg-white text-[52px] font-bold sm:text-[64px]", mark == "X" ? "text-red" : "text-green"], aria: { label: t(".square_label", number: index + 1, mark: mark || t(".empty")) }}= mark
+  = render "board", match: @match
   = link_to t(".new_match"), root_path, class: "text-link inline-block py-2.5 underline"

@@ -6,6 +6,9 @@ applyTo: "app/views/**,app/assets/**,app/javascript/**,config/locales/**/*.yml"
 # Rails Frontend
 
 - Use Haml for application HTML views, Tailwind CSS 4 for styling, and the existing Hotwire/importmap stack. Preserve intentional UI defaults and interaction behavior.
+- Compose feature pages in Haml. Extract useful or repeated fragments into partials with explicit locals, and keep page flow in the view.
+- Use shared components for recurring appearance and semantics; keep placement and layout at the call site. Let Rails form helpers own form submission behavior.
+- Keep view helpers limited to presentation formatting. Do not put queries, game rules, or mutations in them.
 - Prefer Tailwind utilities and shared theme tokens over parallel handwritten component styles. Keep conditional utility names complete so the compiler can discover them.
 - Use `t(".key")` for template- and partial-specific text, with locale keys matching the template path. Keep absolute keys for genuinely shared labels; check other consumers before moving a key.
 - Translate complete accessible labels using interpolation, not concatenated translated fragments. Preserve labels, focus behavior, and keyboard access when editing markup.
