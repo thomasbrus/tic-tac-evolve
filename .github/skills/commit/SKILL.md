@@ -7,14 +7,12 @@ user-invocable: true
 
 # Commit changes
 
-1. Inspect the working tree, staged and unstaged diffs, and relevant untracked files. Establish the intended scope; ask if it is unclear. Never include unrelated changes or secrets.
-2. Plan one commit for a cohesive change, or multiple commits when changes separate naturally into meaningful, independently coherent groups. Keep related implementation, tests, and documentation together where practical, and order prerequisites first. Respect explicit grouping requests; ask if the split or ordering is ambiguous rather than forcing it.
-3. Preserve existing staged and unstaged work outside the requested scope. If changes are already staged, inspect them and ask before altering their staging or including them in a different commit. Do not reset, stash, overwrite, or discard work to make splitting easier.
-4. Stage one group at a time. When a file contains changes for multiple commits, stage only the intended hunks using a safe selective staging method; if the changes cannot be separated safely, ask the user rather than including unrelated work. Review the complete staged diff before every commit.
-5. Run relevant checks against each commit's contents when feasible, using an isolated snapshot if the remaining working tree would affect the results. If a check cannot be run against that snapshot, state what was actually tested; do not imply that testing the full working tree verified intermediate commits. Stop and report failures or blockers rather than hiding them.
-6. **Validate commit messages against project conventions** before creating each commit:
-   - **Subject (first line):** Must start with a past-tense verb (e.g., "Fixed", "Refactored", "Updated", "Added", "Removed"). If the subject uses present tense or violates this, flag it and ask the user for confirmation before proceeding.
-   - **Trailers:** Must not include `Co-authored-by: Copilot` or any Copilot authorship line. If found, flag it, explain why, and ask for confirmation before proceeding.
-   - These rules come from `.github/copilot-instructions.md` and may have documented exceptions; if the user explicitly authorizes an exception, proceed.
-7. Create each commit without amending or rewriting existing history. If a commit or check fails, stop and report the commits already created and the remaining work.
-8. Verify the resulting commit sequence and working-tree status. Report each commit's identifier and subject, the checks performed, and any remaining changes.
+Keep this a commit workflow, not a fresh code review. Large changes need concise file or directory summaries, not exhaustive analysis.
+
+1. Start with `git status --short`, `git diff --stat`, and `git diff --cached --stat`. Reuse known context and summarize what changed. Read only targeted diffs or untracked files needed to clarify scope, write an accurate message, or check for unrelated changes and secrets. Do not dump full diffs just because the change is large.
+2. Default to one commit for the requested scope. Split only when requested or when independent groups are obvious from the file summary. Keep related implementation, tests, and documentation together. Ask only when scope or grouping is genuinely unclear.
+3. Preserve unrelated work and existing staging. Ask before altering existing staging or including it in a different commit. Stage explicit paths; use selective hunks only when necessary, and ask if they cannot be separated safely. Never reset, stash, overwrite, or discard work to simplify a commit.
+4. Verify the staged file list and summary match the intended scope, and run `git diff --cached --check`. Inspect specific staged hunks only where scope or risk warrants it.
+5. Reuse completed checks when the tested contents have not changed. Run only missing checks required by the changed surface; do not create isolated snapshots or test every intermediate commit by default. If remaining work affects a required check, verify the exact staged contents or report the limitation. State what was actually tested and stop on failures.
+6. Follow [project message conventions](../../copilot-instructions.md#commit-messages): use an accurate past-tense subject and no Copilot authorship trailers. Ask for confirmation if a supplied message violates these rules. Create commits without amending or rewriting history unless explicitly requested.
+7. Check the resulting commit and working-tree status. Report the hash and subject, checks run or reused, and remaining changes briefly. If a commit fails, stop and report what succeeded and what remains.

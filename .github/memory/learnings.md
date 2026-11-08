@@ -23,6 +23,11 @@ Each entry uses this structure:
 
 ## Entries
 
+### [2026-11-08] Lightweight commit workflow
+- **Scenario:** The commit skill encouraged exhaustive diff review, elaborate splitting, and per-commit verification for large changes.
+- **The Fix:** Updated the [commit skill](../skills/commit/SKILL.md) to start with file summaries, default to one commit, and reuse unchanged verification results.
+- **General Principle:** Keep commit preparation summary-first; inspect targeted details only for concrete scope or risk questions, not merely because many files changed.
+
 ### [2026-11-07] Commit message preferences
 - **Scenario:** Commit subjects repeatedly used `Added`, though the user gave it only as a past-tense example.
 - **The Fix:** Choose a past-tense verb appropriate to each change and omit Copilot authorship or co-authorship trailers.
