@@ -1,10 +1,10 @@
 # Current State
 
 - **Objective:** Replace manual component rendering with a documented integration and, if supported, capitalized component calls.
-- **Current position:** Paused at documented findings at the user's request. No application changes made.
-- **Established:** The [Kits documentation](https://www.phlex.fun/components/kits.html) limits shorthand to Phlex contexts. The current helper is empty, components use `DesignSystem` and `Matches` namespaces, and match views are Haml. See the [investigation](history/experiments/2026-11-08-kits-and-haml.md).
-- **Uncertain:** Compatibility of current online APIs with installed Phlex 1.11.1 / phlex-rails 0.1.0; behavior of any proposed Haml helper bridge.
-- **Blockers:** None for this investigation. Implementation is deferred.
-- **Current focus:** Preserve findings for a future decision.
-- **Suggested next step:** If resumed, choose a Haml rendering integration, an explicit shorthand helper, or a separately approved Phlex view migration.
+- **Current position:** Paused at the user's request. Initiative records are selected for commit; the failing application spike is deliberately left uncommitted for later.
+- **Established:** Including the `DesignSystem` Kit in `ApplicationHelper` resolves `ErrorMessage(...)` from Haml. Rails then rejects the component as a partial instead of rendering it. See the [spike](history/experiments/2026-11-08-haml-kit-spike.md), which qualifies the earlier [docs investigation](history/experiments/2026-11-08-kits-and-haml.md).
+- **Uncertain:** Which version-compatible Rails integration enables ActionView rendering for current components.
+- **Blockers:** Six focused rendering tests error; no dependency change is approved.
+- **Current focus:** Preserve the Kit spike and actual failure evidence without further implementation.
+- **Suggested next step:** When resumed, investigate version-compatible Rails integration using online guidance. Do not assume the current error views work or that a dependency upgrade is approved.
 - **Updated:** 2026-11-08
