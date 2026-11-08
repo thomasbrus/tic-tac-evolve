@@ -105,7 +105,29 @@ The setup-fields partial declares `-# locals: (form:, match:)` and keeps the exi
 - Search the existing component library before adding a primitive.
 - Extend an API only for a real supported variation needed by a migrated page. Keep Literal::Properties for typed shared component properties; avoid a new property DSL.
 - Keep semantic tags, IDs, roles, and accessible labels explicit. Visual size must not dictate heading level.
-- Do not add classes solely as test selectors; assert semantic structure and user-visible content instead.
+- Do not add classes solely as test selectors. Prefer accessible labels and semantic selectors; use literal dashed `data-test-id` names when those are insufficient.
 - Preserve complete conditional utility names so Tailwind can discover them.
 - Test component appearance contracts separately from Rails request behavior, and cover the Haml-to-Kit boundary when using blocks or new APIs.
 - Review the rendered structure as well as test results. Neither fewer files nor more components is the success metric.
+
+## Controller assertions and data hooks
+
+Controller tests inherit from `ControllerTest`, which keeps Rails integration requests and exposes each current response through `Capybara.string(response.body)`. Use accessible selectors for labeled controls, links, fieldsets, headings, alerts, and navigation.
+
+For non-semantic elements, write a literal hook in the view:
+
+```haml
+= Typography(tag: :span, data: { test_id: 'edition' }) { 'CLASSIC / 01' }
+```
+
+Then assert the same name:
+
+```ruby
+assert_selector("[data-test-id='edition']", text: 'CLASSIC / 01')
+```
+
+Capybara is configured with `test_id = 'data-test-id'`, so supported built-in selectors can also locate controls through that attribute. Prefer the accessible label when one exists. Do not introduce `test_id`/`test_class` naming helpers or `data-test-class` attributes.
+
+Repeated history items share `data-test-id="history-match"` for counting or scoping; record-specific accessible link names and URLs identify individual matches. Hooks do not change HTML IDs, presentation classes, or Stimulus attributes.
+
+Use `visible: :all` for metadata and hidden input contracts. Parsed HTML does not execute JavaScript or apply stylesheet visibility rules. Keep appearance assertions in rendering/component tests rather than coupling controller tests to Tailwind classes.

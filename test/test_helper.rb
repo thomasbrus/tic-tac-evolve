@@ -1,6 +1,11 @@
 ENV['RAILS_ENV'] ||= 'test'
 require_relative('../config/environment')
 require('rails/test_help')
+require('capybara/minitest')
+require('capybara_accessible_selectors')
+Capybara.test_id = 'data-test-id'
+Capybara.enable_aria_label = true
+require_relative('controller_test')
 
 module ActiveSupport
   class TestCase

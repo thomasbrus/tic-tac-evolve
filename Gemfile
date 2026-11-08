@@ -20,3 +20,8 @@ group(:development, :test) do
   gem('minitest', '~> 5.0')
   gem('rubocop', '~> 1.81', require: false)
 end
+
+group(:test) do
+  gem('capybara', '~> 3.40')
+  gem('capybara_accessible_selectors', git: 'https://github.com/citizensadvice/capybara_accessible_selectors', tag: 'v0.12.0')
+end

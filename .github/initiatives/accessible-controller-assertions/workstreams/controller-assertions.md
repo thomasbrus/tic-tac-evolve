@@ -6,11 +6,11 @@ Give controller tests a shared response page and stable locators while preservin
 
 ## Deliverables
 
-- [ ] `test_id` and `test_class` helpers based on Rails record identifiers, used for data attributes in both app and tests.
-- [ ] Shared `ControllerTest` with Capybara Minitest assertions and a current-response `page`.
-- [ ] Compatible, pinned accessible-selectors dependency.
-- [ ] Complete controller HTML assertion migration.
-- [ ] Contract documentation, code-quality review, and recorded passing checks.
+- [x] Literal dashed `data-test-id` hooks, replacing the initial naming-helper proposal by user agreement.
+- [x] Shared `ControllerTest` with Capybara Minitest assertions and a current-response `page`.
+- [x] Compatible, pinned accessible-selectors dependency.
+- [x] Complete controller HTML assertion migration.
+- [x] Contract documentation, code-quality review, and recorded passing checks.
 
 ## Dependencies
 
@@ -21,16 +21,16 @@ No other initiative is a prerequisite. Coordinate documentation with the existin
 - 2026-11-08: Inspected controller tests, test setup, helper tests, and representative layout, board, setup, history, and component rendering code.
 - User selected data attributes rather than HTML IDs/classes and excluded migration of existing helper/component assertions.
 - User requested initiative and plan creation only. No application or dependency changes were made.
+- Resumed implementation later on 2026-11-08. The first vertical slice failed because of Minitest helper discovery, the `assert_select` collision, an unavailable helper-test receiver, and a mistaken region selector. See the [implementation record](../history/experiments/2026-11-08-controller-migration.md).
+- The user approved literal hooks instead of both helpers. Full controller migration and focused response contract tests now pass; mark color checks remain in rendering tests rather than controller styling selectors.
 
 ## Open questions and risks
 
-- Rails `dom_id`/`dom_class` target records or model classes. Define how helpers handle static names such as edition text, optional prefixes, and unsaved records.
-- The suggested `response.hash` cache key needs verification. Object identity or hash alone may not detect a changed response body; avoid stale pages, collisions, and unbounded retention.
-- Decide whether a simple uncached parsed page is sufficient or a single body-aware cache is justified.
-- Capybara visibility rules differ from `assert_select`. Explicitly cover hidden inputs and head metadata, including text in non-visible elements.
+- Naming helpers and response caching are no longer needed under the accepted contract.
+- Capybara visibility rules differ from `assert_select`. Metadata and hidden-field assertions explicitly use `visible: :all`; tests cover positive and negative behavior.
 - `Capybara.string` provides static HTML assertions, not JavaScript execution or browser interaction.
-- Preserve color-contract coverage where intentional without making request assertions depend on Tailwind classes. Existing component tests remain unchanged.
-- Confirm supported accessible selectors and dependency loading against the installed versions before migration.
+- Color-contract coverage lives in a focused helper rendering test. Existing helper assertions and component tests remain unchanged.
+- The upstream `v0.12.0` tag reports gem version `0.11.0`. Its revision is locked and runtime checks passed; do not assume the tag and internal version must match.
 
 ## References
 

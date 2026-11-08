@@ -24,4 +24,12 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_includes(rendered, '&lt;script&gt;')
     assert_includes(rendered, '&amp; invalid')
   end
+
+  test('completed board preserves mark colors') do
+    match = Match.new(mode: 'local', cells: ['X', 'X', 'X', 'O', 'O', nil, nil, nil, nil])
+    render(partial: 'matches/board', locals: { match: match })
+
+    assert_select("[aria-label='Square 1, X'].text-red", text: 'X')
+    assert_select("[aria-label='Square 4, O'].text-green", text: 'O')
+  end
 end

@@ -1,6 +1,6 @@
 require('test_helper')
 
-class MatchesControllerTest < ActionDispatch::IntegrationTest
+class MatchesControllerTest < ControllerTest
   test('partials reject missing and unexpected locals') do
     get(root_path)
     view = controller.view_context
@@ -19,21 +19,22 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
   test('view scoped translations render page text and accessible labels') do
     match = Match.create!(mode: 'local')
     get(root_path)
-    assert_select('title', text: 'Play | tic-tac-evolve')
-    assert_select("meta[name='application-name'][content='Tic-tac-evolve']")
-    assert_select("header a.wordmark[href='#{root_path}']", text: 'tic-tac-evolve')
-    assert_select('header span.edition', text: 'CLASSIC / 01')
-    assert_select('legend', text: 'Opponent')
-    assert_select("input[type=submit][value='Start match']")
-    assert_select("a[aria-label='Resume match #{match.id}']", text: 'Resume')
+    assert_selector('title', visible: :all, text: 'Play | tic-tac-evolve')
+    assert_selector("meta[name='application-name'][content='Tic-tac-evolve']", visible: :all)
+    assert_selector(:link, 'tic-tac-evolve', href: root_path)
+    assert_selector("[data-test-id='edition']", text: 'CLASSIC / 01')
+    assert_selector(:fieldset, 'Opponent')
+    assert_selector(:button, 'Start match')
+    assert_selector(:link, "Resume match #{match.id}", text: 'Resume')
     assert_no_match(/translation missing/i, response.body)
 
     get(match_path(match))
-    assert_select('title', text: "Match ##{match.id} | tic-tac-evolve")
-    assert_select("[aria-label='Tic-tac-toe board']")
-    assert_select("button[aria-label='Square 1, empty']")
-    assert_select("h1[role='status']", text: 'X to move')
-    assert_select('a', text: 'New match')
+    assert_selector('title', visible: :all, text: "Match ##{match.id} | tic-tac-evolve")
+    assert_selector("[aria-label='Tic-tac-toe board']")
+    assert_selector(:button, 'Square 1, empty')
+    assert_selector(:heading, 'X to move', level: 1)
+    assert_selector("[role='status']", text: 'X to move')
+    assert_selector(:link, 'New match')
     assert_no_match(/translation missing/i, response.body)
   end
 
@@ -45,12 +46,12 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_response(:success)
     board_selector = "[aria-label='Tic-tac-toe board']"
     form_selector = "#{board_selector} form[action='#{move_match_path(match)}']"
-    assert_select(form_selector, count: 9)
+    assert_selector(form_selector, count: 9)
     (1..9).each do |position|
-      assert_select("#{form_selector} input[name='position'][value='#{position}']", count: 1)
-      assert_select("#{board_selector} button[aria-label='Square #{position}, empty']", count: 1)
+      assert_selector("#{form_selector} input[name='position'][value='#{position}']", visible: :all, count: 1)
+      assert_selector(:button, "Square #{position}, empty", count: 1)
     end
-    assert_select("#{form_selector} input[name='revision'][value='#{match.lock_version}']", count: 9)
+    assert_selector("#{form_selector} input[name='revision'][value='#{match.lock_version}']", visible: :all, count: 9)
   end
 
   test('completed match board keeps labels and has no move controls') do
@@ -62,28 +63,30 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     get(match_path(match))
 
     assert_response(:success)
-    assert_select("h1[role='status']", text: 'X wins')
+    assert_selector(:heading, 'X wins', level: 1)
+    assert_selector("[role='status']", text: 'X wins')
     board_selector = "[aria-label='Tic-tac-toe board']"
-    assert_select("#{board_selector} [aria-label^='Square']", count: 9)
-    assert_select("#{board_selector} [aria-label='Square 1, X'].text-red", text: 'X')
-    assert_select("#{board_selector} [aria-label='Square 4, O'].text-green", text: 'O')
-    assert_select("#{board_selector} [aria-label='Square 6, empty']", count: 1)
-    assert_select("#{board_selector} form, #{board_selector} button", count: 0)
+    assert_selector("#{board_selector} [aria-label^='Square']", count: 9)
+    match.cells.each_with_index do |mark, index|
+      assert_selector("#{board_selector} [aria-label='Square #{index + 1}, #{mark || 'empty'}']", count: 1, text: mark)
+    end
+    assert_no_selector("#{board_selector} form, #{board_selector} button")
   end
 
   test('setup form renders its default selections') do
     get(root_path)
 
-    assert_select("input[name='match[mode]'][value='computer'][checked]", count: 1)
-    assert_select("select[name='match[strategy]'] option[value='hard'][selected]", count: 1)
+    assert_selector(:radio_button, 'Computer', checked: true, count: 1)
+    assert_selector(:select, 'Difficulty', selected: 'Hard', count: 1)
   end
 
   test('empty history has no matches or pagination links') do
     get(root_path)
 
-    assert_select('p', text: 'No matches yet.')
-    assert_select('ul', count: 0)
-    assert_select("nav[aria-label='Match history pages'] a", count: 0)
+    assert_text('No matches yet.')
+    assert_no_selector('ul')
+    assert_selector(:navigation, 'Match history pages')
+    assert_no_selector("nav[aria-label='Match history pages'] a")
   end
 
   test('starts a local match and restores it on refresh') do
@@ -97,8 +100,8 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     post(move_match_path(match), params: { position: '1', revision: '0' })
     assert_redirected_to(match_path(match))
     get(match_path(match))
-    assert_select("[aria-label='Tic-tac-toe board'] [aria-label='Square 1, X']", text: 'X')
-    assert_select('h1', text: 'O to move')
+    assert_selector("[aria-label='Tic-tac-toe board'] [aria-label='Square 1, X']", text: 'X')
+    assert_selector(:heading, 'O to move', level: 1)
   end
 
   test('rejects malformed positions and completed game moves') do
@@ -120,9 +123,10 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
       post(matches_path, params: { match: { mode: 'unknown' } })
     end
     assert_response(:unprocessable_content)
-    assert_select("form[action='#{matches_path}'] fieldset legend", text: 'Opponent')
-    assert_select("form[action='#{matches_path}'] select[name='match[strategy]']", count: 1)
-    assert_select('div[role=alert].border-red.text-error', count: 1, text: /Mode/)
+    form = page.find("form[action='#{matches_path}']")
+    assert_selector(form, :fieldset, 'Opponent')
+    assert_selector(form, :select, 'Difficulty', name: 'match[strategy]', count: 1)
+    assert_selector(:alert, count: 1, text: /Mode/)
   end
 
   test('creates computer matches for all four strategies') do
@@ -142,7 +146,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_response(:see_other)
     post(move_match_path(match), params: { position: '2', revision: '0' })
     assert_response(:unprocessable_content)
-    assert_select('div[role=alert].border-red.text-error', count: 1, text: /board changed/)
+    assert_selector(:alert, count: 1, text: /board changed/)
     post(move_match_path(match), params: { position: '2' })
     assert_response(:unprocessable_content)
     assert_equal(['X'] + Array.new(8), match.reload.cells)
@@ -163,21 +167,21 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     active = Match.create!(mode: 'local')
     complete = Match.create!(mode: 'local', cells: ['X', 'X', 'X', 'O', 'O', nil, nil, nil, nil])
     get(root_path)
-    assert_select('li', text: /Active/)
-    assert_select('li', text: /Complete/)
-    assert_select("a[href='#{match_path(active)}']", text: 'Resume')
-    assert_select("a[href='#{match_path(complete)}']", text: 'View match')
+    assert_selector("[data-test-id='history-match']", text: /Active/)
+    assert_selector("[data-test-id='history-match']", text: /Complete/)
+    assert_selector(:link, "Resume match #{active.id}", href: match_path(active), text: 'Resume')
+    assert_selector(:link, "View match #{complete.id}", href: match_path(complete), text: 'View match')
   end
 
   test('history paginates without losing older matches') do
     21.times { Match.create!(mode: 'local') }
     get(root_path)
-    assert_select('ul > li', count: 20)
-    assert_select("a[href='#{root_path(page: 2)}']", text: 'Next')
-    assert_select("nav[aria-label='Match history pages'] a", text: 'Previous', count: 0)
+    assert_selector("[data-test-id='history-match']", count: 20)
+    assert_selector(:link, 'Next', href: root_path(page: 2))
+    assert_no_selector(page.find(:navigation, 'Match history pages'), :link, 'Previous')
     get(root_path(page: 2))
-    assert_select('ul > li', count: 1)
-    assert_select("a[href='#{root_path(page: 1)}']", text: 'Previous')
-    assert_select("nav[aria-label='Match history pages'] a", text: 'Next', count: 0)
+    assert_selector("[data-test-id='history-match']", count: 1)
+    assert_selector(:link, 'Previous', href: root_path(page: 1))
+    assert_no_selector(page.find(:navigation, 'Match history pages'), :link, 'Next')
   end
 end

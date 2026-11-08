@@ -1,6 +1,6 @@
 -# locals: (match:)
 - complete = match.complete?
-%li(class="flex items-center justify-between gap-3 border-t border-line py-5 sm:gap-5")
+%li(class="flex items-center justify-between gap-3 border-t border-line py-5 sm:gap-5" data-test-id="history-match")
   .min-w-0
     = Typography(tag: :span, size: :sm, weight: :bold) do
       = "##{match.id.to_s.rjust(3, '0')}"

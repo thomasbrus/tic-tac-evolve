@@ -2,15 +2,15 @@
 
 ## Outcome and scope
 
-- Replace styling-dependent controller HTML assertions with accessible Capybara selectors and shared data hooks.
+- Replace styling-dependent controller HTML assertions with accessible Capybara selectors and literal, dashed data hooks.
 - Preserve HTTP behavior, accessibility, markup semantics, form contracts, and the CLI.
 - Leave existing helper/component assertions unchanged. Add focused tests for the new helper contract.
 
 ## Approval
 
-- Status: proposed.
+- Status: approved for implementation; results await user review.
 - Agreed direction: data attributes, controller tests and required markup only.
-- Execution policy: plan only for this session. Obtain implementation approval before starting phases.
+- Execution policy: resumed implementation on 2026-11-08. The user approved [literal hooks without naming helpers](history/decisions/2026-11-08-literal-test-hooks.md) and uncached response parsing.
 - This initiative plan is the persistent multi-phase roadmap; do not create a duplicate plan.
 
 ## Workstreams
@@ -18,35 +18,35 @@
 ### Controller assertions
 
 - Objective: provide and adopt one reliable response assertion interface.
-- Status: proposed.
+- Status: implemented and verified.
 - Details: [workstream](workstreams/controller-assertions.md).
-- Open questions: exact helper API, static hook names, and safe response caching.
+- Contract: literal `data-test-id` names, configured Capybara test IDs, and uncached response parsing.
 
 ## Phases
 
 ### 1. Establish the shared interface with one vertical slice
 
-- Status: pending.
+- Status: complete.
 - Depends on: none.
 - Deliverables:
-  - Agree on helper signatures and static/record naming before implementation.
+  - Agree on the locator contract before implementation.
   - Add test-only Capybara and a pinned compatible accessible-selectors dependency.
   - Introduce `ControllerTest < ActionDispatch::IntegrationTest`, include Capybara Minitest assertions, and expose response HTML through `page`.
-  - Make the helpers available to both rendering code and controller tests.
+  - Configure Capybara's `test_id` attribute and use literal hooks where needed.
   - Migrate a layout assertion such as the edition text and a labeled control assertion.
 - Acceptance criteria:
-  - Shared helper output matches the rendered data attributes.
-  - Distinct elements and repeated records receive appropriate hooks without disturbing existing IDs/classes.
+  - Literal names match rendered data attributes and Capybara can locate controls through the configured test-ID attribute.
+  - Repeated records can share a hook for counts and scoping without disturbing existing IDs/classes; links retain record-specific accessible labels and URLs.
   - Successive requests assert against the current response, including changed bodies on the same response object.
   - Accessible selector assertions work with parsed HTML, without a browser.
 - Verification:
-  - Focused helper and base-class tests for naming and response freshness.
+  - Focused base-class tests for configured test IDs and response freshness.
   - `bin/rails test test/helpers/application_helper_test.rb test/controllers`
-- Results: not run.
+- Results: passed; see [implementation evidence](evidence/2026-11-08-implementation.md).
 
 ### 2. Migrate controller coverage completely
 
-- Status: pending.
+- Status: complete.
 - Depends on: phase 1.
 - Deliverables:
   - Convert all controller HTML assertions.
@@ -61,14 +61,14 @@
 - Verification:
   - `bin/rails test test/controllers`
   - Scoped source review for legacy assertions and styling selectors.
-- Results: not run.
+- Results: passed. No controller `assert_select` calls or styling-dependent locators remain; existing helper assertions stay unchanged. Board color coverage moved to a focused rendering assertion.
 
 ### 3. Verify and document the convention
 
-- Status: pending.
+- Status: complete.
 - Depends on: phase 2.
 - Deliverables:
-  - Document helper usage and the preference for accessible selectors.
+  - Document literal hook usage and the preference for accessible selectors.
   - Clarify the composition guide's existing prohibition on test-only CSS classes: dedicated data hooks are allowed.
   - Review changed code with the code-quality skill and record actual verification evidence.
 - Acceptance criteria:
@@ -82,7 +82,7 @@
   - `bundle exec haml-lint`
   - Existing Ruby lint command for changed Ruby files.
   - `git diff --check`
-- Results: not run.
+- Results: checks passed and code-quality review found no unresolved issues. See [implementation evidence](evidence/2026-11-08-implementation.md).
 
 ## Cross-workstream dependencies
 
@@ -90,19 +90,15 @@ None. Application and controller changes stay coordinated within one workstream.
 
 ## Migration and recovery
 
-No database schema or data migration is required. Prepare the test database if required by the existing test setup; do not reset it. Add the assertion interface before migrating consumers. Keep public IDs, CSS utilities, and Stimulus hooks intact. Recovery is a coordinated reversal of the assertion, helper, markup, and test dependency changes.
+No database schema or data migration is required. Prepare the test database if required by the existing test setup; do not reset it. Add the assertion interface and migrate consumers together because Capybara's Minitest integration shadows Rails' `assert_select`. Keep public IDs, CSS utilities, and Stimulus hooks intact. Recovery is a coordinated reversal of the assertions, markup, and test dependency changes.
 
 ## Outcome verification
 
-- Baseline: [initial source findings](evidence/2026-11-08-baseline.md). Application tests have not been run during planning.
+- Baseline: [initial source findings](evidence/2026-11-08-baseline.md).
 - Quality gates: phase 3 commands and code-quality review.
 - Desired outcome: all controller HTML assertions use the new interface without coupling to presentation classes.
 - Browser checks: outside this initiative's agreed scope.
 
-## Next planning checkpoint
-
-Before phase 1, resolve helper signatures and naming, confirm dependency compatibility, and obtain implementation approval.
-
 ## Resume point
 
-Review the helper contract and start phase 1 only after approval.
+Review the verified implementation. All planned phases are implemented; accept or request changes before committing.
