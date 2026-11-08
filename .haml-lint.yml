@@ -1,6 +1,9 @@
 include:
   - app/views/**/*.haml
 
+exclude:
+  - vendor/bundle/**/*
+
 linters:
   HtmlAttributes:
     enabled: false
