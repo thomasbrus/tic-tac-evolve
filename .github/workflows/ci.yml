@@ -35,6 +35,8 @@ jobs:
         with:
           path: /opt/hostedtoolcache/Ruby/${{ steps.ruby-version.outputs.version }}
           key: ${{ steps.ruby-cache.outputs.cache-primary-key }}
+      - name: Lint Haml and embedded Ruby
+        run: bundle exec haml-lint
       - name: Prepare database
         run: bin/rails db:prepare
       - name: Run non-browser tests

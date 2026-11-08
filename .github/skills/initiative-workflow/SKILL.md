@@ -64,6 +64,7 @@ Use this workflow when invoked through `.github/prompts/initiative.prompt.md`. T
 
 ## Create or select an initiative
 
+- For a new initiative request, read `.github/prompts/initiative.prompt.md` and create the overview, plan, state, and index entry before changing application code or dependencies. Loading this skill alone is not initiative setup.
 - For a new initiative, use the index to choose a short kebab-case directory name that does not collide. Gather only missing details that matter; reasonable provisional assumptions may be recorded explicitly and confirmed later.
 - Create `README.md`, `PLAN.md`, `STATE.md`, and relevant workstream files from templates. Create `history/experiments/`, `history/decisions/`, and `evidence/` as needed, and add the initiative to the root index.
 - Distinguish the user's underlying problem from an initial solution suggestion. A proposed technology is a hypothesis unless the user has made it a constraint.

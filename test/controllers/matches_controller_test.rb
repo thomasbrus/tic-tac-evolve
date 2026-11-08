@@ -1,6 +1,21 @@
 require "test_helper"
 
 class MatchesControllerTest < ActionDispatch::IntegrationTest
+  test "partials reject missing and unexpected locals" do
+    get root_path
+    view = controller.view_context
+
+    missing = assert_raises(ActionView::Template::Error) do
+      view.render(partial: "matches/history_heading")
+    end
+    assert_kind_of ActionView::StrictLocalsError, missing.cause
+
+    unexpected = assert_raises(ActionView::Template::Error) do
+      view.render(partial: "matches/setup_heading", locals: { unexpected: true })
+    end
+    assert_kind_of ActionView::StrictLocalsError, unexpected.cause
+  end
+
   test "view scoped translations render page text and accessible labels" do
     match = Match.create!(mode: "local")
     get root_path

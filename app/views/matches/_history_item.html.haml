@@ -1,13 +1,14 @@
+-# locals: (match:)
 - complete = match.complete?
-%li{class: "flex items-center justify-between gap-3 border-t border-line py-5 sm:gap-5"}
-  %div{class: "min-w-0"}
+%li(class="flex items-center justify-between gap-3 border-t border-line py-5 sm:gap-5")
+  .min-w-0
     = Typography(tag: :span, size: :sm, weight: :bold) do
       = "##{match.id.to_s.rjust(3, '0')}"
-    %span{class: "ml-3 text-[11px] uppercase #{complete ? 'text-subtle' : 'text-green'}"}= t(complete ? ".complete" : ".active")
-    = Typography(tag: :p, size: :sm, class: "my-2") do
+    %span(class="ml-3 text-[11px] uppercase #{complete ? 'text-subtle' : 'text-green'}")= t(complete ? '.complete' : '.active')
+    = Typography(tag: :p, size: :sm, class: 'my-2') do
       = match.mode_label
     = Typography(tag: :time, size: :xs, color: :subtle, datetime: match.updated_at.iso8601) do
-      = match.updated_at.strftime("%d %b %Y, %H:%M")
-  %div{class: "flex shrink-0 flex-col items-end gap-3 text-xs sm:text-sm"}
+      = match.updated_at.strftime('%d %b %Y, %H:%M')
+  %div(class="flex shrink-0 flex-col items-end gap-3 text-xs sm:text-sm")
     %span= match.status_label
-    = link_to t(complete ? ".view" : ".resume"), match_path(match), class: "py-1.5 text-green", aria: { label: t(complete ? ".view_label" : ".resume_label", number: match.id) }
+    = link_to(t(complete ? '.view' : '.resume'), match_path(match), class: 'py-1.5 text-green', aria: { label: t(complete ? '.view_label' : '.resume_label', number: match.id) })

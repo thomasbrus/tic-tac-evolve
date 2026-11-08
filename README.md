@@ -72,6 +72,8 @@ bin/rails test test/controllers/matches_controller_test.rb
 bundle exec ruby test/tic_tac_toe/board_test.rb
 ```
 
+Before finishing Haml or lint-configuration changes, run `bundle exec haml-lint`. It checks all Haml views/partials and runs RuboCop on their embedded Ruby, not standalone Ruby files. Follow the [view conventions](.github/instructions/views.instructions.md) for strict locals, single quotes, parentheses, and class syntax; review the class fallback order manually.
+
 Use the broader checks in the Test section for shared behavior, dependencies, or migrations. Review the diff for unrelated edits, missing cases, and unclear responsibilities before committing. Documentation-only changes normally need documentation/whitespace checks, not the application suite.
 
 In VS Code Copilot Chat, the project skills can be invoked explicitly:
@@ -89,6 +91,7 @@ State acceptance criteria and constraints in feature requests. Give specific cor
 Run all maintained model, request, and domain tests:
 
 ```sh
+bundle exec haml-lint
 bin/rails test test
 bin/rails tailwindcss:build
 bin/rails zeitwerk:check

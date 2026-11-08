@@ -16,5 +16,7 @@ gem "phlex-rails", "~> 1.2.2"
 gem "literal", "~> 0.1"
 
 group :development, :test do
+  gem "haml_lint", require: false
   gem "minitest", "~> 5.0"
+  gem "rubocop", "~> 1.81", require: false
 end

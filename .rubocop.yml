@@ -1,0 +1,16 @@
+# Used by haml-lint for embedded Ruby, not a standalone Ruby cleanup.
+AllCops:
+  DisabledByDefault: true
+  NewCops: disable
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: single_quotes
+
+Style/MethodCallWithArgsParentheses:
+  Enabled: true
+  EnforcedStyle: require_parentheses
+  IgnoreMacros: false
+
+Style/IfUnlessModifier:
+  Enabled: false

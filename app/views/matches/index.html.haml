@@ -1,16 +1,16 @@
-- content_for :title, t(".title")
-= render "setup_heading"
+- content_for(:title, t('.title'))
+= render('setup_heading')
 - if @match.errors.any?
   = ErrorMessage(message: @match.errors.full_messages.to_sentence)
-= form_with model: @match, data: { controller: "match-setup" } do |form|
-  = render "setup_fields", form: form, match: @match
+= form_with(model: @match, data: { controller: 'match-setup' }) do |form|
+  = render('setup_fields', form: form, match: @match)
 
-= render "history_heading", page: @page
+= render('history_heading', page: @page)
 - if @matches.empty?
   = Typography(size: :sm, color: :secondary) do
-    = t(".history.empty")
+    = t('.history.empty')
 - else
-  %ul{class: "my-3 list-none p-0"}
-    = render partial: "history_item", collection: @matches, as: :match
+  %ul.my-3.list-none.p-0
+    = render(partial: 'history_item', collection: @matches, as: :match)
 
-= render "history_pagination", page: @page, more_matches: @more_matches
+= render('history_pagination', page: @page, more_matches: @more_matches)

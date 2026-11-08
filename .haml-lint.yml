@@ -1,0 +1,10 @@
+include:
+  - app/views/**/*.haml
+
+linters:
+  HtmlAttributes:
+    enabled: false
+  LineLength:
+    enabled: false
+  StrictLocals:
+    enabled: true

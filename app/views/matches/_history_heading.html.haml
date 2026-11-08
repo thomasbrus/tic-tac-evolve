@@ -1,4 +1,5 @@
-%section{class: "pt-7", aria: { labelledby: "history-heading" }}
-  .flex{class: "items-center justify-between gap-3"}
-    = Heading(text: t(".heading"), id: "history-heading", class: "my-5")
-    %span{class: "text-xs"}= t(".page", number: page)
+-# locals: (page:)
+%section.pt-7{ aria: { labelledby: 'history-heading' } }
+  .flex.items-center.justify-between.gap-3
+    = Heading(text: t('.heading'), id: 'history-heading', class: 'my-5')
+    %span.text-xs= t('.page', number: page)

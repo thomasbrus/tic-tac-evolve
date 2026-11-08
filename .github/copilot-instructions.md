@@ -17,6 +17,7 @@ Run a focused check after a meaningful edit, then the final checks required by i
 | --- | --- |
 | Documentation or agent configuration | Frontmatter/link review, editor diagnostics where available, and scoped whitespace checks. No application suite by default. |
 | Views or locales | Relevant controller/request tests; rebuild Tailwind when utility classes or styles change. |
+| Haml views/partials or lint configuration/dependencies | `bundle exec haml-lint` (includes RuboCop for embedded Ruby); also run the applicable checks above/below. |
 | Shared game logic | Relevant domain tests and affected Rails/CLI tests. |
 | Database, dependencies, or cross-module behavior | Database preparation where relevant, `bin/rails test test`, `bin/rails tailwindcss:build`, and `bin/rails zeitwerk:check`. |
 | Commits | Follow the [commit skill](skills/commit/SKILL.md), including exact staged-content verification when remaining work could affect results. |
