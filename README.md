@@ -78,7 +78,7 @@ Use the broader checks in the Test section for shared behavior, dependencies, or
 
 In VS Code Copilot Chat, the project skills can be invoked explicitly:
 
-- `/multi-phase <goal>` proposes a durable plan and requests approval before implementation. Add `plan-only` to defer implementation; after approval, execution continues through the agreed phases unless paused or blocked.
+- `/initiative` for persistent multi-session engineering initiatives; it loads the workflow and repository records from [initiatives](.github/initiatives/README.md).
 - `/code-quality` reviews responsibilities, maintainability, and behavioral risks in the changed code.
 - `/self-reflection` evaluates a correction for a reusable lesson, updating an existing entry instead of duplicating it.
 - `/commit` reviews scope and staging, checks the intended contents, and creates coherent commits. It does not push changes.
