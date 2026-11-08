@@ -11,15 +11,30 @@ concurrency:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
       RAILS_ENV: test
     steps:
       - uses: actions/checkout@v4
+      - name: Read Ruby version
+        id: ruby-version
+        run: echo "version=$(cat .ruby-version)" >> "$GITHUB_OUTPUT"
+      - name: Restore Ruby installation
+        id: ruby-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: /opt/hostedtoolcache/Ruby/${{ steps.ruby-version.outputs.version }}
+          key: ruby-v1-ubuntu-24.04-${{ runner.arch }}-${{ hashFiles('.ruby-version') }}
       - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
+      - name: Save Ruby installation
+        if: steps.ruby-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: /opt/hostedtoolcache/Ruby/${{ steps.ruby-version.outputs.version }}
+          key: ${{ steps.ruby-cache.outputs.cache-primary-key }}
       - name: Prepare database
         run: bin/rails db:prepare
       - name: Run non-browser tests

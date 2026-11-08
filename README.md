@@ -95,3 +95,5 @@ bin/rails zeitwerk:check
 ```
 
 The suite checks persisted state, rendered forms and history, illegal moves, computer responses, and stale submissions. Browser testing and visual checks are deferred.
+
+[CI](.github/workflows/ci.yml) runs these checks on Ubuntu 24.04 using the Ruby version in [.ruby-version](.ruby-version). It caches the Ruby installation separately from gems, keyed by the OS, architecture, and Ruby version. The installation cache includes Ruby's tool-cache completion marker and is saved before application checks, so a test failure does not prevent reuse. Cache misses still require a Ruby download.
