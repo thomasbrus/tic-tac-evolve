@@ -5,6 +5,7 @@ module Components
     end
 
     def view_template
+      raise 'bla'
       section(class: "border-b border-line pt-6 pb-12") do
         p(class: "text-xs") { plain I18n.t("#{@t_scope}.eyebrow") }
         h1(class: "mt-3 mb-4 font-display text-[34px] font-normal sm:text-[42px]") do
