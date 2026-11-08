@@ -4,17 +4,17 @@
 
 Use Rails-native feature composition and shared UI primitives without changing match behavior or redesigning the interface.
 
-- **Status:** proposed.
-- **Approved scope:** Creating the initiative, investigating the baseline, and writing original guidance.
-- **Implementation scope and phase sequence:** Awaiting approval.
-- **Execution policy after approval:** Continue through the approved phases; pause for material scope or behavior changes.
+- **Status:** active.
+- **Approved scope:** Phase 1, setup/history composition and its related tests.
+- **Remaining implementation scope:** Phases 2–3 are not approved; request approval before starting phase 2.
+- **Execution policy:** Work only within the approved phase; pause for material scope or behavior changes.
 
 ## Workstreams
 
 ### Feature composition
 
 - Objective: Keep page orchestration in Haml and ordinary fragments in partials with explicit locals; use narrowly scoped helpers for presentation calculations.
-- Status: proposed.
+- Status: active; phase 1 complete, phase 2 awaiting approval.
 - Depends on: direction approval.
 - Deliverables: [Feature composition workstream](workstreams/feature-composition.md).
 - Risks: relative translation paths, form-builder boundaries, changed DOM hooks, and unnecessary fragmentation.
@@ -22,7 +22,7 @@ Use Rails-native feature composition and shared UI primitives without changing m
 ### Shared UI and contributor guidance
 
 - Objective: Reuse typography and recurring UI components with clear ownership of appearance, semantics, and layout.
-- Status: proposed.
+- Status: active; phase 1 reused existing primitives, remaining work awaits approval.
 - Depends on: direction approval; actual API needs discovered in each feature slice.
 - Deliverables: [Shared UI workstream](workstreams/shared-ui.md).
 - Risks: class conflicts, heading semantics, changed form behavior, and overgeneralized component APIs.
@@ -31,8 +31,8 @@ Use Rails-native feature composition and shared UI primitives without changing m
 
 ### 1. Setup and history form a Rails-native slice
 
-- Status: pending.
-- Depends on: approval.
+- Status: complete.
+- Depends on: approved.
 - Deliverables:
   - Run focused baseline tests and fill coverage gaps for empty history, pagination boundaries, defaults, and invalid setup rendering.
   - Replace simple setup/history wrappers with Haml partials where useful. Use collection rendering for history items and explicit locals for match/page/form inputs.
@@ -40,13 +40,13 @@ Use Rails-native feature composition and shared UI primitives without changing m
   - Move presentation formatting to feature-prefixed helpers only where it improves clarity or removes meaningful duplication.
   - Move partial-specific translations with the markup and check all consumers.
   - Replace the helper test tied to `MatchSetupSection` with coverage of a retained general Kit primitive before removing that class.
-- Acceptance criteria: Empty, active, completed, and paginated history render correctly; setup defaults and failed submissions are unchanged; the page reads as Rails composition using shared UI.
+- Acceptance criteria: Empty, active, completed, and paginated history render correctly; setup defaults and failed submissions are unchanged; the page reads as Rails composition using shared UI; no non-styling classes exist solely as test selectors.
 - Checks: `bin/rails test test/controllers/matches_controller_test.rb test/helpers`; relevant changed component tests; `bin/rails tailwindcss:build`; `bin/rails zeitwerk:check` after component removal or relocation.
-- Results: not run.
+- Results: focused suite passed (81 tests, 425 assertions); Tailwind build and Zeitwerk check passed; code-quality review found no unresolved issues; no browser check performed. See the [phase 1 implementation record](history/experiments/2026-11-08-setup-history-slice.md).
 
 ### 2. Play view and layout use the same boundaries
 
-- Status: pending.
+- Status: pending approval.
 - Depends on: phase 1.
 - Deliverables:
   - Apply the established pattern to match headings, metadata, and layout typography.
@@ -58,7 +58,7 @@ Use Rails-native feature composition and shared UI primitives without changing m
 
 ### 3. Consolidate and verify the outcome
 
-- Status: pending.
+- Status: pending approval.
 - Depends on: phase 2.
 - Deliverables:
   - Remove superseded wrappers and styling duplication within the migrated scope.
@@ -79,10 +79,10 @@ No database or dependency migration is planned. Keep each slice independently re
 
 ## Outcome verification
 
-- Baseline: [Source investigation](history/experiments/2026-11-08-view-construction-baseline.md); runtime checks still pending.
+- Baseline: [Source investigation](history/experiments/2026-11-08-view-construction-baseline.md) and focused tests before phase 1: 79 tests, 414 assertions passed.
 - Quality gates: focused request/helper/component coverage per slice, Tailwind rebuilds, autoload checks, and code-quality review.
 - Desired outcome: inspect migrated templates against the success criteria, alongside test evidence. Passing tests alone does not establish good composition or visual parity.
 
 ## Next planning checkpoint
 
-Review direction before phase 1. Revisit shared UI APIs after the first slice exposes concrete gaps; ask again if an extension changes appearance, behavior, or the agreed architecture.
+Request approval before phase 2. Incorporate the user's deferred Haml-convention feedback when provided. Revisit shared UI APIs if the play/layout slice exposes concrete gaps; ask again if an extension changes appearance, behavior, or the agreed architecture.

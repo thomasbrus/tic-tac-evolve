@@ -37,8 +37,12 @@ en:
   matches:
     index:
       title: "Play | tic-tac-evolve"
+      history:
+        empty: "No matches yet."
+    setup_heading:
       heading: "Tic-tac-evolve"
       eyebrow: "THREE IN A ROW"
+    setup_fields:
       modes:
         local: "Two players"
         computer: "Computer"
@@ -46,20 +50,20 @@ en:
       difficulty: "Difficulty"
       start_button: "Start match"
       starts: "%{mark} starts"
-      history:
-        heading: "Match history"
-        empty: "No matches yet."
-        page: "PAGE %{number}"
-        complete: "Complete"
-        active: "Active"
-        view: "View match"
-        resume: "Resume"
-        view_label: "View match %{number}"
-        resume_label: "Resume match %{number}"
-        pagination:
-          previous: "Previous"
-          next: "Next"
-          label: "Match history pages"
+    history_heading:
+      heading: "Match history"
+      page: "PAGE %{number}"
+    history_item:
+      complete: "Complete"
+      active: "Active"
+      view: "View match"
+      resume: "Resume"
+      view_label: "View match %{number}"
+      resume_label: "Resume match %{number}"
+    history_pagination:
+      previous: "Previous"
+      next: "Next"
+      label: "Match history pages"
     show:
       title: "Match #%{number} | tic-tac-evolve"
       eyebrow: "MATCH %{number}"

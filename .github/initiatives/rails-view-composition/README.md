@@ -16,7 +16,6 @@ Use Rails views, partials, and helpers for ordinary feature composition. Use sha
 
 - Included: match setup, history, play view, and shared layout composition; necessary shared UI API improvements; related translations, tests, and contributor guidance.
 - Excluded: redesign, game rules, persistence changes, CLI changes, new frontend frameworks, replacing Phlex, or rebuilding every existing component.
-- This session creates the initiative and proposed plan only. Application implementation needs approval.
 
 ## Constraints
 

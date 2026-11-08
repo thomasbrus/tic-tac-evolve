@@ -23,6 +23,11 @@ Each entry uses this structure:
 
 ## Entries
 
+### [2026-11-08] Avoid test-only markup classes
+- **Scenario:** The history list used a CSS class only as a request-test selector.
+- **The Fix:** Removed the class and updated tests to assert semantic structure and rendered text; added the rule to the [view composition guide](../initiatives/rails-view-composition/composition-guide.md).
+- **General Principle:** Do not add or preserve non-styling classes solely as test selectors; test semantic structure and user-visible content instead.
+
 ### [2026-11-08] Lightweight commit workflow
 - **Scenario:** The commit skill encouraged exhaustive diff review, elaborate splitting, and per-commit verification for large changes.
 - **The Fix:** Updated the [commit skill](../skills/commit/SKILL.md) to start with file summaries, default to one commit, and reuse unchanged verification results.

@@ -19,6 +19,21 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_no_match(/translation missing/i, response.body)
   end
 
+  test "setup form renders its default selections" do
+    get root_path
+
+    assert_select "input[name='match[mode]'][value='computer'][checked]", count: 1
+    assert_select "select[name='match[strategy]'] option[value='hard'][selected]", count: 1
+  end
+
+  test "empty history has no matches or pagination links" do
+    get root_path
+
+    assert_select "p", text: "No matches yet."
+    assert_select "ul", count: 0
+    assert_select "nav[aria-label='Match history pages'] a", count: 0
+  end
+
   test "starts a local match and restores it on refresh" do
     get root_path
     assert_response :success
@@ -53,6 +68,8 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
       post matches_path, params: { match: { mode: "unknown" } }
     end
     assert_response :unprocessable_content
+    assert_select "form[action='#{matches_path}'] fieldset legend", text: "Opponent"
+    assert_select "form[action='#{matches_path}'] select[name='match[strategy]']", count: 1
     assert_select "div[role=alert].border-red.text-error", count: 1, text: /Mode/
   end
 
@@ -94,8 +111,8 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     active = Match.create!(mode: "local")
     complete = Match.create!(mode: "local", cells: ["X", "X", "X", "O", "O", nil, nil, nil, nil])
     get root_path
-    assert_select ".state-label.active", text: "Active"
-    assert_select ".state-label.finished", text: "Complete"
+    assert_select "li", text: /Active/
+    assert_select "li", text: /Complete/
     assert_select "a[href='#{match_path(active)}']", text: "Resume"
     assert_select "a[href='#{match_path(complete)}']", text: "View match"
   end
@@ -103,10 +120,12 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
   test "history paginates without losing older matches" do
     21.times { Match.create!(mode: "local") }
     get root_path
-    assert_select ".history-list li", count: 20
+    assert_select "ul > li", count: 20
     assert_select "a[href='#{root_path(page: 2)}']", text: "Next"
+    assert_select "nav[aria-label='Match history pages'] a", text: "Previous", count: 0
     get root_path(page: 2)
-    assert_select ".history-list li", count: 1
+    assert_select "ul > li", count: 1
     assert_select "a[href='#{root_path(page: 1)}']", text: "Previous"
+    assert_select "nav[aria-label='Match history pages'] a", text: "Next", count: 0
   end
 end

@@ -1,0 +1,5 @@
+%nav{class: "mt-5 flex justify-between gap-5", aria: { label: t(".label") }}
+  - if page > 1
+    = link_to t(".previous"), root_path(page: page - 1)
+  - if more_matches
+    = link_to t(".next"), root_path(page: page + 1)

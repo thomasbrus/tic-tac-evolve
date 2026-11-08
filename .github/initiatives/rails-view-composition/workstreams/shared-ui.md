@@ -4,6 +4,10 @@
 
 Make recurring visual and semantic contracts reusable while leaving feature layout and Rails submission behavior at their natural boundaries.
 
+## Status
+
+Phase 1 reused existing primitives without API changes. Remaining slices await approval.
+
 ## Deliverables
 
 - [ ] Reuse existing typography and other applicable primitives in each migrated slice.
@@ -17,7 +21,7 @@ Direction approval and concrete needs from the [feature composition workstream](
 
 ## Progress
 
-- 2026-11-08: Existing Typography, Heading, Eyebrow, Button, and Base APIs inspected. Current feature wrappers mostly bypass these primitives. No shared API changes made.
+- 2026-11-08: Existing Typography, Heading, Eyebrow, Button, and Base APIs inspected. Phase 1 reuses existing typography/heading primitives; no API changes were needed. Remaining slices await approval.
 
 ## Open questions and risks
 

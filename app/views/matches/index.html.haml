@@ -1,28 +1,16 @@
 - content_for :title, t(".title")
-= MatchSetupSection()
+= render "setup_heading"
 - if @match.errors.any?
   = ErrorMessage(message: @match.errors.full_messages.to_sentence)
 = form_with model: @match, data: { controller: "match-setup" } do |form|
-  %fieldset.mode-options{class: "my-6 flex flex-wrap gap-3 border-0 p-0"}
-    %legend{class: "mb-3 text-sm"}= t(".opponent")
-    %label{class: "cursor-pointer rounded border border-line px-4 py-3 has-checked:border-green has-checked:bg-soft-green"}
-      = form.radio_button :mode, "computer", class: "accent-green", data: { action: "match-setup#update", match_setup_target: "mode" }
-      = t(".modes.computer")
-    %label{class: "cursor-pointer rounded border border-line px-4 py-3 has-checked:border-green has-checked:bg-soft-green"}
-      = form.radio_button :mode, "local", class: "accent-green", data: { action: "match-setup#update", match_setup_target: "mode" }
-      = t(".modes.local")
-  .strategy-field{class: "my-5 flex flex-wrap items-center gap-4 text-sm"}
-    = form.label :strategy, t(".difficulty")
-    = form.select :strategy, Match::STRATEGIES.map { |value, label| [t("matches.strategies.#{value}"), value] }, { selected: @match.strategy || "hard" }, class: "min-w-40 rounded border border-line bg-white p-2.5 disabled:bg-muted disabled:text-subtle", data: { match_setup_target: "strategy" }
-  %p.match-meta{class: "my-4 text-sm text-secondary"}= t(".starts", mark: "X")
-  = form.submit t(".start_button"), class: "primary-button cursor-pointer rounded border-0 bg-ink px-6 py-3.5 text-white hover:bg-green"
+  = render "setup_fields", form: form, match: @match
 
-= MatchHistorySection(page: @page)
+= render "history_heading", page: @page
 - if @matches.empty?
-  = MatchHistoryEmptyState()
+  = Typography(size: :sm, color: :secondary) do
+    = t(".history.empty")
 - else
-  %ul.history-list{class: "my-3 list-none p-0"}
-    - @matches.each do |match|
-      = MatchHistoryItem(match: match)
+  %ul{class: "my-3 list-none p-0"}
+    = render partial: "history_item", collection: @matches, as: :match
 
-= MatchHistoryPagination(page: @page, more_matches: @more_matches)
+= render "history_pagination", page: @page, more_matches: @more_matches

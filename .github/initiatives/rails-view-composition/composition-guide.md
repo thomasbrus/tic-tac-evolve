@@ -1,6 +1,6 @@
-# Proposed view composition guide
+# Rails view composition guide
 
-This is original guidance for this repository, informed by the user's internal guide. It is a proposal for the initiative, not yet a replacement for the [frontend instructions](../../instructions/views.instructions.md).
+This is original guidance for this repository, informed by the user's internal guide. The setup/history slice is implemented and verified; this guide is not yet a replacement for the [frontend instructions](../../instructions/views.instructions.md), and play/layout guidance remains proposed.
 
 ## Choose the smallest useful boundary
 
@@ -26,17 +26,17 @@ A genuinely custom feature element can use local Tailwind utilities and shared t
 
 ## Repository-specific examples
 
-These examples illustrate the proposed direction. They have been checked against current component signatures, but have not been rendered or installed. Translation moves shown below must be implemented together with their callers.
+The setup/history examples illustrate the implemented direction. The play/layout guidance remains proposed. Translation moves must stay coordinated with their callers.
 
 ### A setup fragment built from shared primitives
 
-Proposed call from [the index view](../../../app/views/matches/index.html.haml):
+Call from [the index view](../../../app/views/matches/index.html.haml):
 
 ```haml
 = render "setup_heading"
 ```
 
-Proposed `app/views/matches/_setup_heading.html.haml`:
+`app/views/matches/_setup_heading.html.haml`:
 
 ```haml
 %section{class: "border-b border-line pt-6 pb-12"}
@@ -52,11 +52,11 @@ Move the corresponding labels from `matches.index` to `matches.setup_heading`; d
 ### Rails collection rendering for history
 
 ```haml
-%ul.history-list{class: "my-3 list-none p-0"}
+%ul{class: "my-3 list-none p-0"}
   = render partial: "history_item", collection: @matches, as: :match
 ```
 
-The proposed `_history_item.html.haml` receives `match` explicitly. It can use `link_to`, `time_tag`, shared typography, and model display labels without needing its own component class.
+The `_history_item.html.haml` partial receives `match` explicitly. It uses Rails links, shared typography, and model display labels without needing its own component class.
 
 If match-number formatting is extracted, a small `matches_number(match)` helper is enough:
 
@@ -75,16 +75,16 @@ This formats an already-loaded record. It must not fetch records or calculate ga
 ```haml
 = form_with model: @match, data: { controller: "match-setup" } do |form|
   = render "setup_fields", form: form, match: @match
-  = form.submit t(".start_button"), class: "primary-button cursor-pointer rounded border-0 bg-ink px-6 py-3.5 text-white hover:bg-green"
 ```
 
-Keeping the existing submit helper initially preserves its current markup contract. The eventual shared-control integration must retain parameter names, selected values, error state, and Stimulus hooks. Shared appearance is not a reason to hand-build Rails submission behavior.
+The setup-fields partial keeps the existing submit helper and preserves its markup contract, parameter names, selected values, and Stimulus hooks. Shared appearance is not a reason to hand-build Rails submission behavior.
 
 ## Extension and review rules
 
 - Search the existing component library before adding a primitive.
 - Extend an API only for a real supported variation needed by a migrated page. Keep Literal::Properties for typed shared component properties; avoid a new property DSL.
 - Keep semantic tags, IDs, roles, and accessible labels explicit. Visual size must not dictate heading level.
+- Do not add classes solely as test selectors; assert semantic structure and user-visible content instead.
 - Preserve complete conditional utility names so Tailwind can discover them.
 - Test component appearance contracts separately from Rails request behavior, and cover the Haml-to-Kit boundary when using blocks or new APIs.
 - Review the rendered structure as well as test results. Neither fewer files nor more components is the success metric.

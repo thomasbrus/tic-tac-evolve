@@ -1,10 +1,11 @@
 require "test_helper"
 
 class ApplicationHelperTest < ActionView::TestCase
-  test "renders a kit component without arguments from Haml" do
-    render inline: "= MatchSetupSection()", type: :haml
+  test "renders a shared typography kit component from Haml" do
+    render inline: "= Typography(tag: :h2, size: :lg) { 'Typography test' }", type: :haml
 
-    assert_select "section h1", count: 1, text: I18n.t("matches.index.heading")
+    assert_select "h2", count: 1, text: "Typography test"
+    assert_includes rendered, "text-lg"
   end
 
   test "renders the error message kit method from Haml" do
