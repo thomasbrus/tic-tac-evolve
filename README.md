@@ -80,6 +80,7 @@ In VS Code Copilot Chat, the project skills can be invoked explicitly:
 - `/code-quality` reviews responsibilities, maintainability, and behavioral risks in the changed code.
 - `/self-reflection` evaluates a correction for a reusable lesson, updating an existing entry instead of duplicating it.
 - `/commit` reviews scope and staging, checks the intended contents, and creates coherent commits. It does not push changes.
+- [`/fix-ci`](.github/skills/fix-ci/SKILL.md) accepts a GitHub Actions run URL or failure email, investigates a focused fix, and commits and pushes after validation. It uses GitHub integration access or an authenticated `gh` CLI, allows at most two repair attempts, and asks when blocked. Add `diagnose-only` to prevent edits or `no-push` to keep the fix local. It does not monitor email automatically.
 
 State acceptance criteria and constraints in feature requests. Give specific corrections during review, not vague feedback. Ask for a commit when the change is ready; flag failed checks instead of hiding them.
 
