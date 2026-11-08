@@ -14,11 +14,12 @@ Make the requested style consistent across Haml templates and keep it checked at
 
 ## Progress
 - 2026-11-08: inspected templates and existing instructions; confirmed Haml-only scope with the user.
-- Plan approved; implementation and checks completed. Paused at the user's request before acceptance review.
+- Plan approved; implementation, manual class fallback review, and final verification completed.
 
 ## Open questions and risks
-- Full class fallback enforcement is manual; built-in shorthand lint is limited to simple class values.
-- No-input and collection partials render successfully; missing and unexpected locals are rejected.
+- Full class fallback enforcement is manual because built-in shorthand lint is limited to simple class values; all nine current templates were reviewed.
+- No-input and collection partials render successfully; missing and unexpected locals are rejected by regression tests.
+- No open questions.
 
 ## References
 - [Plan](../PLAN.md)
