@@ -1,5 +1,7 @@
 # Design System with Phlex and Literal Props
 
+> Historical plan: the rendering guidance below was superseded by the [Phlex rendering initiative](../initiatives/phlex-rendering/README.md). For current integration and composition guidance, see the [design system documentation](../design-system/README.md) and [composition guide](../initiatives/rails-view-composition/composition-guide.md).
+
 ## Outcome and scope
 
 - **Outcome:** Build a composable design system using Phlex components with literal props, eliminating CSS class-based naming conventions and establishing a single source of truth for visual patterns.

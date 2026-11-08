@@ -19,7 +19,7 @@ Controller tests use Capybara assertions and accessible selectors instead of `as
 
 ## Constraints
 
-- Use `data-test-id` and `data-test-class`, not test-only HTML IDs or CSS classes.
+- The initial proposal used `data-test-id` and `data-test-class`, not test-only HTML IDs or CSS classes. The [accepted decision](history/decisions/2026-11-08-literal-test-hooks.md) superseded this with literal `data-test-id` hooks only.
 - Prefer accessible selectors for labeled controls and roles. Use hooks where semantic locators are insufficient.
 - Integrate [capybara_accessible_selectors](https://github.com/citizensadvice/capybara_accessible_selectors).
 - Preserve labels, form parameters, default selections, response statuses, redirects, pagination, and existing appearance.

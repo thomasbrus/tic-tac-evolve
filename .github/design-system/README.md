@@ -48,7 +48,11 @@ Base
 ├── Label
 ├── FormFieldset
 ├── Card (variants: default, soft)
-└── Badge (variants: default, success, error; sizes: sm, base)
+├── Badge (variants: default, success, error; sizes: sm, base)
+├── ErrorMessage
+├── Eyebrow
+├── Heading
+└── Section
 ```
 
 ## Rails rendering
@@ -59,10 +63,11 @@ The [Phlex initializer](../../config/initializers/phlex.rb) defines a `Component
 
 ```haml
 = ErrorMessage(message: @match.errors.full_messages.to_sentence)
-= MatchSetupSection()
+= Typography(tag: :h1, size: :display) do
+  = t('.heading')
 ```
 
-Use parentheses for components without arguments. The compatible `phlex-rails` adapter handles Rails rendering and safe HTML output; do not wrap these calls in `raw` or call components manually from templates.
+The compatible `phlex-rails` adapter handles Rails rendering and safe HTML output; do not wrap these calls in `raw` or call components manually from templates. Compose feature sections in Haml views and partials; see the [composition guide](../initiatives/rails-view-composition/composition-guide.md).
 
 This Haml pattern is verified by [helper tests](../../test/helpers/application_helper_test.rb) and [request tests](../../test/controllers/matches_controller_test.rb) with Phlex 1.x and phlex-rails 1.2.2. The current [Kits documentation](https://www.phlex.fun/components/kits.html) describes Phlex callers and warns against ERB usage; do not assume identical behavior across library versions.
 
@@ -118,7 +123,7 @@ Components::Label.new(for: "input-id") { "Label text" }
 Semantic fieldset wrapper for form groups (removes border and padding).
 
 ```ruby
-Components::FormFieldset.new(flex: true, flex_col: true, gap: 4) do
+Components::FormFieldset.new(class: "flex flex-col gap-4") do
   # form inputs and labels
 end
 ```
@@ -131,7 +136,7 @@ Card container with variant support.
 
 ```ruby
 Components::Card.new(variant: :default) { "Card content" }
-Components::Card.new(variant: :soft, p: 6) { "Soft card" }
+Components::Card.new(variant: :soft) { "Soft card" }
 ```
 
 ### Badge
@@ -257,10 +262,14 @@ app/components/design_system/
 ├── label.rb             # Label element
 ├── form_fieldset.rb     # Fieldset container
 ├── card.rb              # Card variants
-└── badge.rb             # Badge with status variants
+├── badge.rb             # Badge with status variants
+├── error_message.rb     # Validation error display
+├── eyebrow.rb           # Small introductory label
+├── heading.rb           # Semantic heading
+└── section.rb           # Semantic section wrapper
 
 test/components/design_system/
-├── view_test.rb
+├── base_test.rb
 ├── container_test.rb
 ├── typography_test.rb
 ├── button_test.rb
@@ -269,7 +278,11 @@ test/components/design_system/
 ├── label_test.rb
 ├── form_fieldset_test.rb
 ├── card_test.rb
-└── badge_test.rb
+├── badge_test.rb
+├── error_message_test.rb
+├── eyebrow_test.rb
+├── heading_test.rb
+└── section_test.rb
 ```
 
 ## Testing
