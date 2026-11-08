@@ -6,7 +6,7 @@ Persistent, repository-backed context for multi-session engineering work. The `/
 
 | Initiative | Status | Current focus | State |
 | --- | --- | --- | --- |
-| No initiatives yet | | | |
+| [Phlex rendering integration](phlex-rendering/README.md) | paused | Documented findings; implementation deferred by user | [STATE.md](phlex-rendering/STATE.md) |
 
 Use one row per initiative. Link its overview and `STATE.md`; keep status and focus current. Suggested statuses are `proposed`, `active`, `blocked`, `paused`, and `complete`. Multiple initiatives can be active; select using the user's request and each initiative's current state, and ask only when the choice is genuinely ambiguous.
 
