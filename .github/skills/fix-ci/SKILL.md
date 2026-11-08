@@ -32,14 +32,14 @@ but no push. In either mode, stop at that boundary and report the result.
 
 1. Extract owner, repository, and run ID from the supplied URL/email. If no run is supplied,
    list up to five recent CI runs for the current branch. Ask if the target is ambiguous.
-2. Prefer the existing GitHub MCP integration: discover Actions tools, then use
-   `actions_get`, `actions_list`, and `get_job_logs` for metadata, failed jobs, and logs.
-   If unavailable, use an already installed and authenticated `gh` CLI:
-   `gh run view <run-id> --repo <owner>/<repo>` and
-   `gh run view <run-id> --repo <owner>/<repo> --log-failed`.
-   Keep output bounded. If neither works, explain the missing access and ask for
-   GitHub integration access, installation/authentication of `gh`, or a redacted failed-step log.
-   Do not install tools or change authentication without approval.
+2. Use the authenticated `gh` CLI as the only GitHub Actions interface; assume it is
+   installed and authenticated. Do not use GitHub MCP or another interface. To list recent
+   runs, use `gh run list --repo <owner>/<repo> --branch <branch> --limit 5`. For run
+   metadata and failed-job logs, use `gh run view <run-id> --repo <owner>/<repo>` and
+   `gh run view <run-id> --repo <owner>/<repo> --log-failed`, keeping the displayed log
+   output to about 100 relevant lines. If `gh` is missing or authentication fails, stop
+   and ask for the environment to be fixed or for a redacted failed-step log; do not
+   install tools or change authentication without approval.
 3. Read `git status --short`, branch, HEAD, upstream, and remote configuration.
    Confirm the remote matches the run's repository and the branch matches its head branch.
    For PR runs, distinguish the source branch/commit from GitHub's synthetic merge commit.
